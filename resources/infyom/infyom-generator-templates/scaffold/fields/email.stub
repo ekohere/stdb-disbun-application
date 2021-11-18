@@ -1,0 +1,10 @@
+<!-- $FIELD_NAME_TITLE$ Field -->
+<div class="form-group">
+    {!! Form::label('$FIELD_NAME$', '$FIELD_NAME_TITLE$:') !!}
+    <div class="position-relative has-icon-left">
+        {!! Form::email('$FIELD_NAME$', null, ['class' => 'form-control']) !!}
+        <div class="form-control-position">
+            <i class="icon-mail5"></i>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,34 @@
+<!-- Sudah di modifikasi untuk Edit,Lihat,Hapus -->
+<table class="table table-hover table-bordered table-striped default">
+    <colgroup>
+        <col class="col-xs-1">
+        <col class="col-xs-7">
+    </colgroup>
+    <thead>
+    <tr>
+        <th><code>#</code></th>
+        $FIELD_HEADERS$
+        <th style="text-align: center">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @php
+        $no = 1;
+    @endphp
+    @foreach($$MODEL_NAME_PLURAL_CAMEL$ as $$MODEL_NAME_CAMEL$)
+        <tr>
+            <td>{!! $no++ !!}</td>
+            $FIELD_BODY$
+            <td>
+                {!! Form::open(['route' => ['$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.destroy', $$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$], 'method' => 'delete']) !!}
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.show', [$$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$]) !!}" class="btn btn-sm btn-success"><i class="fa fa-eye"></i></a>
+                                       <a href="{!! route('$ROUTE_NAMED_PREFIX$$MODEL_NAME_PLURAL_CAMEL$.edit', [$$MODEL_NAME_CAMEL$->$PRIMARY_KEY_NAME$]) !!}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
+                                       {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                </div>
+                {!! Form::close() !!}
+            </td>
+        </tr>
+    @endforeach
+    </tbody>
+</table>

@@ -1,0 +1,5 @@
+    <label class="display-inline-block custom-control custom-radio ml-1">
+        {!! Form::radio('$FIELD_NAME$', "$VALUE$", null) !!}
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description ml-0">$LABEL$</span>
+    </label>

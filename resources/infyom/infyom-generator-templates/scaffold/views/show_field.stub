@@ -1,0 +1,10 @@
+<!-- Sudah di modifikasi -->
+<!-- $FIELD_NAME_TITLE$ Field -->
+<div class="media">
+    <div class="media-body">
+        <h5 class="media-heading">
+            {!! Form::label('$FIELD_NAME$', '$FIELD_NAME_TITLE$:') !!}
+        </h5>
+        {!! $$MODEL_NAME_CAMEL$->$FIELD_NAME$ !!}
+    </div>
+</div>

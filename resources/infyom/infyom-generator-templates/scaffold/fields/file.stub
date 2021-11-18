@@ -1,0 +1,9 @@
+<!-- $FIELD_NAME_TITLE$ Field -->
+<div class="form-group">
+    {!! Form::label('$FIELD_NAME$', '$FIELD_NAME_TITLE$:') !!}
+    <label id="projectinput7" class="file center-block">
+        {!! Form::file('$FIELD_NAME$') !!}
+        <span class="file-custom"></span>
+    </label>
+</div>
+<div class="clearfix"></div>
