@@ -32,20 +32,3 @@ Route::resource('users', App\Http\Controllers\UserController::class);
 Route::get('profil', [App\Http\Controllers\UserController::class,'profil'])->name('profil');
 Route::get('editProfil/{id}', [App\Http\Controllers\UserController::class,'editProfiles']);
 Route::patch('updateProfile/{id}', [App\Http\Controllers\UserController::class,'updateProfile']);
-
-
-Route::resource('wilayahs', \App\Http\Controllers\WilayahController::class);
-
-Route::resource('pelayanans', \App\Http\Controllers\PelayananController::class);
-
-Route::resource('wilayahPelayanans', \App\Http\Controllers\WilayahPelayananController::class);
-
-Route::resource('jenisPelayanans', \App\Http\Controllers\JenisPelayananController::class);
-
-Route::resource('fileDownloads', \App\Http\Controllers\FileDownloadController::class);
-
-Route::resource('tipeSyarats', \App\Http\Controllers\TipeSyaratController::class);
-
-Route::resource('syaratPelayanans', \App\Http\Controllers\SyaratPelayananController::class);
-
-Route::resource('itemPilihans', \App\Http\Controllers\ItemPilihanController::class);
