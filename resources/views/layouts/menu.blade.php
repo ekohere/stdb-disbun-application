@@ -1,7 +1,7 @@
 <li class="{{ Request::is('home') ? 'active' : '' }}">
-    <a href="{!! route('home') !!}"><i class="fa fa-home"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Home</span></a>
+    <a href="#"><i class="fa fa-home"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Home</span></a>
 </li>
-<li class="{{ Request::is('profil*') ? 'active' : '' }}">
+{{-- <li class="{{ Request::is('profil*') ? 'active' : '' }}">
     <a href="{!! route('profil') !!}"><i class="fa fa-user"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Akun</span></a>
 </li>
 <li class="{{ Request::is('profiles*') ? 'active' : '' }}">
@@ -61,21 +61,21 @@
     <ul class="menu-content">
         <li class="{{ Request::is('categoryLembagas*') ? 'active' : '' }}">
             <a href="{!! route('categoryLembagas.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Category Lembaga</span></a>
-        </li>
+        </li> --}}
         {{--@can('personSekretariats.index')--}}
-            <li class="{{ Request::is('lembaga*')&&!Request::is('lembagaPerson*') ? 'active' : '' }}">
+            {{-- <li class="{{ Request::is('lembaga*')&&!Request::is('lembagaPerson*') ? 'active' : '' }}">
                 <a href="{!! route('lembaga.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Lembaga</span></a>
-            </li>
+            </li> --}}
         {{--@endcan
         @can('jabatanSekretariats.index')--}}
-        <li class="{{ Request::is('categoryPerson*') ? 'active' : '' }}">
+        {{-- <li class="{{ Request::is('categoryPerson*') ? 'active' : '' }}">
             <a href="{!! route('categoryPerson.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Category Person</span></a>
         </li>
             <li class="{{ Request::is('person*') ? 'active' : '' }}">
                 <a href="{!! route('person.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Person</span></a>
-            </li>
+            </li> --}}
         {{--@endcan--}}
-        <li class="{{ Request::is('jabatan*') ? 'active' : '' }}">
+        {{-- <li class="{{ Request::is('jabatan*') ? 'active' : '' }}">
             <a href="{!! route('jabatan.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Jabatan</span></a>
         </li>
 
@@ -105,7 +105,7 @@
                 <a href="{!! route('files.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Files</span></a>
             </li>
     </ul>
-</li>
+</li> --}}
 
 {{--
 @canany(['personSekretariats.index','jabatanSekretariats.index'])
@@ -163,7 +163,7 @@
 </li>
 @endcanany--}}
 
-@canany(['agendas.index','agendaCategories.index'])
+{{-- @canany(['agendas.index','agendaCategories.index'])
     <li class="navigation-header">
         <span data-i18n="nav.category.layouts">--Agenda</span>
         <i class="ft-more-horizontal ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="Agenda"></i>
@@ -200,7 +200,7 @@
         </li>
     </ul>
 </li>
-
+ --}}
 
 {{--
 @canany(['jdihs.index','jdihCategories.index','jdihStatuses.index'])
@@ -228,7 +228,7 @@
         </ul>
     </li>
 @endcanany--}}
-<li class="navigation-header">
+{{-- <li class="navigation-header">
     <span data-i18n="nav.category.layouts">--Pengaturan</span>
     <i class="ft-more-horizontal ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="Layouts"></i>
 </li>
@@ -265,12 +265,12 @@
 <li class="{{ Request::is('backup-data') ? 'active' : '' }}">
     <a href="{!! route('backup-data') !!}"><i class="icon-cloud-upload"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Backup Data</span></a>
 </li>
-@endcan
+@endcan --}}
 {{--@endcanany--}}
 
 
-<li class="{{ Request::is('banners*') ? 'active' : '' }}">
+{{-- <li class="{{ Request::is('banners*') ? 'active' : '' }}">
     <a href="{!! route('banners.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Banners</span></a>
 </li>
 
-
+ --}}
