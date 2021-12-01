@@ -11,8 +11,8 @@
                                     <i class="fa fa-align-left font-large-2 text-white"></i>
                                 </div>
                                 <div class="media-body p-1">
-                                    <span class="blue font-medium-5"> Users</span><br>
-                                    <span style="margin-top: -5px">Detail Users</span>
+                                    <span class="blue font-medium-5"> User</span><br>
+                                    <span style="margin-top: -5px">Detail User</span>
                                 </div>
                             </div>
                         </div>

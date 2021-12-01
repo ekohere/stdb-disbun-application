@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\User;
+use App\Models\User;
 
 class CreateUserRequest extends FormRequest
 {
@@ -25,6 +25,6 @@ class CreateUserRequest extends FormRequest
      */
     public function rules()
     {
-        return User::$rules_create;
+        return User::$rules;
     }
 }

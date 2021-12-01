@@ -2,14 +2,13 @@
 
 namespace App\Repositories;
 
-use Spatie\Permission\Models\Role;
-
+use App\Models\Role;
 use App\Repositories\BaseRepository;
 
 /**
  * Class RoleRepository
  * @package App\Repositories
- * @version September 13, 2020, 12:43 pm UTC
+ * @version December 1, 2021, 4:55 am UTC
 */
 
 class RoleRepository extends BaseRepository
@@ -19,7 +18,8 @@ class RoleRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'name',
-        'guard_name'
+        'guard_name',
+        'display_name'
     ];
 
     /**

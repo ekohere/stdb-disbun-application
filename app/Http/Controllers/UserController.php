@@ -2,21 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ChangePasswordUserRequest;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Repositories\UserRepository;
 use App\Http\Controllers\AppBaseController;
-use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Flash;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Hash;
 use Response;
-use DB;
-use Spatie\Permission\Models\Role;
 
 class UserController extends AppBaseController
 {
@@ -25,7 +17,6 @@ class UserController extends AppBaseController
 
     public function __construct(UserRepository $userRepo)
     {
-        $this->middleware(['auth']);
         $this->userRepository = $userRepo;
     }
 
@@ -38,11 +29,10 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $users = Cache::remember("list_user_all", 10 * 60, function () {
-            return $this->userRepository->all();
-        });
+        $users = $this->userRepository->all();
 
-        return view('users.index')->with('users', $users);
+        return view('users.index')
+            ->with('users', $users);
     }
 
     /**
@@ -52,9 +42,7 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        $sRoles=Role::orderBy('name')->get();
-        $roles=[];
-        return view('users.create',compact('roles','sRoles'));
+        return view('users.create');
     }
 
     /**
@@ -67,39 +55,10 @@ class UserController extends AppBaseController
     public function store(CreateUserRequest $request)
     {
         $input = $request->all();
-        $roles=[];
-        if($request->has('s_role_id')){
-            $roles=$input['s_role_id'];
-        }
 
-        DB::transaction(function () use($input,$roles) {
+        $user = $this->userRepository->create($input);
 
-            $role = Auth::user()->getRoleNames()->first();
-
-            $user = $this->userRepository->create($input);
-
-            if (isset($input['nama'])) {
-                if($role != 'ROOT' || $role != 'ADM') {
-                    $unit['parent_unit_id']= Auth::user()['unit']->id;
-                    $unit['instansi_id']= null;
-                }
-
-                $unit['unit_type_id'] = $input['unit_type_id'];
-                $unit['nama'] = $input['nama'];
-                Unit::fixTree();
-                $saveUnit = Unit::create($unit);
-                $user->unit_id = $saveUnit->id;
-            }
-
-            $user->syncRoles($roles);
-            $user->password = bcrypt($input['password']);
-            $user->username = str_replace(" ", "_", $input['username']);
-            $user->save();
-        },3);
-
-//        Flash::success('User saved successfully.');
-
-        Flash::success('Tambah Akun Berhasil dilakukan');
+        Flash::success('User saved successfully.');
 
         return redirect(route('users.index'));
     }
@@ -113,7 +72,7 @@ class UserController extends AppBaseController
      */
     public function show($id)
     {
-        $users = $this->userRepository->find($id);
+        $user = $this->userRepository->find($id);
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -121,7 +80,7 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        return view('users.show')->with('users', $users);
+        return view('users.show')->with('user', $user);
     }
 
     /**
@@ -137,12 +96,11 @@ class UserController extends AppBaseController
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('users.index'));
         }
-        $sRoles=Role::orderBy('name')->get();
-        $roles=$user->roles->pluck('id')->toArray();
 
-        return view('users.edit',compact('roles','sRoles'))->with('user', $user);
+        return view('users.edit')->with('user', $user);
     }
 
     /**
@@ -155,38 +113,17 @@ class UserController extends AppBaseController
      */
     public function update($id, UpdateUserRequest $request)
     {
-        $role = Auth::user()->getRoleNames()->first();
         $user = $this->userRepository->find($id);
 
         if (empty($user)) {
             Flash::error('User not found');
+
             return redirect(route('users.index'));
         }
 
-        $input=$request->all();
+        $user = $this->userRepository->update($request->all(), $id);
 
-        if($input['password']==='' || $input['password']===null){
-            unset($input['password']);
-        }
-
-        $roles=[];
-        if($request->has('s_role_id')){
-            $roles=$input['s_role_id'];
-        }
-
-        DB::transaction(function () use($input,$roles,$id,$request){
-            $user = $this->userRepository->update($input, $id);
-            $user->username = str_replace(" ", "_", $input['username']);
-            $user->syncRoles($roles);
-
-            if(isset($input['password'])){
-                $user->password = bcrypt($input['password']);
-            }
-            $user->save();
-        },3);
-
-
-        Flash::success('Updated successfully');
+        Flash::success('User updated successfully.');
 
         return redirect(route('users.index'));
     }
@@ -205,65 +142,15 @@ class UserController extends AppBaseController
         $user = $this->userRepository->find($id);
 
         if (empty($user)) {
-//            Flash::error('User not found');
-            toastr('User not found','warning','Info');
+            Flash::error('User not found');
 
             return redirect(route('users.index'));
         }
 
         $this->userRepository->delete($id);
 
-        Flash::success('Deleted successfully');
+        Flash::success('User deleted successfully.');
 
         return redirect(route('users.index'));
-    }
-    public function profil() {
-        $user = User::where('id',Auth::user()['id'])->first();
-        return view('users/profil/profil',compact('user'));
-    }
-
-    public function editProfiles($id) {
-        $user = $this->userRepository->find($id);
-        return view('users.profil.edit',compact('user'));
-    }
-
-    public function updateProfile($id, UpdateUserRequest $request) {
-        $user = $this->userRepository->find($id);
-
-        $input=$request->except('foto');
-
-        if($input['current_password']==='' || $input['current_password']===null){
-            unset($input['password']);
-        }
-
-        DB::transaction(function () use($input,$id,$request){
-            $date = $date = Carbon::now()->format('dmY_His');
-            $user = $this->userRepository->update($input, $id);
-            $user->username = str_replace(" ", "_", $input['username']);
-
-            if ($request->hasFile('foto')) {
-                $file = $request->file('foto');
-                $filename = $user->username.'_'.'fotoProfil.'.$file->getClientOriginalExtension();
-                $path = $request['foto']->storeAs('public/fotoProfil', $filename, 'local');
-                $user->foto = 'storage' . substr($path, strpos($path, '/'));
-            }
-
-            if(isset($input['current_password'])){
-                if (!(Hash::check($input['current_password'], Auth::user()->password))) {
-                    unset($input['password']);
-                    alert('Opps!','Sepertinya bukan kata sandi anda.','warning');
-                } else {
-                    $user->password = bcrypt($input['password']);
-                    $user->save();
-                    alert('Berhasil','Pembaruan Data Successfully','success');
-                }
-            } else {
-                unset($input['password']);
-                $user->save();
-                toastr('Pembaruan Data Successfully','success','Updated');
-            }
-        },2);
-
-        return redirect(url('profil'));
     }
 }

@@ -4,25 +4,51 @@ namespace App\Models;
 
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 /**
  * Class Role
  * @package App\Models
- * @version March 24, 2020, 7:39 pm WITA
+ * @version December 1, 2021, 4:55 am UTC
  *
- * @property \App\Models\ModelHasRole modelHasRole
- * @property \Illuminate\Database\Eloquent\Collection permissions
- * @property string name
- * @property string guard_name
+ * @property \App\Models\ModelHasRole $modelHasRole
+ * @property \Illuminate\Database\Eloquent\Collection $permissions
+ * @property string $name
+ * @property string $guard_name
+ * @property string $display_name
  */
-class Role extends \Spatie\Permission\Models\Role
+class Role extends Model
 {
     use SoftDeletes;
+
+    use HasFactory;
+
+    public $table = 'roles';
+    
+    const CREATED_AT = 'created_at';
+    const UPDATED_AT = 'updated_at';
+
+
+    protected $dates = ['deleted_at'];
+
+
 
     public $fillable = [
         'name',
         'guard_name',
-        'desc',
+        'display_name'
+    ];
+
+    /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'id' => 'integer',
+        'name' => 'string',
+        'guard_name' => 'string',
+        'display_name' => 'string'
     ];
 
     /**
@@ -31,7 +57,27 @@ class Role extends \Spatie\Permission\Models\Role
      * @var array
      */
     public static $rules = [
-        'name' => 'required',
-        'guard_name' => 'required'
+        'name' => 'required|string|max:255',
+        'guard_name' => 'nullable|string|max:255',
+        'display_name' => 'required|string|max:255',
+        'created_at' => 'nullable',
+        'updated_at' => 'nullable',
+        'deleted_at' => 'nullable'
     ];
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     **/
+    public function modelHasRole()
+    {
+        return $this->hasOne(\App\Models\ModelHasRole::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     **/
+    public function permissions()
+    {
+        return $this->belongsToMany(\App\Models\Permission::class, 'role_has_permissions');
+    }
 }

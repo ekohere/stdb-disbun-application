@@ -12,8 +12,8 @@
                                     <i class="fa fa-pencil-square font-large-2 text-white"></i>
                                 </div>
                                 <div class="media-body p-1">
-                                    <span class="green font-medium-5">Input Roles</span><br>
-                                    <span style="margin-top: -5px">Membuat Roles Baru</span>
+                                    <span class="green font-medium-5">Input Role</span><br>
+                                    <span style="margin-top: -5px">Membuat Role Baru</span>
                                 </div>
                             </div>
                         </div>

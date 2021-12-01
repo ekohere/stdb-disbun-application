@@ -1,51 +1,52 @@
 <!-- Sudah di modifikasi untuk Edit,Lihat,Hapus -->
-<div class="table-responsive">
-    <table class="table table-hover table-bordered table-striped default table-responsive">
-        <colgroup>
-            <col class="col-xs-1">
-            <col class="col-xs-7">
-        </colgroup>
-        <thead>
+<table class="table table-hover table-bordered table-striped default">
+    <colgroup>
+        <col class="col-xs-1">
+        <col class="col-xs-7">
+    </colgroup>
+    <thead>
+    <tr>
+        <th><code>#</code></th>
+        <th>Role Id</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Avatar</th>
+        <th>Email Verified At</th>
+        <th>Password</th>
+        <th>Remember Token</th>
+        <th>Settings</th>
+        <th>Kode Koperasi</th>
+        <th>Koperasi Id</th>
+        <th style="text-align: center">Action</th>
+    </tr>
+    </thead>
+    <tbody>
+    @php
+        $no = 1;
+    @endphp
+    @foreach($users as $user)
         <tr>
-            <th><code>#</code></th>
-            <th>Nama/Email</th>
-            <th>Nama Display</th>
-            <th>Akses</th>
-            <th style="text-align: center">Action</th>
+            <td>{!! $no++ !!}</td>
+            <td>{!! $user->role_id !!}</td>
+            <td>{!! $user->name !!}</td>
+            <td>{!! $user->email !!}</td>
+            <td>{!! $user->avatar !!}</td>
+            <td>{!! $user->email_verified_at !!}</td>
+            <td>{!! $user->password !!}</td>
+            <td>{!! $user->remember_token !!}</td>
+            <td>{!! $user->settings !!}</td>
+            <td>{!! $user->kode_koperasi !!}</td>
+            <td>{!! $user->koperasi_id !!}</td>
+            <td>
+                {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) !!}
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <a href="{!! route('users.show', [$user->id]) !!}" class="btn btn-sm btn-success"><i class="fa fa-eye"></i></a>
+                                       <a href="{!! route('users.edit', [$user->id]) !!}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
+                                       {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                </div>
+                {!! Form::close() !!}
+            </td>
         </tr>
-        </thead>
-        <tbody>
-        @php
-            $no = 1;
-        @endphp
-        @foreach($users as $item)
-            <tr>
-                <td>{!! $no++ !!}</td>
-                <td>
-                    <span class="text-bold-800 black">{!! $item->name !!}</span><br>
-                    {!! $item->email !!}
-                </td>
-                <td>{!! $item->display_name !!}</td>
-
-                <td>
-                    @foreach($item->roles as $role)
-                        <span class="badge badge-primary" style="margin: 2px" title="{{ $role->desc }}">{!! $role->name !!}</span>
-                    @endforeach
-                </td>
-                <td>
-
-                    {!! Form::open(['route' => ['users.destroy', $item->id], 'method' => 'delete']) !!}
-                    <div class="btn-group" role="group" aria-label="Basic example">
-                        <a data-target="#detailUser{{ $item->id }}" data-toggle="modal" href="javascript:void(0)" class="btn btn-sm btn-success"><i class="fa fa-eye"></i></a>
-                        <a href="{!! route('users.edit', [$item->id]) !!}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
-                        {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
-                    </div>
-                    {!! Form::close() !!}
-
-                    @include('users.modal.detail_user')
-                </td>
-            </tr>
-        @endforeach
-        </tbody>
-    </table>
-</div>
+    @endforeach
+    </tbody>
+</table>

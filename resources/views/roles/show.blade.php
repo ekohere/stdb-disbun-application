@@ -11,8 +11,8 @@
                                     <i class="fa fa-align-left font-large-2 text-white"></i>
                                 </div>
                                 <div class="media-body p-1">
-                                    <span class="blue font-medium-5"> Roles</span><br>
-                                    <span style="margin-top: -5px">Detail Roles</span>
+                                    <span class="blue font-medium-5"> Role</span><br>
+                                    <span style="margin-top: -5px">Detail Role</span>
                                 </div>
                             </div>
                         </div>

@@ -1,0 +1,246 @@
+[
+    {
+        "name": "id",
+        "dbType": "integer,true",
+        "htmlType": null,
+        "validations": null,
+        "searchable": false,
+        "fillable": false,
+        "primary": true,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "kode_kec",
+        "dbType": "string,50",
+        "htmlType": "text",
+        "validations": "required|string|max:50|string|max:50",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "kode_koperasi",
+        "dbType": "string,50",
+        "htmlType": "text",
+        "validations": "required|string|max:50|string|max:50",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "nama_koperasi",
+        "dbType": "string,150",
+        "htmlType": "text",
+        "validations": "required|string|max:150|string|max:150",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "alamat",
+        "dbType": "string,150",
+        "htmlType": "text",
+        "validations": "required|string|max:150|string|max:150",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "telepon",
+        "dbType": "string,50",
+        "htmlType": "text",
+        "validations": "required|string|max:50|string|max:50",
+        "searchable": true,
+        "fillable": true,
+        "primary": false,
+        "inForm": true,
+        "inIndex": true,
+        "inView": true
+    },
+    {
+        "name": "created_at",
+        "dbType": "datetime:nullable",
+        "htmlType": "date",
+        "validations": "nullable|nullable",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "updated_at",
+        "dbType": "datetime:nullable",
+        "htmlType": "date",
+        "validations": "nullable|nullable",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "name": "deleted_at",
+        "dbType": "datetime:nullable",
+        "htmlType": "date",
+        "validations": "nullable|nullable",
+        "searchable": false,
+        "fillable": false,
+        "primary": false,
+        "inForm": false,
+        "inIndex": false,
+        "inView": false
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Anggotum,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Aset,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,BahanPemeliharaan,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Barang,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,BarangSaprodi,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Driver,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Gaji,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,GajiPetani,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,GolonganStatusPekerja,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Harga,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,ItemBahanPemeliharaan,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Karyawan,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,KelolaLingkungan,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Konflik,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Kontrak,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,KoperasiSetting,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,LaporanPanen,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Mitra,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,NeracaKeuangan,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,NeracaSimpanPinjam,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Pekerja,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Pelatihan,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,PembelianBarang,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Pemeliharaan,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Penguru,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,PenjualanSaprodi,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,PenjualanTb,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Persil,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,PetaPersil,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Profil,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Risalah,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Spb,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,Transport,koperasi_id"
+    },
+    {
+        "type": "relation",
+        "relation": "1tm,User,koperasi_id"
+    }
+]

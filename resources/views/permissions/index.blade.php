@@ -33,7 +33,3 @@
         </div>
     </div>
 @endsection
-@section('scripts')
-    <script src="{{asset('master/app-assets/js/britech/table-settings-britech.js')}}"></script>
-@endsection
-

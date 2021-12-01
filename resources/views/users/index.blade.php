@@ -10,9 +10,9 @@
                         <div class="card-content ">
                             <div class="card-body card-dashboard">
                                 <div class="row">
-                                    <div class="col-9 media-body mb-2">
+                                    <div class="col-10 media-body mb-2">
                                         <div class="content-header-left breadcrumb-new">
-                                            <span class="content-header-title mb-0 d-inline-block font-medium-4"><b>User Dikelola</b></span>
+                                            <span class="content-header-title mb-0 d-inline-block font-medium-4"><b>Users</b></span>
                                             <div class="breadcrumbs-top d-inline-block">
                                                 <div class="breadcrumb-wrapper">
                                                     @include('layouts.breadcrumb')
@@ -20,8 +20,8 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-3 text-right">
-                                        <a href="{!! route('users.create') !!}" class="btn btn-sm btn-green"><i class="fa fa-plus-circle"></i> Tambah Pengguna</a>
+                                    <div class="col-2 text-right">
+                                        <a href="{!! route('users.create') !!}" class="btn btn-sm btn-green">Tambah Data</a>
                                     </div>
                                 </div>
                                 @include('users.table')
@@ -32,7 +32,4 @@
             </div>
         </div>
     </div>
-@endsection
-@section('scripts')
-    <script src="{{asset('master/app-assets/js/britech/table-settings-britech.js')}}"></script>
 @endsection

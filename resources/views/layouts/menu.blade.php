@@ -274,3 +274,151 @@
 </li>
 
  --}}
+<li class="{{ Request::is('anggotas*') ? 'active' : '' }}">
+    <a href="{!! route('anggotas.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Anggotas</span></a>
+</li>
+
+<li class="{{ Request::is('persils*') ? 'active' : '' }}">
+    <a href="{!! route('persils.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Persils</span></a>
+</li>
+
+<li class="{{ Request::is('petaPersils*') ? 'active' : '' }}">
+    <a href="{!! route('petaPersils.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Peta Persils</span></a>
+</li>
+
+<li class="{{ Request::is('karyawans*') ? 'active' : '' }}">
+    <a href="{!! route('karyawans.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Karyawans</span></a>
+</li>
+
+<li class="{{ Request::is('penguruses*') ? 'active' : '' }}">
+    <a href="{!! route('penguruses.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Penguruses</span></a>
+</li>
+
+<li class="{{ Request::is('pks*') ? 'active' : '' }}">
+    <a href="{!! route('pks.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Pks</span></a>
+</li>
+
+<li class="{{ Request::is('mitras*') ? 'active' : '' }}">
+    <a href="{!! route('mitras.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Mitras</span></a>
+</li>
+
+<li class="{{ Request::is('asets*') ? 'active' : '' }}">
+    <a href="{!! route('asets.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Asets</span></a>
+</li>
+
+<li class="{{ Request::is('transports*') ? 'active' : '' }}">
+    <a href="{!! route('transports.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Transports</span></a>
+</li>
+
+<li class="{{ Request::is('drivers*') ? 'active' : '' }}">
+    <a href="{!! route('drivers.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Drivers</span></a>
+</li>
+
+<li class="{{ Request::is('kontraks*') ? 'active' : '' }}">
+    <a href="{!! route('kontraks.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Kontraks</span></a>
+</li>
+
+<li class="{{ Request::is('barangs*') ? 'active' : '' }}">
+    <a href="{!! route('barangs.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Barangs</span></a>
+</li>
+
+<li class="{{ Request::is('pembelianBarangs*') ? 'active' : '' }}">
+    <a href="{!! route('pembelianBarangs.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Pembelian Barangs</span></a>
+</li>
+
+<li class="{{ Request::is('barangSaprodis*') ? 'active' : '' }}">
+    <a href="{!! route('barangSaprodis.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Barang Saprodis</span></a>
+</li>
+
+<li class="{{ Request::is('penjualanSaprodis*') ? 'active' : '' }}">
+    <a href="{!! route('penjualanSaprodis.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Penjualan Saprodis</span></a>
+</li>
+
+<li class="{{ Request::is('hargas*') ? 'active' : '' }}">
+    <a href="{!! route('hargas.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Hargas</span></a>
+</li>
+
+<li class="{{ Request::is('spbs*') ? 'active' : '' }}">
+    <a href="{!! route('spbs.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Spbs</span></a>
+</li>
+
+<li class="{{ Request::is('penjualanTbs*') ? 'active' : '' }}">
+    <a href="{!! route('penjualanTbs.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Penjualan Tbs</span></a>
+</li>
+
+<li class="{{ Request::is('gajiPetanis*') ? 'active' : '' }}">
+    <a href="{!! route('gajiPetanis.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Gaji Petanis</span></a>
+</li>
+
+<li class="{{ Request::is('gajiKaryawans*') ? 'active' : '' }}">
+    <a href="{!! route('gajiKaryawans.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Gaji Karyawans</span></a>
+</li>
+
+<li class="{{ Request::is('neracaSimpanPinjams*') ? 'active' : '' }}">
+    <a href="{!! route('neracaSimpanPinjams.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Neraca Simpan Pinjams</span></a>
+</li>
+
+<li class="{{ Request::is('neracaKeuangans*') ? 'active' : '' }}">
+    <a href="{!! route('neracaKeuangans.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Neraca Keuangans</span></a>
+</li>
+
+<li class="{{ Request::is('laporanPanens*') ? 'active' : '' }}">
+    <a href="{!! route('laporanPanens.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Laporan Panens</span></a>
+</li>
+
+<li class="{{ Request::is('konfliks*') ? 'active' : '' }}">
+    <a href="{!! route('konfliks.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Konfliks</span></a>
+</li>
+
+<li class="{{ Request::is('kelolaLingkungans*') ? 'active' : '' }}">
+    <a href="{!! route('kelolaLingkungans.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Kelola Lingkungans</span></a>
+</li>
+
+<li class="{{ Request::is('pemeliharaans*') ? 'active' : '' }}">
+    <a href="{!! route('pemeliharaans.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Pemeliharaans</span></a>
+</li>
+
+<li class="{{ Request::is('pelatihans*') ? 'active' : '' }}">
+    <a href="{!! route('pelatihans.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Pelatihans</span></a>
+</li>
+
+<li class="{{ Request::is('jenisBarangs*') ? 'active' : '' }}">
+    <a href="{!! route('jenisBarangs.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Jenis Barangs</span></a>
+</li>
+
+<li class="{{ Request::is('jenisBarangSaprodis*') ? 'active' : '' }}">
+    <a href="{!! route('jenisBarangSaprodis.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Jenis Barang Saprodis</span></a>
+</li>
+
+<li class="{{ Request::is('kategoriPekerjas*') ? 'active' : '' }}">
+    <a href="{!! route('kategoriPekerjas.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Kategori Pekerjas</span></a>
+</li>
+
+<li class="{{ Request::is('kategoriBahanPemeliharaans*') ? 'active' : '' }}">
+    <a href="{!! route('kategoriBahanPemeliharaans.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Kategori Bahan Pemeliharaans</span></a>
+</li>
+
+<li class="{{ Request::is('kategoriPemeliharaans*') ? 'active' : '' }}">
+    <a href="{!! route('kategoriPemeliharaans.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Kategori Pemeliharaans</span></a>
+</li>
+
+<li class="{{ Request::is('bahanPemeliharaans*') ? 'active' : '' }}">
+    <a href="{!! route('bahanPemeliharaans.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Bahan Pemeliharaans</span></a>
+</li>
+
+<li class="{{ Request::is('users*') ? 'active' : '' }}">
+    <a href="{!! route('users.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Users</span></a>
+</li>
+
+<li class="{{ Request::is('roles*') ? 'active' : '' }}">
+    <a href="{!! route('roles.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Roles</span></a>
+</li>
+
+<li class="{{ Request::is('permissions*') ? 'active' : '' }}">
+    <a href="{!! route('permissions.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Permissions</span></a>
+</li>
+
+<li class="{{ Request::is('koperasis*') ? 'active' : '' }}">
+    <a href="{!! route('koperasis.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Koperasis</span></a>
+</li>
+

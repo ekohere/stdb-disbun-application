@@ -15,6 +15,24 @@
     </div>
 </div>
 
+
+<!-- Key Field -->
+<div class="form-group">
+    {!! Form::label('key', 'Key:') !!}
+    <div class="position-relative">
+        {!! Form::text('key', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
+
+<!-- Table Name Field -->
+<div class="form-group">
+    {!! Form::label('table_name', 'Table Name:') !!}
+    <div class="position-relative">
+        {!! Form::text('table_name', null, ['class' => 'form-control']) !!}
+    </div>
+</div>
+
 <!-- Sudah di modifikasi -->
 <!-- Submit Field -->
 <div class="form-actions center">

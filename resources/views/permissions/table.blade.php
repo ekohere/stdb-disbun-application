@@ -1,5 +1,5 @@
 <!-- Sudah di modifikasi untuk Edit,Lihat,Hapus -->
-<table class="table table-hover table-bordered table-striped default table-responsive">
+<table class="table table-hover table-bordered table-striped default">
     <colgroup>
         <col class="col-xs-1">
         <col class="col-xs-7">
@@ -9,6 +9,8 @@
         <th><code>#</code></th>
         <th>Name</th>
         <th>Guard Name</th>
+        <th>Key</th>
+        <th>Table Name</th>
         <th style="text-align: center">Action</th>
     </tr>
     </thead>
@@ -21,6 +23,8 @@
             <td>{!! $no++ !!}</td>
             <td>{!! $permission->name !!}</td>
             <td>{!! $permission->guard_name !!}</td>
+            <td>{!! $permission->key !!}</td>
+            <td>{!! $permission->table_name !!}</td>
             <td>
                 {!! Form::open(['route' => ['permissions.destroy', $permission->id], 'method' => 'delete']) !!}
                 <div class="btn-group" role="group" aria-label="Basic example">

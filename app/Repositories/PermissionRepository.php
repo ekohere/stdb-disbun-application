@@ -8,7 +8,7 @@ use App\Repositories\BaseRepository;
 /**
  * Class PermissionRepository
  * @package App\Repositories
- * @version September 13, 2020, 12:42 pm UTC
+ * @version December 1, 2021, 4:56 am UTC
 */
 
 class PermissionRepository extends BaseRepository
@@ -18,7 +18,9 @@ class PermissionRepository extends BaseRepository
      */
     protected $fieldSearchable = [
         'name',
-        'guard_name'
+        'guard_name',
+        'key',
+        'table_name'
     ];
 
     /**

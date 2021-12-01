@@ -12,8 +12,8 @@
                                     <i class="fa fa-pencil-square font-large-2 text-white"></i>
                                 </div>
                                 <div class="media-body p-1">
-                                    <span class="indigo font-medium-5">Perubahan Roles</span><br>
-                                    <span style="margin-top: -5px">Melakukan Perubahan Roles </span>
+                                    <span class="indigo font-medium-5">Perubahan Role</span><br>
+                                    <span style="margin-top: -5px">Melakukan Perubahan Role </span>
                                 </div>
                             </div>
                         </div>
@@ -24,7 +24,7 @@
                     <div class="card">
                         <div class="card-content collpase show">
                             <div class="card-body">
-                                {!! Form::model($roles, ['route' => ['roles.update', $roles->id], 'method' => 'patch']) !!}
+                                {!! Form::model($role, ['route' => ['roles.update', $role->id], 'method' => 'patch']) !!}
                                 <div class="form-body">
                                     @include('roles.fields')
                                 </div>

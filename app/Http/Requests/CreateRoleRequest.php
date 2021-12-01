@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\Roles;
+use App\Models\Role;
 
 class CreateRoleRequest extends FormRequest
 {
@@ -25,6 +25,6 @@ class CreateRoleRequest extends FormRequest
      */
     public function rules()
     {
-        return Roles::$rules;
+        return Role::$rules;
     }
 }

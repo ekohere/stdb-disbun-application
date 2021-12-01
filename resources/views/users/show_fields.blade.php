@@ -1,22 +1,22 @@
 <!-- Sudah di modifikasi -->
+<!-- Role Id Field -->
+<div class="media">
+    <div class="media-body">
+        <h5 class="media-heading">
+            {!! Form::label('role_id', 'Role Id:') !!}
+        </h5>
+        {!! $user->role_id !!}
+    </div>
+</div>
+
+<!-- Sudah di modifikasi -->
 <!-- Name Field -->
 <div class="media">
     <div class="media-body">
         <h5 class="media-heading">
             {!! Form::label('name', 'Name:') !!}
         </h5>
-        {!! $users->name !!}
-    </div>
-</div>
-
-<!-- Sudah di modifikasi -->
-<!-- Username Field -->
-<div class="media">
-    <div class="media-body">
-        <h5 class="media-heading">
-            {!! Form::label('username', 'Username:') !!}
-        </h5>
-        {!! $users->username !!}
+        {!! $user->name !!}
     </div>
 </div>
 
@@ -27,40 +27,18 @@
         <h5 class="media-heading">
             {!! Form::label('email', 'Email:') !!}
         </h5>
-        {!! $users->email !!}
+        {!! $user->email !!}
     </div>
 </div>
 
 <!-- Sudah di modifikasi -->
-<!-- No Hp Field -->
+<!-- Avatar Field -->
 <div class="media">
     <div class="media-body">
         <h5 class="media-heading">
-            {!! Form::label('no_hp', 'No Hp:') !!}
+            {!! Form::label('avatar', 'Avatar:') !!}
         </h5>
-        {!! $users->no_hp !!}
-    </div>
-</div>
-
-<!-- Sudah di modifikasi -->
-<!-- Instansi Id Field -->
-<div class="media">
-    <div class="media-body">
-        <h5 class="media-heading">
-            {!! Form::label('instansi_id', 'Instansi Id:') !!}
-        </h5>
-        {!! $users->instansi_id !!}
-    </div>
-</div>
-
-<!-- Sudah di modifikasi -->
-<!-- Alamat Field -->
-<div class="media">
-    <div class="media-body">
-        <h5 class="media-heading">
-            {!! Form::label('alamat', 'Alamat:') !!}
-        </h5>
-        {!! $users->alamat !!}
+        {!! $user->avatar !!}
     </div>
 </div>
 
@@ -71,7 +49,7 @@
         <h5 class="media-heading">
             {!! Form::label('email_verified_at', 'Email Verified At:') !!}
         </h5>
-        {!! $users->email_verified_at !!}
+        {!! $user->email_verified_at !!}
     </div>
 </div>
 
@@ -82,7 +60,7 @@
         <h5 class="media-heading">
             {!! Form::label('password', 'Password:') !!}
         </h5>
-        {!! $users->password !!}
+        {!! $user->password !!}
     </div>
 </div>
 
@@ -93,7 +71,40 @@
         <h5 class="media-heading">
             {!! Form::label('remember_token', 'Remember Token:') !!}
         </h5>
-        {!! $users->remember_token !!}
+        {!! $user->remember_token !!}
+    </div>
+</div>
+
+<!-- Sudah di modifikasi -->
+<!-- Settings Field -->
+<div class="media">
+    <div class="media-body">
+        <h5 class="media-heading">
+            {!! Form::label('settings', 'Settings:') !!}
+        </h5>
+        {!! $user->settings !!}
+    </div>
+</div>
+
+<!-- Sudah di modifikasi -->
+<!-- Kode Koperasi Field -->
+<div class="media">
+    <div class="media-body">
+        <h5 class="media-heading">
+            {!! Form::label('kode_koperasi', 'Kode Koperasi:') !!}
+        </h5>
+        {!! $user->kode_koperasi !!}
+    </div>
+</div>
+
+<!-- Sudah di modifikasi -->
+<!-- Koperasi Id Field -->
+<div class="media">
+    <div class="media-body">
+        <h5 class="media-heading">
+            {!! Form::label('koperasi_id', 'Koperasi Id:') !!}
+        </h5>
+        {!! $user->koperasi_id !!}
     </div>
 </div>
 
