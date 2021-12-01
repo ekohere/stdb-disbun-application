@@ -33,6 +33,7 @@ Route::get('profil', [App\Http\Controllers\UserController::class,'profil'])->nam
 Route::get('editProfil/{id}', [App\Http\Controllers\UserController::class,'editProfiles']);
 Route::patch('updateProfile/{id}', [App\Http\Controllers\UserController::class,'updateProfile']);
 
+Route::resource('features', \App\Http\Controllers\FeatureController::class);
 
 Route::resource('anggotas', App\Http\Controllers\AnggotaController::class);
 

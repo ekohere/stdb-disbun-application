@@ -3,10 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Administrator - Politeknik Pertanian Negeri Samarinda</title>
+    <title>Admin - KOPERASI SAWIT</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('image/logo/logo-politani.png') }}" />
+    <link rel="shortcut icon" href="http://koperasi-sawit.kutaitimurkab.go.id/storage/settings/April2021/X07Arr4dYPYybtDkozL5.png" />
 
     <!-- font -->
     <link  rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,500,500i,600,700,800,900|Poppins:200,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900|Open Sans:200,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900">
@@ -33,40 +33,43 @@
 <body>
 
 <div class="wrapper">
-    <section class="height-100vh d-flex align-items-center page-section-ptb login blue-bg-dark">
-        <div class="container">
+    <section class="height-100vh d-flex align-items-center login bg-overlay-black-30" style="background-image: url('http://koperasi-sawit.kutaitimurkab.go.id/storage/settings/January2021/hH1jDVy2RvNW3Rf1jdOK.jpg');background-size: cover;background-repeat: no-repeat;background-position: center">
+        <div class="container p-0">
             <div class="row no-gutters justify-content-center">
-                <div class="col-lg-3 col-md-6 login-fancy-bg bg-overlay-black-20">
-                    <div class="login-fancy pos-r">
-                        <img src="{{ asset('image/logo/logo-politani-white.png') }}" alt="" class="img-fluid height-100">
-                        <div class="text-white mb-20 font-large-2 text-bold-700">Admin</div>
-                        <p class="mb-20 text-white">Selamat Datang Admin Website Politeknik Pertanian Negeri Samarinda.</p>
-                        <ul class="list-unstyled pos-bot pb-30">
-                            <li class="list-inline-item"><a class="text-white">HakCipta@ {{ \Carbon\Carbon::now()->format('Y') }}</a> </li>
-                        </ul>
+                <div class="col-lg-8 col-md-6 login-fancy-bg">
+                    <div class="login-fancy pos-r pb-0">
+                        <div class="list-unstyled pos-bot">
+                            <div class="list-inline-item d-flex">
+                                <img src="http://koperasi-sawit.kutaitimurkab.go.id/storage/settings/April2021/X07Arr4dYPYybtDkozL5.png" alt="" class="img-fluid height-70">
+                                <div class="pl-10 pt-1">
+                                    <div class="text-white font-medium-3 text-bold-700 mb-0">KOPERASI SAWIT</div>
+                                    <h6 class="text-white mb-0 text-bold-400">Selamat Datang di Sistem Informasi Koperasi Sawit</h6>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-lg-5 col-md-6 white-bg">
+                <div class="col-lg-4 col-md-6 white-bg">
                     <form class="login-fancy pb-40 clearfix" method="post" action="{{ url('/login') }}">
                         @csrf
 
-                        <h3 class="mb-30 text-bold-700">Login</h3>
+                        <h6 class="mb-30 text-bold-700 text-uppercase">Sign In Below:</h6>
                         <div class="section-field mb-20">
-                            <label class="mb-10 text-blue-grey" for="name">Alamat Email</label>
+                            <label class="mb-10 text-blue-grey" for="name">E-mail</label>
                             <input type="email"
                                    name="email"
                                    value="{{ old('email') }}"
-                                   placeholder="Masukan Email"
+                                   placeholder="E-mail"
                                    class="web form-control rounded-2 font-small-3 text-bold-600 border @error('email') is-invalid @enderror" required>
                             @error('email')
                                 <span class="error invalid-feedback">{{ $message }}</span>
                             @enderror
                         </div>
                         <div class="section-field mb-20">
-                            <label class="mb-10 text-blue-grey" for="Password">Kata Sandi </label>
+                            <label class="mb-10 text-blue-grey" for="Password">Password</label>
                             <input type="password"
                                    name="password"
-                                   placeholder="Masukan Kata Sandi"
+                                   placeholder="Password"
                                    class="Password form-control rounded-2 font-small-3 text-bold-600 border @error('password') is-invalid @enderror" required>
                         </div>
                         <div class="section-field mb-20">
@@ -78,7 +81,7 @@
                                        maxlength="6"
                                        placeholder="Masukkan Kode Captcha"
                                        name="captcha"
-                                       class="Captcha form-control font-small-3 ml-20 rounded-2 border @error('captcha') is-invalid @enderror" required>
+                                       class="Captcha form-control font-small-3 ml-20 pt-0 pb-0 rounded-2 border @error('captcha') is-invalid @enderror" required>
                             </div>
                             <a href="javascript:void(0)" onclick="refreshCaptcha()"><i class="fa fa-refresh"></i> Refresh Captcha</a>
                             <script>
@@ -98,7 +101,7 @@
                             </script>
                         </div>
                         <button type="submit" class="button button-border black small">
-                            <span>Login Sekarang</span>
+                            <span>Login</span>
                             <i class="fa fa-check"></i>
                         </button>
                     </form>

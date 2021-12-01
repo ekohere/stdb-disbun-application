@@ -641,7 +641,6 @@ margin-left: -17px; line-height: 50px; }
  .bg-overlay-theme-90:before {  background: rgba(132,186,63, 0.9); content: ""; height: 100%; left: 0; position: absolute; top: 0; width: 100%; z-index: 0; }
  .bg-overlay-black-10, .bg-overlay-black-20, .bg-overlay-black-30, .bg-overlay-black-40, .bg-overlay-black-50, .bg-overlay-black-60, .bg-overlay-black-70, .bg-overlay-black-80, .bg-overlay-black-90, .bg-overlay-white-10, .bg-overlay-white-20, .bg-overlay-white-30, .bg-overlay-white-40, .bg-overlay-white-50, .bg-overlay-white-60, .bg-overlay-white-70, .bg-overlay-white-80, .bg-overlay-white-90, .bg-overlay-theme-20, .bg-overlay-theme-50, .bg-overlay-theme-70, .bg-overlay-theme-90 { position: relative; }
 
-
 /*************************************
         home page section
  **************************************/
