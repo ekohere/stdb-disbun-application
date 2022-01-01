@@ -58,7 +58,7 @@ class Koperasi extends Model
     use HasFactory;
 
     public $table = 'koperasi';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -110,7 +110,7 @@ class Koperasi extends Model
      **/
     public function anggota()
     {
-        return $this->hasMany(\App\Models\Anggotum::class, 'koperasi_id');
+        return $this->hasMany(\App\Models\Anggota::class, 'koperasi_id');
     }
 
     /**

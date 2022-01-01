@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Admin - KOPERASI SAWIT</title>
+    <title>Portal E-STDB</title>
 
     <!-- Favicon -->
     <link rel="shortcut icon" href="http://koperasi-sawit.kutaitimurkab.go.id/storage/settings/April2021/X07Arr4dYPYybtDkozL5.png" />
@@ -33,7 +33,7 @@
 <body>
 
 <div class="wrapper">
-    <section class="height-100vh d-flex align-items-center login bg-overlay-black-30" style="background-image: url('http://koperasi-sawit.kutaitimurkab.go.id/storage/settings/January2021/hH1jDVy2RvNW3Rf1jdOK.jpg');background-size: cover;background-repeat: no-repeat;background-position: center">
+    <section class="height-100vh d-flex align-items-center login bg-overlay-black-50" style="background-image: url('{{asset('image/bg/bg-login.jpg')}}');background-size: cover;background-repeat: no-repeat;background-position: center">
         <div class="container p-0">
             <div class="row no-gutters justify-content-center">
                 <div class="col-lg-8 col-md-6 login-fancy-bg">
@@ -42,8 +42,8 @@
                             <div class="list-inline-item d-flex">
                                 <img src="http://koperasi-sawit.kutaitimurkab.go.id/storage/settings/April2021/X07Arr4dYPYybtDkozL5.png" alt="" class="img-fluid height-70">
                                 <div class="pl-10 pt-1">
-                                    <div class="text-white font-medium-3 text-bold-700 mb-0">KOPERASI SAWIT</div>
-                                    <h6 class="text-white mb-0 text-bold-400">Selamat Datang di Sistem Informasi Koperasi Sawit</h6>
+                                    <div class="text-white font-medium-3 text-bold-700 mb-0">DINAS PERKEBUNAN</div>
+                                    <h6 class="text-white mb-0 text-bold-400">Selamat Datang di Portal E-STDB untuk pengajuan STDB</h6>
                                 </div>
                             </div>
                         </div>
@@ -104,6 +104,9 @@
                             <span>Login</span>
                             <i class="fa fa-check"></i>
                         </button>
+{{--                        <p class="mb-0 mt-2">--}}
+{{--                            <a href="{{ route('register') }}" class="text-center">Belum punya akun? Register disini</a>--}}
+{{--                        </p>--}}
                     </form>
                 </div>
             </div>

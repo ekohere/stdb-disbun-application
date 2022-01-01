@@ -81,14 +81,14 @@ class Persil extends Model
     use HasFactory;
 
     public $table = 'persil';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
 
     protected $dates = ['deleted_at'];
 
-
+    protected $appends = ['link_detail'];
 
     public $fillable = [
         'kode_koperasi',
@@ -144,7 +144,8 @@ class Persil extends Model
         'lampiran_shm',
         'lampiran_identitas',
         'lampiran_foto_anggota',
-        'geojson_persil'
+        'geojson_persil',
+        'polygon_persil_id'
     ];
 
     /**
@@ -207,7 +208,8 @@ class Persil extends Model
         'lampiran_shm' => 'string',
         'lampiran_identitas' => 'string',
         'lampiran_foto_anggota' => 'string',
-        'geojson_persil' => 'string'
+        'geojson_persil' => 'string',
+        'polygon_persil_id' => 'integer'
     ];
 
     /**
@@ -280,7 +282,7 @@ class Persil extends Model
      **/
     public function anggota()
     {
-        return $this->belongsTo(\App\Models\Anggotum::class, 'anggota_id');
+        return $this->belongsTo(\App\Models\Anggota::class, 'anggota_id');
     }
 
     /**
@@ -337,5 +339,15 @@ class Persil extends Model
     public function spbItems()
     {
         return $this->hasMany(\App\Models\SpbItem::class, 'persil_id');
+    }
+
+    public function persilPolygon()
+    {
+        return $this->morphTo();
+    }
+
+    public function getLinkDetailAttribute()
+        {
+        return 'http://koperasi-sawit.kutaitimurkab.go.id/detail_persil/'.$this->id;
     }
 }
