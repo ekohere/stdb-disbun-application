@@ -5,8 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Koperasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Auth;
+use Mockery\Exception;
 use Validator;
 use App\Models\User;
 
@@ -68,5 +70,24 @@ class AuthController extends Controller
         return [
             'message' => 'You have successfully logged out and the token was successfully deleted'
         ];
+    }
+
+    public function storeTokenDevice(Request $request)
+    {
+        $input = $request->only('token_device');
+
+        try {
+            DB::beginTransaction();
+
+            $users= \Illuminate\Support\Facades\Auth::user();
+            $users->token_device=$input['token_device'];
+            $users->save();
+
+            DB::commit();
+            return $this->sendResponse($users->toArray(), 'User saved successfully');
+        }catch (Exception $e){
+            DB::rollBack();
+            return $this->sendError($e->getMessage());
+        }
     }
 }

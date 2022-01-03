@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6ca86c3219e727e21b15956b9da93568",
+    "content-hash": "cb8447c5ae4ae6494820f32986bcf491",
     "packages": [
         {
             "name": "artesaos/seotools",
@@ -1582,7 +1582,7 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.227.0",
+            "version": "v0.228.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
@@ -1620,7 +1620,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.227.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.228.0"
             },
             "time": "2021-12-21T12:26:12+00:00"
         },

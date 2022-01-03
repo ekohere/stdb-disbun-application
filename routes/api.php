@@ -25,6 +25,9 @@ Route::get('get_polygon/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPICo
 
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::post('token_device',[AuthController::class,'storeTokenDevice']);
+
+    Route::get('my_koperasi',[\App\Http\Controllers\API\KoperasiAPIController::class,'index']);
 
     Route::resource('stdb_registers', App\Http\Controllers\API\STDBRegisterAPIController::class);
     Route::post('stdb_regis_koperasi',[\App\Http\Controllers\API\STDBRegisterAPIController::class,'storeByKoperasi']);

@@ -6147,6 +6147,14 @@ a.text-dark:hover, a.text-dark:focus {
     -webkit-line-clamp: 2 ;
     -webkit-box-orient: vertical;
 }
+.desc-p1 {
+    font-weight: normal;
+    text-align: left !important;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1 ;
+    -webkit-box-orient: vertical;
+}
 
 .desc-p ul{ display: none;}
 .desc-p ul li{ display: none; }
