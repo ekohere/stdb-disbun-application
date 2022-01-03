@@ -93,7 +93,7 @@ class STDBRegister extends Model
      **/
     public function stdbStatuses()
     {
-        return $this->belongsToMany(\App\Models\StdbStatus::class, 'stdb_register_has_stdb_status','stdb_register_id','stdb_status_id');
+        return $this->belongsToMany(\App\Models\StdbStatus::class, 'stdb_register_has_stdb_status','stdb_register_id','stdb_status_id')->withTimeStamps();
     }
 
     public function getLatestStatusAttribute()

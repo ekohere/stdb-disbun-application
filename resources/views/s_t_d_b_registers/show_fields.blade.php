@@ -10,7 +10,7 @@
         <h3 class="font-weight-bold mb-1">Status Persil</h3>
         <h6>Persil 1: <span class="badge bg-blue bg-lighten-2 mb-0-1">Clean and Clear</span></h6>
         <h6>Persil 2: <span class="badge bg-warning bg-darken-2 mb-0-1">4% Masuk Kawasan Hutan (0.1 Ha)</span></h6>
-        <a onclick ="return confirm('Are you sure?')" href="{!! route('sTDBRegisters.index') !!}" class="btn btn-green"> <i class="fa fa-check"></i> Verifikasi</a>
+        <a href="{!! route('sTDBRegisters.verify', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue">Verifikasi</a>
     </div>
 </div>
 <div class="card-content bg-gradient-striped-grey-blue rounded-1 box-shadow-1 mt-3 p-2">
@@ -238,6 +238,7 @@
                 console.log(feature.properties.area);
                 featureLayer.bindPopup(
                     "Nama Pemilik: "+feature.properties.nama_peta+("<br>")+
+                    "No. Petak Persil: "+feature.properties.no_petak_peta+("<br>")+
                     "Jenis Tanaman: "+feature.properties.jenis_tanaman+("<br>")+
                     "Luas: "+luas.toFixed(2)+" Ha"+("<br>")+
                     "Status Lahan: "+feature.properties.status_lahan+("<br>")+

@@ -109,4 +109,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('sTDBRegisters', App\Http\Controllers\STDBRegisterController::class);
     Route::resource('sTDBDetailRegisters', App\Http\Controllers\STDBDetailRegisterController::class);
     Route::resource('sTDBRegisterStatuses', App\Http\Controllers\STDBRegisterHasSTDBStatusController::class);
+    Route::get('sTDBRegisters/verify/{id}', [App\Http\Controllers\STDBRegisterController::class,'getVerify'])->name('sTDBRegisters.verify');
+    Route::post('sTDBRegisters/verify', [App\Http\Controllers\STDBRegisterController::class,'verified'])->name('sTDBRegisters.verified');
+    Route::get('sTDBRegisters/print/{id}', [App\Http\Controllers\STDBRegisterController::class,'cetakSTDB'])->name('sTDBRegisters.print');
 });

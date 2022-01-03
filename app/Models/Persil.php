@@ -346,6 +346,11 @@ class Persil extends Model
         return $this->morphTo();
     }
 
+    public function polygonPersil()
+    {
+        return $this->belongsTo(\App\Models\PolygonPersil::class, 'polygon_persil_id');
+    }
+
     public function getLinkDetailAttribute()
         {
         return 'http://koperasi-sawit.kutaitimurkab.go.id/detail_persil/'.$this->id;
