@@ -188,7 +188,16 @@ class STDBRegisterAPIController extends AppBaseController
 
             //TODO set polygon to table polygon_persil and bound to table persil anggota koperasi
             foreach ($input['data_persil'] as $item){
-                $geojson = strval(json_encode($item['polygon']['features'][0]['geometry']));
+                $newCoordinat = [];
+                $coordinat = [];
+                foreach ($item['coordinates'] as $coordinate){
+                    $newCoordinat[0] = $coordinate['longitude'];
+                    $newCoordinat[1] = $coordinate['latitude'];
+                    array_push($coordinat,$newCoordinat);
+                }
+                $geometry['type'] = "Polygon";
+                $geometry['coordinates'] = [$coordinat];
+                $geojson = strval(json_encode($geometry));
                 $geom = DB::connection('pgsql')->raw("ST_GeomFromGeoJSON('$geojson')");
                 $area = DB::connection('pgsql')->raw("ST_Area(ST_GeomFromGeoJSON('$geojson'))");
                 $polygonPersil = PolygonPersil::create([
@@ -222,7 +231,7 @@ class STDBRegisterAPIController extends AppBaseController
 
         }catch (\Exception $exception){
             DB::rollBack();
-            return $this->sendError("Error:".$exception->getMessage());
+            return $this->sendError("Error:".$exception);
         }
         //return $this->sendResponse($sTDBRegister->toArray(), 'STDB Register requested successfully');
     }

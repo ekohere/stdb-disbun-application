@@ -11,7 +11,7 @@ class KoperasiAPIController extends AppBaseController
 {
     public function index(Request $request)
     {
-        $koperasi = Koperasi::with(['anggota','anggota.persil'])->where('id',$request->koperasi_id)->get();
+        $koperasi = Koperasi::with(['anggota:koperasi_id,id,nama_ktp','anggota.persils:anggota_id,kode_persil,id'])->where('id',$request->koperasi_id)->get()->first();
         return $this->sendResponse($koperasi->toArray(), 'User saved successfully');
     }
 }
