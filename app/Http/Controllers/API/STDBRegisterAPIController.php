@@ -60,7 +60,13 @@ class STDBRegisterAPIController extends AppBaseController
         ];
         return response()->json($featureCollections);
 
-        return $this->sendResponse($sTDBRegisters->toArray(), 'STDB Registers retrieved successfully');
+//        return $this->sendResponse($sTDBRegisters->toArray(), 'STDB Registers retrieved successfully');
+    }
+
+    public function riwayatMappingOperatorKoperasi(Request $request){
+        $stdbRegister = STDBRegister::with(['stdbDetailRegis.persil','anggota'])->where('users_id',Auth::id())->get();
+        return $this->sendResponse($stdbRegister->toArray(), 'Mapping History Retrieved Succesfully');
+
     }
 
     /**

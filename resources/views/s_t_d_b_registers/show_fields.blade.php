@@ -8,8 +8,10 @@
 <div class="border-left-green border-left-6 card-content rounded-1 box-shadow-1 mt-3 p-0-1">
     <div class="p-2">
         <h3 class="font-weight-bold mb-1">Status Persil</h3>
-        <h6>Persil 1: <span class="badge bg-blue bg-lighten-2 mb-0-1">Clean and Clear</span></h6>
-        <h6>Persil 2: <span class="badge bg-warning bg-darken-2 mb-0-1">4% Masuk Kawasan Hutan (0.1 Ha)</span></h6>
+        @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
+            <h6>Persil {{$key+1}}: <span class="badge bg-blue bg-lighten-2 mb-0-1">Clean and Clear</span></h6>
+{{--            <h6>Persil 2: <span class="badge bg-warning bg-darken-2 mb-0-1">4% Masuk Kawasan Hutan (0.1 Ha)</span></h6>--}}
+        @endforeach
         <a href="{!! route('sTDBRegisters.verify', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue">Verifikasi</a>
     </div>
 </div>

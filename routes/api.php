@@ -30,6 +30,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('my_koperasi',[\App\Http\Controllers\API\KoperasiAPIController::class,'index']);
 
     Route::resource('stdb_registers', App\Http\Controllers\API\STDBRegisterAPIController::class);
+    Route::get('stdb_mapping_history', [App\Http\Controllers\API\STDBRegisterAPIController::class,'riwayatMappingOperatorKoperasi']);
     Route::post('stdb_regis_koperasi',[\App\Http\Controllers\API\STDBRegisterAPIController::class,'storeByKoperasi']);
     Route::post('stdb_regis_nonkop',[\App\Http\Controllers\API\STDBRegisterAPIController::class,'storeByNonKoperasi']);
     Route::resource('stdb_profiles', App\Http\Controllers\API\STDBProfileAPIController::class);
