@@ -64,7 +64,7 @@ class STDBRegisterAPIController extends AppBaseController
     }
 
     public function riwayatMappingOperatorKoperasi(Request $request){
-        $stdbRegister = STDBRegister::with(['stdbDetailRegis.persil','anggota'])->where('users_id',Auth::id())->latest()->get();
+        $stdbRegister = STDBRegister::with(['stdbDetailRegis.persil','anggota.koperasi'])->where('users_id',Auth::id())->latest()->get();
         return $this->sendResponse($stdbRegister->toArray(), 'Mapping History Retrieved Succesfully');
 
     }

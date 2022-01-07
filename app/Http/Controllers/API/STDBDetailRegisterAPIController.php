@@ -72,7 +72,18 @@ class STDBDetailRegisterAPIController extends AppBaseController
     public function show($id)
     {
         /** @var STDBDetailRegister $sTDBDetailRegister */
-        $sTDBDetailRegister = $this->sTDBDetailRegisterRepository->find($id);
+        $sTDBDetailRegister =STDBDetailRegister::with(['persil.anggota.koperasi'])->find($id);
+
+        $features=[];
+        $geometry = $sTDBDetailRegister->persil->polygonPersil->geom;
+        unset($sTDBDetailRegister->persil->polygonPersil->geom);
+        $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>$sTDBDetailRegister->persil];
+        array_push($features,$feature);
+        $featureCollections = [
+            'type'=>'FeatureCollection',
+            'features'=>$features
+        ];
+        $sTDBDetailRegister['geojson'] = $featureCollections;
 
         if (empty($sTDBDetailRegister)) {
             return $this->sendError('S T D B Detail Register not found');
