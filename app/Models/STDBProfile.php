@@ -31,8 +31,8 @@ class STDBProfile extends Model
 
     use HasFactory;
 
-    public $table = 'stdb_profile';
-    
+    public $table = 'stdb_pemilik_kebun';
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -46,6 +46,8 @@ class STDBProfile extends Model
         'tempat_lahir',
         'tgl_lahir',
         'no_ktp',
+        'nama_ktp',
+        'kontak',
         'alamat',
         'kecamatan',
         'desa',

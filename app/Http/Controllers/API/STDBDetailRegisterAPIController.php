@@ -74,23 +74,23 @@ class STDBDetailRegisterAPIController extends AppBaseController
     {
         /** @var STDBDetailRegister $sTDBDetailRegister */
         $sTDBDetailRegister =STDBDetailRegister::with(['persil.anggota.koperasi'])->find($id);
-
         //set center point polygon
         $idPolygon = $sTDBDetailRegister->persil->polygon_persil_id;
         $metry = $sTDBDetailRegister->persil->polygonPersil->geom;
+        $tes = json_encode($metry);
+        $tes2 = json_decode($tes,true);
+        $coordinates=[];
+        foreach ($tes2['coordinates'][0] as $item){
+            $coordinate = [];
+            $coordinate['latitude'] = $item[0];
+            $coordinate['longitude'] = $item[1];
+            array_push($coordinates,$coordinate);
+        };
+        $sTDBDetailRegister->persil->coordinates = $coordinates;
+
         $center = DB::connection('pgsql')->select(DB::raw("select ST_X(ST_AsText(ST_Centroid('polygon($metry)',true))) as x, ST_Y(ST_AsText(ST_Centroid('polygon($metry)',true))) as y from polygon_persil where id='$idPolygon' "));
         $sTDBDetailRegister->persil->center_point = $center[0];
 
-        $features=[];
-        $geometry = $sTDBDetailRegister->persil->polygonPersil->geom;
-        unset($sTDBDetailRegister->persil->polygonPersil->geom);
-        $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>$sTDBDetailRegister->persil];
-        array_push($features,$feature);
-        $featureCollections = [
-            'type'=>'FeatureCollection',
-            'features'=>$features
-        ];
-        $sTDBDetailRegister['geojson'] = $featureCollections;
 
         if (empty($sTDBDetailRegister)) {
             return $this->sendError('S T D B Detail Register not found');
