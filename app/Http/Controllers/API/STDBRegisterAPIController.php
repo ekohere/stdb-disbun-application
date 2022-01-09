@@ -65,6 +65,15 @@ class STDBRegisterAPIController extends AppBaseController
 
     public function riwayatMappingOperatorKoperasi(Request $request){
         $stdbRegister = STDBRegister::with(['stdbDetailRegis.persil','anggota.koperasi'])->where('users_id',Auth::id())->latest()->get();
+        foreach ($stdbRegister as $stdb){
+            foreach ($stdb->stdbDetailRegis as $item){
+                $idPolygon = $item->persil->polygon_persil_id;
+                $metry = $item->persil->polygonPersil->geom;
+                $center = DB::connection('pgsql')->select(DB::raw("select ST_X(ST_AsText(ST_Centroid('polygon($metry)',true))) as x, ST_Y(ST_AsText(ST_Centroid('polygon($metry)',true))) as y from polygon_persil where id='$idPolygon' "));
+                $item->persil->center_point = $center[0];
+            }
+        }
+
         return $this->sendResponse($stdbRegister->toArray(), 'Mapping History Retrieved Succesfully');
 
     }

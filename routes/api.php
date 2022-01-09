@@ -39,7 +39,7 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::resource('stdb_detail_registers', App\Http\Controllers\API\STDBDetailRegisterAPIController::class);
     Route::resource('stdb_register_statuses', App\Http\Controllers\API\STDBRegisterHasSTDBStatusAPIController::class);
 
-    Route::get('/profile', function(Request $request) { return auth()->user(); });
+    Route::get('/profile', function(Request $request) { return auth()->user()->load('koperasi'); });
     // API route for logout user
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
 });
