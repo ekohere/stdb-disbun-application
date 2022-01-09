@@ -9,6 +9,7 @@ use App\Models\STDBDetailRegister;
 use App\Repositories\STDBDetailRegisterRepository;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\DB;
 use Response;
 
 /**
@@ -73,6 +74,12 @@ class STDBDetailRegisterAPIController extends AppBaseController
     {
         /** @var STDBDetailRegister $sTDBDetailRegister */
         $sTDBDetailRegister =STDBDetailRegister::with(['persil.anggota.koperasi'])->find($id);
+
+        //set center point polygon
+        $idPolygon = $sTDBDetailRegister->persil->polygon_persil_id;
+        $metry = $sTDBDetailRegister->persil->polygonPersil->geom;
+        $center = DB::connection('pgsql')->select(DB::raw("select ST_X(ST_AsText(ST_Centroid('polygon($metry)',true))) as x, ST_Y(ST_AsText(ST_Centroid('polygon($metry)',true))) as y from polygon_persil where id='$idPolygon' "));
+        $sTDBDetailRegister->persil->center_point = $center[0];
 
         $features=[];
         $geometry = $sTDBDetailRegister->persil->polygonPersil->geom;
