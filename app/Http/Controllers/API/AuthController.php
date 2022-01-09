@@ -48,7 +48,7 @@ class AuthController extends Controller
 
         $user = User::where('email', $request['email'])->firstOrFail();
         if ($user->koperasi_id!==null){
-            $user = User::with(['koperasi.anggota:koperasi_id,id,nama_ktp','koperasi.anggota.persils:anggota_id,kode_persil,id'])->where('email',$request['email'])->get()->first();
+            $user = User::with(['koperasi.anggota:koperasi_id,id,nama_ktp,kode_anggota','koperasi.anggota.persils:anggota_id,kode_persil,id'])->where('email',$request['email'])->get()->first();
             $joinAt = date_format($user->created_at,"d M Y");
             $user['tanggal_gabung'] = strval($joinAt);
         }
