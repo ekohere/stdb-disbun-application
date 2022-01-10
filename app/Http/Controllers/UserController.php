@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\DB;
 use Response;
 
 class UserController extends AppBaseController
@@ -29,7 +31,7 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $users = $this->userRepository->all();
+        $users = User::where('role_id',6)->get();
 
         return view('users.index')
             ->with('users', $users);
@@ -52,14 +54,32 @@ class UserController extends AppBaseController
      *
      * @return Response
      */
-    public function store(CreateUserRequest $request)
+    public function store(Request $request)
     {
-        $input = $request->all();
+        $input = $request->except('avatar');
+        $input['role_id'] = 6;
+        try{
+            DB::beginTransaction();
+            $user = User::create($input);
+            $user->password = bcrypt($input['password']);
+            $roles = ['id'=>6];
+            $user->roles()->sync([]);
+            $user->assignRole($roles);
+            //Upload Foto dan simpan path/url foto ke dalam database
+            if( $request->hasFile('avatar')) {
+                $file = $request->file('avatar');
+                $filename = $user->id.'imgAvatar.'.$file->getClientOriginalExtension();
+                $path=$request->avatar->storeAs('public/userAvatar', $filename,'local');
+                $user->avatar='storage'.substr($path,strpos($path,'/'));
+            }
+            $user->save();
+            DB::commit();
+            Flash::success('User saved successfully.');
+        }catch (\Exception $exception){
+            DB::rollBack();
+            Flash::error('User failed to save. Error:'.$exception->getMessage());
 
-        $user = $this->userRepository->create($input);
-
-        Flash::success('User saved successfully.');
-
+        }
         return redirect(route('users.index'));
     }
 

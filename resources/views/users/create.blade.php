@@ -24,7 +24,7 @@
                     <div class="card">
                         <div class="card-content collpase show">
                             <div class="card-body">
-                                {!! Form::open(['route' => 'users.store'], ['class' => 'form']) !!}
+                                {!! Form::open(['route' => 'users.store','files'=>'true'], ['class' => 'form']) !!}
                                 <div class="form-body">
                                     @include('users.fields')
                                 </div>

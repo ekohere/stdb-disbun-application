@@ -1,5 +1,5 @@
 <!-- Sudah di modifikasi untuk Edit,Lihat,Hapus -->
-<table class="table table-hover table-bordered table-striped default">
+<table class="table table-hover table-responsive table-bordered table-striped default">
     <colgroup>
         <col class="col-xs-1">
         <col class="col-xs-7">
@@ -7,16 +7,10 @@
     <thead>
     <tr>
         <th><code>#</code></th>
-        <th>Role Id</th>
+        <th>Role</th>
         <th>Name</th>
         <th>Email</th>
         <th>Avatar</th>
-        <th>Email Verified At</th>
-        <th>Password</th>
-        <th>Remember Token</th>
-        <th>Settings</th>
-        <th>Kode Koperasi</th>
-        <th>Koperasi Id</th>
         <th style="text-align: center">Action</th>
     </tr>
     </thead>
@@ -27,16 +21,10 @@
     @foreach($users as $user)
         <tr>
             <td>{!! $no++ !!}</td>
-            <td>{!! $user->role_id !!}</td>
+            <td>{!! !empty($user->roles[0]['name'])?$user->roles[0]['name']:"-" !!}</td>
             <td>{!! $user->name !!}</td>
             <td>{!! $user->email !!}</td>
-            <td>{!! $user->avatar !!}</td>
-            <td>{!! $user->email_verified_at !!}</td>
-            <td>{!! $user->password !!}</td>
-            <td>{!! $user->remember_token !!}</td>
-            <td>{!! $user->settings !!}</td>
-            <td>{!! $user->kode_koperasi !!}</td>
-            <td>{!! $user->koperasi_id !!}</td>
+            <td><img src="{{asset($user->avatar)}}" width="200px"></td>
             <td>
                 {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) !!}
                 <div class="btn-group" role="group" aria-label="Basic example">

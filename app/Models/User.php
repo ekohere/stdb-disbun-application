@@ -4,10 +4,18 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Collection;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\Conversions\Conversion;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\FileAdder;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -18,13 +26,14 @@ class User extends Authenticatable
     use HasRoles;
     use SoftDeletes;
 
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'avatar','role_id','koperasi_id','kode_koperasi', 'email', 'password','settings','token_device'
+        'name', 'avatar','role_id','koperasi_id','kode_koperasi', 'email', 'password','settings','token_device','nik','alamat','kontak'
 
     ];
 
@@ -49,6 +58,9 @@ class User extends Authenticatable
     public static $rules_create=[
         'name'=>'required',
         'username'=>'required',
+        'nik'=>'required',
+        'kontak'=>'required',
+        'alamat'=>'required',
         'email'=>'required|email',
         'password'=>'required|confirmed',
     ];
@@ -69,5 +81,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(STDBProfile::class,'users_id');
     }
-
 }

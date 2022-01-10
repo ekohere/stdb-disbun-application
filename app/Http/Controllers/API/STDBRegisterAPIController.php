@@ -8,6 +8,7 @@ use App\Models\Persil;
 use App\Models\PolygonPersil;
 use App\Models\STDBDetailRegister;
 use App\Models\STDBPersil;
+use App\Models\STDBProfile;
 use App\Models\STDBRegister;
 use App\Models\STDBRegisterHasSTDBStatus;
 use App\Repositories\STDBRegisterRepository;
@@ -214,7 +215,7 @@ class STDBRegisterAPIController extends AppBaseController
                 $geometry['coordinates'] = [$coordinat];
                 $geojson = strval(json_encode($geometry));
                 $geom = DB::connection('pgsql')->raw("ST_GeomFromGeoJSON('$geojson')");
-                $area = DB::connection('pgsql')->raw("ST_Area(ST_GeomFromGeoJSON('$geojson'))");
+                $area = DB::connection('pgsql')->raw("ST_Area(ST_GeomFromGeoJSON('$geojson',false))*POWER(0.3048,2)");
                 $polygonPersil = PolygonPersil::create([
                     "geom" => $geom,
                     "area" => $area
@@ -253,21 +254,34 @@ class STDBRegisterAPIController extends AppBaseController
 
     public function storeByNonKoperasi(Request $request)
     {
-        $input = $request->except('polygon');
+        $input = $request->all();
         $input['users_id'] = Auth::id();
+        $input['pemilik_kebun']['users_id'] = Auth::id();
 
         try{
             DB::beginTransaction();
-
+            //TODO create stdb pemilik kebun
+            $stdbPemilikKebun = STDBProfile::create($input['pemilik_kebun']);
+            $stdbPemilikKebun->save();
             //TODO create stdb regis
             $stdbRegis = STDBRegister::create($input);
             $stdbRegis->save();
 
             //TODO set polygon to table polygon_persil and bound to table stdb_persil
             foreach ($input['data_persil'] as $item){
-                $geojson = strval(json_encode($item['polygon']['features'][0]['geometry']));
+                $newCoordinat = [];
+                $coordinat = [];
+                foreach ($item['polygon']['coordinates'] as $coordinate){
+                    $newCoordinat[0] = $coordinate['longitude'];
+                    $newCoordinat[1] = $coordinate['latitude'];
+                    array_push($coordinat,$newCoordinat);
+                }
+                $geometry['type'] = "Polygon";
+                $geometry['coordinates'] = [$coordinat];
+                $geojson = strval(json_encode($geometry));
                 $geom = DB::connection('pgsql')->raw("ST_GeomFromGeoJSON('$geojson')");
-                $area = DB::connection('pgsql')->raw("ST_Area(ST_GeomFromGeoJSON('$geojson',false))*POWER(0.3048,2)");
+//                $area = DB::connection('pgsql')->raw("ST_Area(ST_GeomFromGeoJSON('$geojson'))");
+                $area = DB::connection('pgsql')->raw("ST_Area(ST_GeomFromGeoJSON('$geojson'))*POWER(0.3048,2)");
                 $polygonPersil = PolygonPersil::create([
                     "geom" => $geom,
                     "area" => $area
@@ -292,8 +306,6 @@ class STDBRegisterAPIController extends AppBaseController
                 $item['stdb_persil_id'] = $persil->id;
                 $stdbDetail = STDBDetailRegister::create($item);
                 $stdbDetail->save();
-
-                //$polygonPersil = DB::connection('pgsql')->insert("insert into polygon_persil(geom,area) values(ST_GeomFromGeoJSON('$geojson'),ST_Area(ST_GeomFromGeoJSON('$geojson')))");
             }
 
             //TODO create status stdb regis
