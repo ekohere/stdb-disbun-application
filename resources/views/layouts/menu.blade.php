@@ -33,26 +33,21 @@
 <li class="{{ Request::is('sTDBStatuses*') ? 'active' : '' }}">
     <a href="{!! route('sTDBStatuses.index') !!}"><i class="fa fa-info-circle"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Jenis Status STDB</span></a>
 </li>
-
-<li class="nav-item"><a href="#"><i class="fa fa-users"></i><span class="menu-title" data-i18n="nav.dash.main">Pengaturan User</span></a>
-    <ul class="menu-content">
-        @can('users.index')
+@role('admin')
+    <li class="nav-item"><a href="#"><i class="fa fa-users"></i><span class="menu-title" data-i18n="nav.dash.main">Pengaturan User</span></a>
+        <ul class="menu-content">
             <li class="{{ Request::is('users*') ? 'active' : '' }}">
                 <a href="{!! route('users.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Akun Pengguna</span></a>
             </li>
-        @endcan
-        @can('permissions.index')
             <li class="{{ Request::is('permissions*') ? 'active' : '' }}">
                 <a href="{!! route('permissions.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Permissions</span></a>
             </li>
-        @endcan
-        @can('roles.index')
             <li class="{{ Request::is('roles*') ? 'active' : '' }}">
                 <a href="{!! route('roles.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Roles</span></a>
             </li>
-        @endcan
-    </ul>
-</li>
+        </ul>
+    </li>
+@endrole
 
 {{-- <li class="{{ Request::is('profil*') ? 'active' : '' }}">
     <a href="{!! route('profil') !!}"><i class="fa fa-user"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Akun</span></a>
