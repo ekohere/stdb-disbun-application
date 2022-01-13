@@ -1,16 +1,15 @@
 <!-- Sudah di modifikasi -->
-<div class="col-sm-12 align-items-center float-sm-none" id="div-loading"></div>
 
 <div class="card-content rounded-1 box-shadow-1 mt-3 p-0-1">
     <div name="mapPrev" id="mapPrev" style="height: 500px" class="m-0-1">
     </div>
+    <div class="col-sm-12 align-items-center float-sm-none" id="div-loading"></div>
 </div>
 <div class="border-left-green border-left-6 card-content rounded-1 box-shadow-1 mt-3 p-0-1">
     <div class="p-2">
         <h3 class="font-weight-bold mb-1">Status Persil</h3>
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
             <h6>Persil {{$key+1}}: <span class="badge bg-blue bg-lighten-2 mb-0-1">Clean and Clear</span></h6>
-{{--            <h6>Persil 2: <span class="badge bg-warning bg-darken-2 mb-0-1">4% Masuk Kawasan Hutan (0.1 Ha)</span></h6>--}}
         @endforeach
         <a href="{!! route('sTDBRegisters.verify', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue">Verifikasi</a>
     </div>
@@ -200,7 +199,31 @@
     }).addTo(newMap);
     layerGroup.addTo(newMap);
 
-
+    function callPolygonPersilByID(PolygonPersilID) {
+        //
+        $("#div-loading").show();
+        $("#div-loading").append(
+            "<div id=\"pre-loader\">\n" +
+            "        <img src=\"{{ asset('asset-web/images/pre-loader/loader-01.svg') }}\" alt=\"\">\n" +
+            "    </div>"
+        );
+        $.ajax({url:'{{env('APP_URL').'/api/get_polygon/'}}'+PolygonPersilID,
+            success: function (response) {
+                if (Array.isArray(response.features) && response.features.length){
+                    drawPolygon(response);
+                }else {
+                    alert("Data Persil Kosong");
+                    $("#div-loading").hide();
+                    $("#pre-loader").hide();
+                }
+            },
+            error: function (xhr, status, error){
+                $("#div-loading").hide();
+                $("#pre-loader").hide();
+                alert("Error:"+error);
+            }
+        });
+    }
 
     //TODO call polygon persil
     function callPolygonPersil() {
@@ -210,7 +233,7 @@
             "        <img src=\"{{ asset('asset-web/images/pre-loader/loader-01.svg') }}\" alt=\"\">\n" +
             "    </div>"
         );
-        $.ajax({url:'{{\Config::get(env('APP_URL')).'/api/get_polygon/'.$sTDBRegister->id}}',
+        $.ajax({url:'{{env('APP_URL').'/api/get_polygon/'.$sTDBRegister->id}}',
             success: function (response) {
                 if (Array.isArray(response.features) && response.features.length){
                     drawPolygon(response);
@@ -265,5 +288,8 @@
     // }
     $(document).ready(function() {
         callPolygonPersil();
+{{--        @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)--}}
+{{--            callPolygonPersilByID({!! $item->persil->polygon_persil_id !!});--}}
+{{--        @endforeach--}}
     });
 </script>
