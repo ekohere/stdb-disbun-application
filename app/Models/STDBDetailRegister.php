@@ -25,7 +25,7 @@ class STDBDetailRegister extends Model
     use HasFactory;
 
     public $table = 'stdb_detail_regis';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -79,7 +79,7 @@ class STDBDetailRegister extends Model
      **/
     public function stdbPersil()
     {
-        return $this->belongsTo(\App\Models\StdbPersil::class, 'stdb_persil_id');
+        return $this->belongsTo(\App\Models\STDBPersil::class, 'stdb_persil_id');
     }
 
     /**
@@ -87,6 +87,6 @@ class STDBDetailRegister extends Model
      **/
     public function stdbRegister()
     {
-        return $this->belongsTo(\App\Models\StdbRegister::class, 'stdb_register_id');
+        return $this->belongsTo(\App\Models\STDBRegister::class, 'stdb_register_id');
     }
 }
