@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateSTDBDetailRegisterAPIRequest;
 use App\Http\Requests\API\UpdateSTDBDetailRegisterAPIRequest;
+use App\Models\PolygonPerkebunanKutim;
 use App\Models\PolygonPersil;
 use App\Models\STDBDetailRegister;
 use App\Repositories\STDBDetailRegisterRepository;
@@ -173,6 +174,41 @@ class STDBDetailRegisterAPIController extends AppBaseController
             $geometry =$item->geom;
             unset($item->geom);
             $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>$infoPersil[$key]];
+            array_push($features,$feature);
+        }
+        $featureCollections = [
+            'type'=>'FeatureCollection',
+            'features'=>$features
+        ];
+        return  response()->json($featureCollections);
+    }
+
+    public function clearAndClean(){
+        $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_difference(polygon_persil.geom, rtrw_perkebunan_kutim.geom)) from polygon_persil, rtrw_perkebunan_kutim where polygon_persil.id = 52"));
+
+        $features=[];
+        foreach ($geom as $key=>$item){
+            $geometry = json_decode($item->st_asgeojson,true);
+            unset($item->st_asgeojson);
+            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>[]];
+            array_push($features,$feature);
+        }
+        $featureCollections = [
+            'type'=>'FeatureCollection',
+            'features'=>$features
+        ];
+        return response()->json($featureCollections);
+
+    }
+
+    public function getPolygonPerkebunan()
+    {
+        $kutimPerkebunan = PolygonPerkebunanKutim::all();
+        $features=[];
+        foreach ($kutimPerkebunan as $key=>$item){
+            $geometry =$item->geom;
+            unset($item->geom);
+            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>$item[$key]];
             array_push($features,$feature);
         }
         $featureCollections = [

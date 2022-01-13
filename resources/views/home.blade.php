@@ -8,7 +8,7 @@
                         <div class="p-2 bg-success text-white media-body text-left rounded-left">
                             <h5 class="text-white">Total Pengajuan STDB</h5>
                             {{-- <h4 class="text-white text-bold-600 mb-0">{{ \App\Models\Post::count() }}</h4> --}}
-                            <h4 class="text-white text-bold-600 mb-0">0</h4>
+                            <h4 class="text-white text-bold-600 mb-0">{{$stdbRegis}}</h4>
                         </div>
                         <div class="p-2 text-center bg-success bg-darken-2 rounded-right">
                             <i class="icon-book-open font-large-2 text-white"></i>
@@ -23,7 +23,7 @@
                         <div class="p-2 bg-warning text-white media-body text-left rounded-left">
                             <h5 class="text-white">STDB Dalam Proses</h5>
                             {{-- <h4 class="text-white text-bold-600 mb-0">{{ \App\Models\Agenda::count() }}</h4> --}}
-                            <h4 class="text-white text-bold-600 mb-0">0</h4>
+                            <h4 class="text-white text-bold-600 mb-0">{{$stdbRegisProcess}}</h4>
                         </div>
                         <div class="p-2 text-center bg-warning bg-darken-2 rounded-right">
                             <i class="icon-calendar font-large-2 text-white"></i>
@@ -39,7 +39,7 @@
                         <div class="p-2 bg-danger text-white media-body text-left rounded-left">
                             <h5 class="text-white">Total Persil STDB</h5>
                             {{-- <h4 class="text-white text-bold-600 mb-0">{{ \App\Models\Galeri::count() }}</h4> --}}
-                            <h4 class="text-white text-bold-600 mb-0">0</h4>
+                            <h4 class="text-white text-bold-600 mb-0">{{$stdbDetail}}</h4>
                         </div>
                         <div class="p-2 text-center bg-danger bg-darken-2 rounded-right">
                             <i class="icon-picture font-large-2 text-white"></i>
@@ -53,7 +53,7 @@
                         <div class="p-2 bg-info text-white media-body text-left rounded-left">
                             <h5 class="text-white">Total STDB Verified</h5>
                             {{-- <h4 class="text-white text-bold-600 mb-0">{{ \App\Models\Person::count() }}</h4> --}}
-                            <h4 class="text-white text-bold-600 mb-0">0</h4>
+                            <h4 class="text-white text-bold-600 mb-0">{{$stdbRegisVerified}}</h4>
                         </div>
                         <div class="p-2 text-center bg-info bg-darken-2 rounded-right">
                             <i class="icon-user font-large-2 text-white"></i>

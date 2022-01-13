@@ -18,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
    return redirect('login');
 });
+Route::get('/tesClear',function (){
+    return view('map_clean_testing');
+});
 
 Auth::routes();
 Route::group(['middleware' => ['auth']], function () {

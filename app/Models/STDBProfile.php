@@ -109,4 +109,9 @@ class STDBProfile extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'users_id');
     }
+
+    public function stdbPersil()
+    {
+        return $this->hasMany(\App\Models\STDBPersil::class, 'stdb_pemilik_kebun_id');
+    }
 }

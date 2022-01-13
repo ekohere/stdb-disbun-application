@@ -19,7 +19,7 @@
                     <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>
                     <li class="dropdown nav-item mega-dropdown">
                         <a class="nav-link text-uppercase black text-bold-800">
-                            DASHBOARD ADMINISTRATOR
+                            DASHBOARD {!! \Illuminate\Support\Facades\Auth::user()->getRoleNames()->first() !!}
                         </a>
                     </li>
                 </ul>

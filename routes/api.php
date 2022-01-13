@@ -22,6 +22,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('get_polygon/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonByIdRegister']);
+Route::get('testing_clear_clean',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'clearAndClean']);
+Route::get('rtrw_perkebunan',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonPerkebunan']);
 
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

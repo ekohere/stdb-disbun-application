@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSTDBRegisterHasSTDBStatusRequest;
 use App\Http\Requests\UpdateSTDBRegisterHasSTDBStatusRequest;
+use App\Models\STDBRegisterHasSTDBStatus;
 use App\Repositories\STDBRegisterHasSTDBStatusRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
@@ -29,7 +30,7 @@ class STDBRegisterHasSTDBStatusController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $sTDBRegisterHasSTDBStatuses = $this->sTDBRegisterHasSTDBStatusRepository->all();
+        $sTDBRegisterHasSTDBStatuses = STDBRegisterHasSTDBStatus::all();
 
         return view('s_t_d_b_register_has_s_t_d_b_statuses.index')
             ->with('sTDBRegisterHasSTDBStatuses', $sTDBRegisterHasSTDBStatuses);

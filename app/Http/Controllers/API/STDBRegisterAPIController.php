@@ -214,8 +214,8 @@ class STDBRegisterAPIController extends AppBaseController
                 $geometry['type'] = "Polygon";
                 $geometry['coordinates'] = [$coordinat];
                 $geojson = strval(json_encode($geometry));
-                $geom = DB::connection('pgsql')->raw("ST_GeomFromGeoJSON('$geojson')");
-                $area = DB::connection('pgsql')->raw("ST_Area(ST_GeomFromGeoJSON('$geojson',false))*POWER(0.3048,2)");
+                $geom = DB::connection('pgsql')->raw("ST_SetSRID(ST_GeomFromGeoJSON('$geojson'),4326)");
+                $area = DB::connection('pgsql')->raw("ST_Area(ST_SetSRID(ST_GeomFromGeoJSON('$geojson'),4326))/10000");
                 $polygonPersil = PolygonPersil::create([
                     "geom" => $geom,
                     "area" => $area
@@ -291,6 +291,7 @@ class STDBRegisterAPIController extends AppBaseController
                 //TODO create to table stdb_persil
                 $item['persil']['polygon_persil_id'] = $polygonPersil->id;
                 $item['persil']['users_id'] = Auth::id();
+                $item['persil']['stdb_pemilik_kebun_id'] = $stdbPemilikKebun->id;
                 $item['persil']['mitra_pengolahan'] = json_encode($item['persil']['mitra_pengolahan']);
                 $item['persil']['total_biaya_produksi'] = $item['persil']['pupuk_tambah_upah'] +
                                                           $item['persil']['pestisida_tambah_upah'] +

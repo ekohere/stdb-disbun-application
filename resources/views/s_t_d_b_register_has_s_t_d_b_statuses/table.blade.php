@@ -7,6 +7,7 @@
     <thead>
     <tr>
         <th><code>#</code></th>
+        <th>Stdb Register Id</th>
         <th>Stdb Status</th>
         <th>Message</th>
         <th style="text-align: center">Action</th>
@@ -19,6 +20,21 @@
     @foreach($sTDBRegisterHasSTDBStatuses as $sTDBRegisterHasSTDBStatus)
         <tr>
             <td>{!! $no++ !!}</td>
+            @if(!empty($sTDBRegisterHasSTDBStatus->stdbRegister->anggota_id))
+                <td>
+                    Koperasi<br><span class="badge bg-green">{{$sTDBRegisterHasSTDBStatus->stdbRegister->anggota->koperasi->nama_koperasi}}</span>
+                    <hr class="border-1 mt-1 mb-0">
+                    Nama Pengaju<br><span class="badge badge-blue">{{$sTDBRegisterHasSTDBStatus->stdbRegister->anggota->nama_ktp}}</span>
+                </td>
+            @else
+                <td>
+                    Koperasi<br><span class="badge bg-red">Non Koperasi</span>
+                    <hr class="border-1">
+                    Nama Pengaju<br><span class="badge badge-blue">{{$sTDBRegisterHasSTDBStatus->stdbRegister->stdbDetailRegis[0]->stdbPersil->stdbPemilikKebun->nama_ktp}}</span>
+                    <hr class="border-1">
+                </td>
+            @endif
+            <td>{!! $sTDBRegisterHasSTDBStatus->stdb_register_id !!}</td>
             <td>{!! $sTDBRegisterHasSTDBStatus->stdb_status_id !!}</td>
             <td>{!! $sTDBRegisterHasSTDBStatus->message !!}</td>
             <td>

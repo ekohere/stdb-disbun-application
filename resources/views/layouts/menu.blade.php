@@ -26,9 +26,9 @@
     <a href="{!! route('sTDBRegisterStatuses.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Status Pengajuan STDB</span></a>
 </li>
 
-<li class="{{ Request::is('sTDBPersils*') ? 'active' : '' }}">
-    <a href="{!! route('sTDBPersils.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Data Persil STDB</span></a>
-</li>
+{{--<li class="{{ Request::is('sTDBPersils*') ? 'active' : '' }}">--}}
+{{--    <a href="{!! route('sTDBPersils.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Data Persil STDB</span></a>--}}
+{{--</li>--}}
 
 <li class="{{ Request::is('sTDBStatuses*') ? 'active' : '' }}">
     <a href="{!! route('sTDBStatuses.index') !!}"><i class="fa fa-info-circle"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Jenis Status STDB</span></a>

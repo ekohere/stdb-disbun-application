@@ -70,6 +70,7 @@ class STDBPersil extends Model
 
     public $fillable = [
         'users_id',
+        'stdb_pemilik_kebun_id',
         'no_petak_peta',
         'luas_lahan_peta',
         'nama_peta',
@@ -227,12 +228,17 @@ class STDBPersil extends Model
         return $this->belongsTo(\App\Models\User::class, 'users_id');
     }
 
+    public function stdbPemilikKebun()
+    {
+        return $this->belongsTo(\App\Models\STDBProfile::class, 'stdb_pemilik_kebun_id');
+    }
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      **/
     public function stdbDetailRegis()
     {
-        return $this->hasMany(\App\Models\StdbDetailRegi::class, 'stdb_persil_id');
+        return $this->hasMany(\App\Models\STDBDetailRegister::class, 'stdb_persil_id');
     }
 
     public function geo()
