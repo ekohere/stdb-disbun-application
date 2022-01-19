@@ -49,6 +49,10 @@
     </li>
 @endrole
 
+{{--<li class="{{ Request::is('anggotas*') ? 'active' : '' }}">--}}
+{{--    <a href="{!! route('anggotas.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Anggota</span></a>--}}
+{{--</li>--}}
+
 {{-- <li class="{{ Request::is('profil*') ? 'active' : '' }}">
     <a href="{!! route('profil') !!}"><i class="fa fa-user"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Akun</span></a>
 </li>
@@ -303,9 +307,9 @@
 </li>
 
  --}}
-{{--<li class="{{ Request::is('anggotas*') ? 'active' : '' }}">--}}
-{{--    <a href="{!! route('anggotas.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Anggotas</span></a>--}}
-{{--</li>--}}
+<li class="{{ Request::is('anggotas*') ? 'active' : '' }}">
+    <a href="{!! route('anggotas.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Anggotas</span></a>
+</li>
 
 {{--<li class="{{ Request::is('persils*') ? 'active' : '' }}">--}}
 {{--    <a href="{!! route('persils.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Persils</span></a>--}}
@@ -450,3 +454,7 @@
 {{--<li class="{{ Request::is('koperasis*') ? 'active' : '' }}">--}}
 {{--    <a href="{!! route('koperasis.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Koperasis</span></a>--}}
 {{--</li>--}}
+<li class="{{ Request::is('desas*') ? 'active' : '' }}">
+    <a href="{!! route('desas.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Desas</span></a>
+</li>
+

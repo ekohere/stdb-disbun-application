@@ -13,6 +13,7 @@
 <!-- Setiap component memiliki style JSnya sendiri -->
 <!-- Acuan pada template Robus Pro -->
 <!--------------------------------------------------------------------------------------------------------------------->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <!--------------------------------------------------------------------------------------------------------------------->
 <!-- Check Box Style -->
 <script src="{{asset('master/app-assets/vendors/js/forms/icheck/icheck.min.js')}}" type="text/javascript"></script>

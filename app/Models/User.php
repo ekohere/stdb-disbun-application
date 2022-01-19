@@ -33,7 +33,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'avatar','role_id','koperasi_id','kode_koperasi', 'email', 'password','settings','token_device','nik','alamat','kontak'
+        'name', 'avatar','role_id','koperasi_id','kode_koperasi', 'desa_id', 'verified', 'email', 'password','settings','token_device','nik','alamat','kontak'
 
     ];
 
@@ -77,8 +77,16 @@ class User extends Authenticatable
     {
         return $this->belongsTo(\App\Models\Koperasi::class,'koperasi_id');
     }
+    public function desa()
+    {
+        return $this->belongsTo(\App\Models\Desa::class,'desa_id');
+    }
     public function stdbProfile()
     {
         return $this->hasOne(STDBProfile::class,'users_id');
+    }
+    public function anggota()
+    {
+        return $this->hasOne(Anggota::class,'users_id');
     }
 }

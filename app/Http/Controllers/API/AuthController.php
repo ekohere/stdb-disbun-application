@@ -2,17 +2,19 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\AppBaseController;
 use App\Http\Controllers\Controller;
+use App\Models\Anggota;
 use App\Models\Koperasi;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Auth;
 use Mockery\Exception;
 use Validator;
 use App\Models\User;
 
-class AuthController extends Controller
+class AuthController extends AppBaseController
 {
     public function register(Request $request)
     {
@@ -81,7 +83,7 @@ class AuthController extends Controller
         try {
             DB::beginTransaction();
 
-            $users= \Illuminate\Support\Facades\Auth::user();
+            $users= Auth::user();
             $users->token_device=$input['token_device'];
             $users->save();
 
@@ -91,5 +93,26 @@ class AuthController extends Controller
             DB::rollBack();
             return $this->sendError($e->getMessage());
         }
+    }
+
+    public function syncDataAnggotaPersil()
+    {
+        if (Auth::user()->kode_koperasi===0)
+        {
+            if (Auth::user()->role_id==6){
+                $data = Anggota::with(['persils'])->whereHas('users',function ($query){
+                    $query->where('desa_id',Auth::user()->desa_id);
+                })->get();
+            }else{
+                $data = Anggota::with(['persils'])->where('users_id',Auth::id())->get();
+            }
+        }
+        else{
+            $data = Anggota::with(['persils','koperasi'])->whereHas('koperasi',function ($query){
+                $query->where('id',Auth::user()->koperasi_id);
+            })->get();
+        }
+
+        return $this->sendResponse($data,'Data retrieved successfully');
     }
 }

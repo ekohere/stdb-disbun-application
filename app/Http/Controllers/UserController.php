@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Models\Desa;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Http\Controllers\AppBaseController;
@@ -44,7 +45,8 @@ class UserController extends AppBaseController
      */
     public function create()
     {
-        return view('users.create');
+        $desa = Desa::pluck('nama_desa','id');
+        return view('users.create',compact('desa'));
     }
 
     /**
@@ -112,6 +114,7 @@ class UserController extends AppBaseController
      */
     public function edit($id)
     {
+        $desa = Desa::pluck('nama_desa','id');
         $user = $this->userRepository->find($id);
 
         if (empty($user)) {
@@ -120,7 +123,7 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        return view('users.edit')->with('user', $user);
+        return view('users.edit',compact('desa'))->with('user', $user);
     }
 
     /**

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateSTDBDetailRegisterAPIRequest;
 use App\Http\Requests\API\UpdateSTDBDetailRegisterAPIRequest;
+use App\Models\Persil;
 use App\Models\PolygonPerkebunanKutim;
 use App\Models\PolygonPersil;
 use App\Models\STDBDetailRegister;
@@ -183,8 +184,47 @@ class STDBDetailRegisterAPIController extends AppBaseController
         return  response()->json($featureCollections);
     }
 
-    public function clearAndClean(){
-        $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_difference(polygon_persil.geom, rtrw_perkebunan_kutim.geom)) from polygon_persil, rtrw_perkebunan_kutim where polygon_persil.id = 52"));
+    public function getPolygonPersilById($id)
+    {
+        $infoPersil = Persil::where('polygon_persil_id',$id)->get()->first();
+        $polygonPersil = PolygonPersil::where('id',$id)->get();
+        $features=[];
+        foreach ($polygonPersil as $key=>$item){
+            $infoPersil['area'] = $item->area*0.3048^2;
+            $geometry =$item->geom;
+            unset($item->geom);
+            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>$infoPersil];
+            array_push($features,$feature);
+        }
+        $featureCollections = [
+            'type'=>'FeatureCollection',
+            'features'=>$features
+        ];
+        return response()->json($featureCollections);
+    }
+
+    public function getPolygonCleanById($id)
+    {
+        $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_difference(polygon_persil.geom, st_transform(rtrw_perkebunan_disolve.geom,4326))) from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = $id"));
+
+        $area_not_clean = DB::connection('pgsql')->select(DB::raw("select ST_area(st_difference(polygon_persil.geom, st_transform(rtrw_perkebunan_disolve.geom,4326)),true)/10000 as area from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = $id"));
+        $area_in_float = floatval($area_not_clean[0]->area);
+        $features=[];
+        foreach ($geom as $key=>$item){
+            $geometry = json_decode($item->st_asgeojson,true);
+            unset($item->st_asgeojson);
+            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>['area'=>number_format($area_in_float,0,',','.')]];
+            array_push($features,$feature);
+        }
+        $featureCollections = [
+            'type'=>'FeatureCollection',
+            'features'=>$features
+        ];
+        return response()->json($featureCollections);
+
+    }
+    public function clearAndClean($id){
+        $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_difference(polygon_persil.geom, st_transform(rtrw_perkebunan_disolve.geom,4326))) from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = 77"));
 
         $features=[];
         foreach ($geom as $key=>$item){
@@ -206,9 +246,23 @@ class STDBDetailRegisterAPIController extends AppBaseController
         $kutimPerkebunan = PolygonPerkebunanKutim::all();
         $features=[];
         foreach ($kutimPerkebunan as $key=>$item){
-            $geometry =$item->geom;
+            $properties['peta'] = $item->peta;
+            $properties['rtrwk_2032'] = $item->rtrwk_2032;
+            $properties['sk_554'] = $item->sk_554;
+            $properties['ekse_4'] = $item->ekse_4;
+            $properties['ekse_5'] = $item->ekse_5;
+            $properties['peruntuk_r'] = $item->peruntuk_r;
+            $properties['pola_ruang'] = $item->pola_ruang;
+            $properties['outline'] = $item->outline;
+            $properties['perimeter'] = $item->perimeter;
+            $properties['area'] = $item->area;
+            $properties['acres'] = $item->acres;
+            $properties['hectares'] = $item->hectares;
+            $properties['kab'] = $item->kab;
+
+            $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_transform(rtrw_perkebunan.geom,4326)) from rtrw_perkebunan where id='$item->id'"));
             unset($item->geom);
-            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>$item[$key]];
+            $feature=['type'=>'Feature', 'geometry'=>json_decode($geom[0]->st_asgeojson),'properties'=>$properties];
             array_push($features,$feature);
         }
         $featureCollections = [

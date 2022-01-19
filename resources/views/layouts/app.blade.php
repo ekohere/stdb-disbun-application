@@ -15,6 +15,43 @@
         <link href="{{asset('master/app-assets/css/font.css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Muli:300,400,500,700')}}" rel="stylesheet">
         @include('layouts.css')
         @yield('css')
+        <style>
+            /*Legend specific*/
+            .legend {
+                padding: 6px 8px;
+                font: 14px Arial, Helvetica, sans-serif;
+                background: white;
+                background: rgba(255, 255, 255, 0.8);
+                /*box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);*/
+                /*border-radius: 5px;*/
+                line-height: 24px;
+                color: #555;
+            }
+            .legend h4 {
+                text-align: center;
+                font-size: 16px;
+                margin: 2px 12px 8px;
+                color: #777;
+            }
+
+            .legend span {
+                position: relative;
+                bottom: 3px;
+            }
+
+            .legend i {
+                width: 18px;
+                height: 18px;
+                float: left;
+                margin: 0 8px 0 0;
+                opacity: 0.7;
+            }
+
+            .legend i.icon {
+                background-size: 18px;
+                background-color: rgba(255, 255, 255, 1);
+            }
+        </style>
     </head>
     <body class="vertical-layout vertical-mmenu 2-columns menu-expanded fixed-navbar" data-open="click" data-menu="vertical-mmenu" data-col="2-columns">
         @include('layouts.toolbar')
@@ -29,7 +66,6 @@
         </div>
 
         @include('layouts.js')
-
         @yield('scripts')
 
     </body>

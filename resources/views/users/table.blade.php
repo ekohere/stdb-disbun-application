@@ -10,7 +10,6 @@
         <th>Role</th>
         <th>Name</th>
         <th>Email</th>
-        <th>Avatar</th>
         <th style="text-align: center">Action</th>
     </tr>
     </thead>
@@ -21,10 +20,15 @@
     @foreach($users as $user)
         <tr>
             <td>{!! $no++ !!}</td>
-            <td>{!! !empty($user->roles[0]['name'])?$user->roles[0]['name']:"-" !!}</td>
-            <td>{!! $user->name !!}</td>
+            <td>
+                {!! !empty($user->roles[0]['name'])?$user->roles[0]['name']:"-" !!}
+            </td>
+            <td>
+                {!! $user->name !!}
+                <hr class="m-0-1">
+                <img src="{{!empty($user->avatar)?asset($user->avatar):asset('image/blank_profile.png')}}" width="200px">
+            </td>
             <td>{!! $user->email !!}</td>
-            <td><img src="{{asset($user->avatar)}}" width="200px"></td>
             <td>
                 {!! Form::open(['route' => ['users.destroy', $user->id], 'method' => 'delete']) !!}
                 <div class="btn-group" role="group" aria-label="Basic example">

@@ -24,19 +24,33 @@
         </div>
     </div>
 
-    <div class="col-6 form-group">
+    <div class="col-4 form-group">
         {!! Form::label('nik', 'NIK:') !!}
         <div class="position-relative">
             {!! Form::text('nik', null, ['class' => 'form-control']) !!}
         </div>
     </div>
 
-    <div class="col-6 form-group">
+    <div class="col-4 form-group">
         {!! Form::label('kontak', 'Kontak:') !!}
         <div class="position-relative">
             {!! Form::text('kontak', null, ['class' => 'form-control']) !!}
         </div>
     </div>
+
+    <div class="col-4 form-group">
+        {!! Form::label('desa_id', 'Desa/kelurahan:') !!}
+        <div class="position-relative">
+            {!! Form::select('desa',$desa, null, ['class' => 'form-control','id'=>'desa']) !!}
+        </div>
+    </div>
+    @section('scripts')
+        <script>
+            $(document).ready(function() {
+                $('#desa').select2();
+            });
+        </script>
+    @endsection
 
     <div class="col-6 form-group">
         {!! Form::label('password', 'Password:') !!}
@@ -51,7 +65,7 @@
     <div class="col-6 form-group">
         {!! Form::label('re-password', 'Re-Password:') !!}
         <div class="position-relative has-icon-left">
-            {!! Form::password('password', ['class' => 'form-control']) !!}
+            {!! Form::password('re-password', ['class' => 'form-control']) !!}
             <div class="form-control-position">
                 <i class="fa fa-lock black"></i>
             </div>

@@ -42,7 +42,7 @@ class Anggota extends Model
     use HasFactory;
 
     public $table = 'anggota';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -55,6 +55,7 @@ class Anggota extends Model
         'kode_anggota',
         'koperasi_id',
         'kode_koperasi',
+        'users_id',
         'nama_ktp',
         'nomor_ktp',
         'tempat_lahir',
@@ -81,6 +82,7 @@ class Anggota extends Model
         'id' => 'integer',
         'kode_anggota' => 'string',
         'koperasi_id' => 'integer',
+        'users_id' => 'integer',
         'kode_koperasi' => 'string',
         'nama_ktp' => 'string',
         'nomor_ktp' => 'string',
@@ -134,6 +136,11 @@ class Anggota extends Model
     public function koperasi()
     {
         return $this->belongsTo(\App\Models\Koperasi::class, 'koperasi_id');
+    }
+
+    public function users()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'users_id');
     }
 
     /**

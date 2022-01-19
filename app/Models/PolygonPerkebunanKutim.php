@@ -10,7 +10,7 @@ class PolygonPerkebunanKutim extends Model
     use PostgisTrait;
     protected $connection = 'pgsql';
 
-    protected $table = 'rtrw_perkebunan_kutim';
+    protected $table = 'rtrw_perkebunan';
 
     protected $postgisFields = [
         'geom'

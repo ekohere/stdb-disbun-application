@@ -215,7 +215,7 @@ class STDBRegisterAPIController extends AppBaseController
                 $geometry['coordinates'] = [$coordinat];
                 $geojson = strval(json_encode($geometry));
                 $geom = DB::connection('pgsql')->raw("ST_SetSRID(ST_GeomFromGeoJSON('$geojson'),4326)");
-                $area = DB::connection('pgsql')->raw("ST_Area(ST_SetSRID(ST_GeomFromGeoJSON('$geojson'),4326))/10000");
+                $area = DB::connection('pgsql')->raw("ST_Area(ST_SetSRID(ST_GeomFromGeoJSON('$geojson'),4326),true)/10000");
                 $polygonPersil = PolygonPersil::create([
                     "geom" => $geom,
                     "area" => $area
@@ -281,7 +281,7 @@ class STDBRegisterAPIController extends AppBaseController
                 $geojson = strval(json_encode($geometry));
                 $geom = DB::connection('pgsql')->raw("ST_GeomFromGeoJSON('$geojson')");
 //                $area = DB::connection('pgsql')->raw("ST_Area(ST_GeomFromGeoJSON('$geojson'))");
-                $area = DB::connection('pgsql')->raw("ST_Area(ST_GeomFromGeoJSON('$geojson'))*POWER(0.3048,2)");
+                $area = DB::connection('pgsql')->raw("ST_Area(ST_GeomFromGeoJSON('$geojson')),true)");
                 $polygonPersil = PolygonPersil::create([
                     "geom" => $geom,
                     "area" => $area

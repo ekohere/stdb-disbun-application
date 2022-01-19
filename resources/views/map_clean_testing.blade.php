@@ -56,10 +56,36 @@
         }).addTo(newMap);
         layerGroup.addTo(newMap);
 
+        /*Legend specific*/
+        var legend = L.control({ position: "bottomright" });
+        legend.onAdd = function(map) {
+            var div = L.DomUtil.create("div", "legend");
+            div.innerHTML += "<h5 class='text-left'>Keterangan:</h5>";
+            div.innerHTML += '<i style="background: #5ded8c"></i><span class="small">RTRW Perkebunan Kutim</span><br>';
+            div.innerHTML += '<i style="background: #ed6a6d"></i><span class="small">Area persil diluar kawasan peruntukan perkebunan</span><br>';
+            div.innerHTML += '<i style="background: #87c1e6"></i><span class="small">Area persil</span><br>';
+            return div;
+        };
+        legend.addTo(newMap);
 
+        //TODO call polygon RTRW
+        function callPolygonRTRWPerkebunan() {
+            $.ajax({url:'{{env('APP_URL').'/api/rtrw_perkebunan'}}',
+                success: function (response) {
+                    if (Array.isArray(response.features) && response.features.length){
+                        drawPolygonPerkebunan(response);
+                    }else {
+                        alert("Data Persil Kosong");
+                    }
+                },
+                error: function (xhr, status, error){
+                    alert("Error:"+error);
+                }
+            });
+        }
 
-        //TODO call polygon persil
-        function callPolygonPersil() {
+        //TODO call Clean AND Clear
+        function callCleanClear() {
             $.ajax({url:'http://localhost:8000/api/testing_clear_clean',
                 success: function (response) {
                     if (Array.isArray(response.features) && response.features.length){
@@ -73,29 +99,47 @@
                 }
             });
         }
+        //TODO Draw Polygon rtrwPerkebunan After Call
+        function drawPolygonPerkebunan(poly){
+            datalayer = L.geoJson(poly.features,{
+                style: {
+                    color : '#5ded8c',
+                    weight:3,
+                    opacity:0.65
 
-        //TODO call polygon RTRW
-        function callPolygonRTRWPerkebunan() {
-            $.ajax({url:'{{env('APP_URL').'/api/rtrw_perkebunan'}}',
-                success: function (response) {
-                    if (Array.isArray(response.features) && response.features.length){
-                        drawPolygon(response);
-                    }else {
-                        alert("Data Persil Kosong");
-                    }
                 },
-                error: function (xhr, status, error){
-                    alert("Error:"+error);
+                onEachFeature: function(feature, featureLayer) {
+                    featureLayer.bindPopup(
+                        "Peta: "+feature.properties.peta+("<br>")+
+                        "rtrwk_2032: "+feature.properties.rtrwk_2032+("<br>")+
+                        "sk_554: "+feature.properties.sk_554+("<br>")+
+                        "ekse_4: "+feature.properties.ekse_4+("<br>")+
+                        "ekse_5: "+feature.properties.ekse_5+("<br>")+
+                        "peruntukan: "+feature.properties.peruntuk_r+("<br>")+
+                        "pola ruang: "+feature.properties.pola_ruang+("<br>")+
+                        "outline: "+feature.properties.outline+("<br>")+
+                        "perimeter: "+feature.properties.perimeter+("<br>")+
+                        "area: "+feature.properties.area+("<br>")+
+                        "acres: "+feature.properties.acres+("<br>")+
+                        "hectares: "+feature.properties.hectares+("<br>")+
+                        "kabupaten: "+feature.properties.kab+("<br>")
+                    );
                 }
             });
+            layerGroup.addLayer(datalayer);
+            newMap.fitBounds(datalayer.getBounds());
+            $("#div-loading").hide();
+            $("#pre-loader").hide();
         }
 
         //TODO Draw Polygon After Call
         function drawPolygon(poly){
             datalayer = L.geoJson(poly.features,{
                 style: {
-                    color : '#6495ED',
-                    weight:3
+                    color : '#ed6a6d',
+                    weight:3,
+                    opacity:0.65
+
                 },
                 onEachFeature: function(feature, featureLayer) {
                     // var luas = feature.properties.area;
@@ -126,8 +170,8 @@
         //     $("#cb-id-smg").prop('checked',false);
         // }
         $(document).ready(function() {
-            callPolygonPersil();
             callPolygonRTRWPerkebunan();
+            callCleanClear();
         });
     </script>
 
