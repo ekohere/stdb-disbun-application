@@ -4313,6 +4313,9 @@ button.bg-dark:focus {
 .rounded-2 {
   border-radius: 0.5rem !important; }
 
+.rounded-3 {
+    border-radius: 2rem !important; }
+
 .rounded-top {
   border-top-left-radius: 0.27rem !important;
   border-top-right-radius: 0.27rem !important; }

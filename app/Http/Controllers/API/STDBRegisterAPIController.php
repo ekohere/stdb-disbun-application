@@ -204,33 +204,38 @@ class STDBRegisterAPIController extends AppBaseController
 
             //TODO set polygon to table polygon_persil and bound to table persil anggota koperasi
             foreach ($input['data_persil'] as $item){
-                $newCoordinat = [];
-                $coordinat = [];
-                foreach ($item['coordinates'] as $coordinate){
-                    $newCoordinat[0] = $coordinate['longitude'];
-                    $newCoordinat[1] = $coordinate['latitude'];
-                    array_push($coordinat,$newCoordinat);
+                $cekDetailSTDBRegis = STDBDetailRegister::where('persil_id',$item['persil_id'])->get()->first();
+                if (empty($cekDetailSTDBRegis)){
+                    $newCoordinat = [];
+                    $coordinat = [];
+                    foreach ($item['coordinates'] as $coordinate){
+                        $newCoordinat[0] = $coordinate['longitude'];
+                        $newCoordinat[1] = $coordinate['latitude'];
+                        array_push($coordinat,$newCoordinat);
+                    }
+                    $geometry['type'] = "Polygon";
+                    $geometry['coordinates'] = [$coordinat];
+                    $geojson = strval(json_encode($geometry));
+                    $geom = DB::connection('pgsql')->raw("ST_SetSRID(ST_GeomFromGeoJSON('$geojson'),4326)");
+                    $area = DB::connection('pgsql')->raw("ST_Area(ST_SetSRID(ST_GeomFromGeoJSON('$geojson'),4326),true)/10000");
+                    $polygonPersil = PolygonPersil::create([
+                        "geom" => $geom,
+                        "area" => $area
+                    ]);
+                    $polygonPersil->save();
+
+                    //TODO update to table persil
+                    $persil = Persil::find($item['persil_id']);
+                    $persil->polygon_persil_id = $polygonPersil->id;
+                    $persil->save();
+
+                    //TODO create stdb_detail_regis(item persil)
+                    $item['stdb_register_id'] = $stdbRegis->id;
+                    $stdbDetail = STDBDetailRegister::create($item);
+                    $stdbDetail->save();
+                }else{
+                    return $this->sendError("ada persil yang sudah pernah didaftarkan: ".$cekDetailSTDBRegis->persil_id);
                 }
-                $geometry['type'] = "Polygon";
-                $geometry['coordinates'] = [$coordinat];
-                $geojson = strval(json_encode($geometry));
-                $geom = DB::connection('pgsql')->raw("ST_SetSRID(ST_GeomFromGeoJSON('$geojson'),4326)");
-                $area = DB::connection('pgsql')->raw("ST_Area(ST_SetSRID(ST_GeomFromGeoJSON('$geojson'),4326),true)/10000");
-                $polygonPersil = PolygonPersil::create([
-                    "geom" => $geom,
-                    "area" => $area
-                ]);
-                $polygonPersil->save();
-
-                //TODO update to table persil
-                $persil = Persil::find($item['persil_id']);
-                $persil->polygon_persil_id = $polygonPersil->id;
-                $persil->save();
-
-                //TODO create stdb_detail_regis(item persil)
-                $item['stdb_register_id'] = $stdbRegis->id;
-                $stdbDetail = STDBDetailRegister::create($item);
-                $stdbDetail->save();
 
                 //$polygonPersil = DB::connection('pgsql')->insert("insert into polygon_persil(geom,area) values(ST_GeomFromGeoJSON('$geojson'),ST_Area(ST_GeomFromGeoJSON('$geojson')))");
             }
