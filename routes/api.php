@@ -23,9 +23,13 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 Route::get('get_polygon/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonByIdRegister']);
 Route::get('get_polygon_persil/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonPersilById']);
-Route::get('get_polygon_clean/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonCleanById']);
-Route::get('testing_clear_clean',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'clearAndClean']);
+Route::get('get_polygon_clean_rtrw/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'ccRTRW']);
+Route::get('get_polygon_clean_apl/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class, 'ccAPL']);
 Route::get('rtrw_perkebunan',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonPerkebunan']);
+Route::get('apl_perkebunan',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonAPL']);
+
+//=============testing api disini
+//Route::get('testing_clear_clean',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'ccRTRW']);
 
 //Protecting Routes
 Route::group(['middleware' => ['auth:sanctum']], function () {

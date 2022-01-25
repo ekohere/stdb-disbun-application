@@ -40,7 +40,7 @@
                     <div class="login-fancy pos-r pb-0">
                         <div class="list-unstyled pos-bot">
                             <div class="list-inline-item d-flex">
-                                <img src="http://koperasi-sawit.kutaitimurkab.go.id/storage/settings/April2021/X07Arr4dYPYybtDkozL5.png" alt="" class="img-fluid height-70">
+                                <img src="{{asset("image/logo.png")}}" alt="" class="img-fluid height-70">
                                 <div class="pl-10 pt-1">
                                     <div class="text-white font-medium-3 text-bold-700 mb-0">DINAS PERKEBUNAN</div>
                                     <h6 class="text-white mb-0 text-bold-400">Selamat Datang di Portal E-STDB untuk pengajuan STDB</h6>

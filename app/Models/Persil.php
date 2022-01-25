@@ -144,8 +144,8 @@ class Persil extends Model
         'lampiran_shm',
         'lampiran_identitas',
         'lampiran_foto_anggota',
-        'geojson_persil',
-        'polygon_persil_id'
+        'polygon_persil_id',
+        'shp_polygon'
     ];
 
     /**
@@ -208,7 +208,7 @@ class Persil extends Model
         'lampiran_shm' => 'string',
         'lampiran_identitas' => 'string',
         'lampiran_foto_anggota' => 'string',
-        'geojson_persil' => 'string',
+        'shp_polygon' => 'string',
         'polygon_persil_id' => 'integer'
     ];
 

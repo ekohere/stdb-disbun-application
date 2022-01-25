@@ -59,12 +59,12 @@ class UserController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->except('avatar');
-        $input['role_id'] = 6;
+        $input['role_id'] = 7;
         try{
             DB::beginTransaction();
             $user = User::create($input);
             $user->password = bcrypt($input['password']);
-            $roles = ['id'=>6];
+            $roles = ['id'=>7];
             $user->roles()->sync([]);
             $user->assignRole($roles);
             //Upload Foto dan simpan path/url foto ke dalam database

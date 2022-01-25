@@ -5,12 +5,14 @@
 {{--        <div class="col-sm-12 align-items-center float-sm-none" id="div-loading"></div>--}}
     </div>
 </div>
-<div class="border-left-green border-left-6 card-content rounded-1 box-shadow-1 mt-3 p-0-1">
+<div class="border-top-green border-bottom-green border-top-3 bet border-bottom-3 card-content rounded-1 box-shadow-1 mt-3 p-0-1">
     <div class="p-2">
         <span class="float-right"> <input class="ml-0-1" type="checkbox" id="persil-out" onclick="callCleanAndClear(this)"><label>Cek Overlay</label></span>
         <h3 class="font-weight-bold mb-1">Status Persil</h3>
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
-            <h6>Persil {{$key+1}}: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-{!! $item->persil->polygon_persil_id !!}">-</span></h6>
+            <h6>Persil {{$key+1}}:</h6>
+            <p class="small text-bold-700 mb-0">RTRW: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-rtrw-{!! $item->persil->polygon_persil_id !!}">-</span></p>
+            <p class="small text-bold-700 mb-0">APL: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-apl-{!! $item->persil->polygon_persil_id !!}">-</span></p>
         @endforeach
         <a href="{!! route('sTDBRegisters.verify', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue">Verifikasi</a>
     </div>
@@ -186,11 +188,56 @@
         var div = L.DomUtil.create("div", "legend");
         div.innerHTML += "<h5 class='text-left'>Keterangan:</h5>";
         div.innerHTML += '<i style="background: #5ded8c"></i><span class="small">RTRW Perkebunan Kutim</span><br>';
+        div.innerHTML += '<i style="background: #ede666"></i><span class="small">APL Perkebunan</span><br>';
         div.innerHTML += '<i style="background: #87c1e6"></i><span class="small">Area persil</span><br>';
-        div.innerHTML += '<i style="background: #ed6a6d"></i><span class="small">Area persil diluar kawasan peruntukan perkebunan</span><br>';
+        div.innerHTML += '<i style="background: #ed6a6d"></i><span class="small">Area persil diluar rtrw</span><br>';
+        div.innerHTML += '<i style="background: #ed43ed"></i><span class="small">Area persil diluar apl</span><br>';
         return div;
     };
     legend.addTo(newMap);
+
+    //TODO call polygon APL
+    function callPolygonAPL() {
+        $.ajax({url:'{{env('APP_URL').'/api/apl_perkebunan'}}',
+            success: function (response) {
+                if (Array.isArray(response.features) && response.features.length){
+                    drawPolygonAPL(response);
+                }else {
+                    alert("Data Persil Kosong");
+                }
+            },
+            error: function (xhr, status, error){
+                alert("Error:"+error);
+            }
+        });
+    }
+
+    //TODO Draw Polygon APLPerkebunan After Call
+    function drawPolygonAPL(poly){
+        datalayer = L.geoJson(poly.features,{
+            style: {
+                color : '#ede666',
+                weight:3,
+                opacity:0.65
+
+            },
+            onEachFeature: function(feature, featureLayer) {
+                featureLayer.bindPopup(
+                    "fid_kaltim: "+feature.properties.fid_kaltim+("<br>")+
+                    "ekse_5: "+feature.properties.ekse_5+("<br>")+
+                    "kode: "+feature.properties.kode+("<br>")+
+                    "luas: "+feature.properties.luas+("<br>")+
+                    "sk_718: "+feature.properties.sk_718+("<br>")+
+                    "sk_278: "+feature.properties.sk_278+("<br>")+
+                    "sk_718_278: "+feature.properties.sk_718_278+("<br>")+
+                    "hektar: "+feature.properties.hektar+("<br>")
+                );
+            }
+        });
+        datalayer._leaflet_id = 1;
+        layerGroup.addLayer(datalayer);
+        newMap.fitBounds(datalayer.getBounds());
+    }
 
     //TODO call polygon RTRW
     function callPolygonRTRWPerkebunan() {
@@ -207,6 +254,7 @@
             }
         });
     }
+
     //TODO Draw Polygon rtrwPerkebunan After Call
     function drawPolygonPerkebunan(poly){
         datalayer = L.geoJson(poly.features,{
@@ -234,7 +282,7 @@
                 );
             }
         });
-        datalayer._leaflet_id = 1;
+        datalayer._leaflet_id = 2;
         layerGroup.addLayer(datalayer);
         newMap.fitBounds(datalayer.getBounds());
     }
@@ -278,13 +326,13 @@
         newMap.fitBounds(datalayer2.getBounds());
     }
 
-    //TODO call Polygon Clean & Clear
-    function callPolygonCleanClear(PolygonPersilID,elementCB) {
+    //TODO call Polygon CC RTRW
+    function callPolygonCCRTRW(PolygonPersilID,elementCB) {
         if (elementCB.checked){
-            $.ajax({url:'{{env('APP_URL').'/api/get_polygon_clean/'}}'+PolygonPersilID,
+            $.ajax({url:'{{env('APP_URL').'/api/get_polygon_clean_rtrw/'}}'+PolygonPersilID,
                 success: function (response) {
                     if (Array.isArray(response.features) && response.features.length){
-                        drawPolygonDifference(response,PolygonPersilID);
+                        drawPolygonDifferenceRTRW(response,PolygonPersilID);
                     }else {
                         alert("Data Persil Kosong");
                     }
@@ -298,20 +346,19 @@
                 layerGroup.removeLayer(900+PolygonPersilID);
             }
         }
-
     }
-    //TODO Drar Polygon Clean & Clear
-    function drawPolygonDifference(poly,id){
+    //TODO Draw Polygon CC RTRW
+    function drawPolygonDifferenceRTRW(poly,id){
         if(poly.features[0].geometry.type==="GeometryCollection"){
             if(poly.features[0].geometry.geometries.length===0){
-                document.getElementById("status-"+id).textContent = "Clear and Clean";
+                document.getElementById("status-rtrw-"+id).textContent = "Clear and Clean";
             }
         }else{
             if(poly.features[0].geometry.coordinates.length===0){
-                document.getElementById("status-"+id).textContent = "Clear and Clean";
+                document.getElementById("status-rtrw-"+id).textContent = "Clear and Clean";
             }else{
-                document.getElementById("status-"+id).textContent = "ada sebagian area diluar dari peruntukan perkebunan seluas: "+poly.features[0].properties.area+" Ha";
-                document.getElementById("status-"+id).className = "badge bg-danger bg-lighten-2 mb-0-1";
+                document.getElementById("status-rtrw-"+id).textContent = "ada sebagian area persil diluar dari RTRW: "+poly.features[0].properties.area+" Ha";
+                document.getElementById("status-rtrw-"+id).className = "badge bg-danger bg-lighten-2 mb-0-1";
                 // $("#status-"+id).val("ada sebagian area diluar dari peruntukan perkebunan seluas:"+poly.features[0].properties.area);
                 datalayer3 = L.geoJson(poly.features,{
                     style: {
@@ -320,14 +367,66 @@
                     },
                     onEachFeature: function(feature, featureLayer) {
                         featureLayer.bindPopup(
-                            "Luas diluar kawasan peruntukan perkebunan: "+feature.properties.area+" Ha"+("<br>")
+                            "Luas diluar RTRW: "+feature.properties.area+" Ha"+("<br>")
                         );
                     }
                 });
-                console.log(datalayer3);
                 datalayer3._leaflet_id = 900+id;
                 layerGroup.addLayer(datalayer3);
                 newMap.fitBounds(datalayer3.getBounds());
+            }
+
+        }
+    }
+
+    //TODO call Polygon CC APL
+    function callPolygonCCAPL(PolygonPersilID,elementCB) {
+        if (elementCB.checked){
+            $.ajax({url:'{{env('APP_URL').'/api/get_polygon_clean_apl/'}}'+PolygonPersilID,
+                success: function (response) {
+                    if (Array.isArray(response.features) && response.features.length){
+                        drawPolygonDifferenceAPL(response,PolygonPersilID);
+                    }else {
+                        alert("Data Persil Kosong");
+                    }
+                },
+                error: function (xhr, status, error){
+                    alert("Error:"+error);
+                }
+            });
+        }else{
+            if (layerGroup.hasLayer(1000+PolygonPersilID)){
+                layerGroup.removeLayer(1000+PolygonPersilID);
+            }
+        }
+    }
+    //TODO Draw Polygon CC APL
+    function drawPolygonDifferenceAPL(poly,id){
+        if(poly.features[0].geometry.type==="GeometryCollection"){
+            if(poly.features[0].geometry.geometries.length===0){
+                document.getElementById("status-apl-"+id).textContent = "Clear and Clean";
+            }
+        }else{
+            if(poly.features[0].geometry.coordinates.length===0){
+                document.getElementById("status-apl-"+id).textContent = "Clear and Clean";
+            }else{
+                document.getElementById("status-apl-"+id).textContent = "ada sebagian area persil diluar dari APL: "+poly.features[0].properties.area+" Ha";
+                document.getElementById("status-apl-"+id).className = "badge bg-danger bg-lighten-2 mb-0-1";
+                // $("#status-"+id).val("ada sebagian area diluar dari peruntukan perkebunan seluas:"+poly.features[0].properties.area);
+                datalayer4 = L.geoJson(poly.features,{
+                    style: {
+                        color : '#ed43ed',
+                        weight:3
+                    },
+                    onEachFeature: function(feature, featureLayer) {
+                        featureLayer.bindPopup(
+                            "Luas diluar APL: "+feature.properties.area+" Ha"+("<br>")
+                        );
+                    }
+                });
+                datalayer4._leaflet_id = 1000+id;
+                layerGroup.addLayer(datalayer4);
+                newMap.fitBounds(datalayer4.getBounds());
             }
 
         }
@@ -345,7 +444,8 @@
 
     function callCleanAndClear(elementCB) {
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
-        callPolygonCleanClear({!! $item->persil->polygon_persil_id !!},elementCB);
+        callPolygonCCRTRW({!! $item->persil->polygon_persil_id !!},elementCB);
+        callPolygonCCAPL({!! $item->persil->polygon_persil_id !!},elementCB);
         @endforeach
         {{--if (elementCB.checked){--}}
         {{--    --}}
@@ -360,6 +460,7 @@
 
     $(document).ready(function() {
         callPolygonRTRWPerkebunan();
+        callPolygonAPL();
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
             callPolygonPersilByID({!! $item->persil->polygon_persil_id !!});
         @endforeach
