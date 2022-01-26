@@ -78,6 +78,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/myclabs/php-enum" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nao-pon/flysystem-cached-extra" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nao-pon/flysystem-google-drive" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/nelexa/zip" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nesbot/carbon" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nicmart/tree" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/nikic/php-parser" />

@@ -41,19 +41,36 @@ class Geo2shp extends Command
      */
     public function handle()
     {
+        Storage::disk('public')->deleteDirectory('temp_shp');
+        Storage::disk('public')->makeDirectory('temp_shp');
+        $pathTemp = Storage::disk('public')->path('shp_polygon');
+
         $persil = Persil::whereNotNull('polygon_persil_id')->whereNull('shp_polygon')->first();
         if (!empty($persil)){
             try{
+                $fileName = 'id_'.$persil->id.'_'.$persil->nama_peta."_np_".$persil->no_petak_peta;
+                $command="cd ".$pathTemp."; pgsql2shp ".$fileName.".shp -h ".env("DB_HOST")." -u ".env("DB_USERNAME_PG")." -P ".
+                    env("DB_PASSWORD_PG")." -p ".env("DB_PORT_PG")." ".env("DB_DATABASE_PG").' "select * from polygon_persil where id='.$persil->polygon_persil_id.';"';
+                exec($command);
+
+                $zipFile = new \PhpZip\ZipFile();
+                try{
+                    $zipFile
+                        ->addDir(__DIR__, $pathTemp) // add files from the directory
+                        ->saveAsFile($fileName) // save the archive to a file
+                        ->close(); // close archive
+                }
+                catch(\PhpZip\Exception\ZipException $e){
+                    // handle exception
+                    return false;
+                }
+                finally{
+                    $zipFile->close();
+                }
+
                 DB::beginTransaction();
                 Storage::disk('public')->makeDirectory('shp_polygon');
-                $path = Storage::disk('public')->path('shp_polygon');
-                $name = 'id_'.$persil->id.'_'.$persil->nama_peta."_np_".$persil->no_petak_peta;
-
-                $command="cd ".$path."; pgsql2shp ".$name.".shp -h ".env("DB_HOST")." -u ".env("DB_USERNAME_PG")." -P ".
-                    env("DB_PASSWORD_PG")." -p ".env("DB_PORT_PG")." ".env("DB_DATABASE_PG").' "select * from polygon_persil where id='.$persil->polygon_persil_id.';"';
-                //dd($command);
-                exec($command);
-                $persil->shp_polygon = $path.$name;
+                $persil->shp_polygon = 'storage/shp_polygon/'.$fileName.'.shp';
                 DB::commit();
             }catch (\Exception $exception){
                 DB::rollBack();
