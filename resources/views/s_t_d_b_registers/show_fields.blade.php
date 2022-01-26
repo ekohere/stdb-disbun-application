@@ -10,7 +10,7 @@
         <span class="float-right"> <input class="ml-0-1" type="checkbox" id="persil-out" onclick="callCleanAndClear(this)"><label>Cek Overlay</label></span>
         <h3 class="font-weight-bold mb-1">Status Persil</h3>
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
-            <h6>Persil {{$key+1}}:</h6>
+            <h6>Persil {{$key+1}}: <span class="badge bg-green small"><a class="text-white" href="{{asset($item->persil->shp_polygon)}}">Download shp persil</a> <i class="fa fa-download"></i></span></h6>
             <p class="small text-bold-700 mb-0">RTRW: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-rtrw-{!! $item->persil->polygon_persil_id !!}">-</span></p>
             <p class="small text-bold-700 mb-0">APL: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-apl-{!! $item->persil->polygon_persil_id !!}">-</span></p>
         @endforeach

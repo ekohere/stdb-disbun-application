@@ -26,6 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('media-library:delete-old-temporary-uploads')->daily();
+        $schedule->command('command:postgre2shp')->everyMinute();
     }
 
     /**

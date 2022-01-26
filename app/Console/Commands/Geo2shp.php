@@ -6,7 +6,10 @@ use App\Models\Persil;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use MongoDB\Driver\Exception\ExecutionTimeoutException;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
 use Storage;
+use ZipArchive;
 
 class Geo2shp extends Command
 {
@@ -43,37 +46,51 @@ class Geo2shp extends Command
     {
         Storage::disk('public')->deleteDirectory('temp_shp');
         Storage::disk('public')->makeDirectory('temp_shp');
-        $pathTemp = Storage::disk('public')->path('shp_polygon');
+        $pathTemp = Storage::disk('public')->path('temp_shp');
 
         $persil = Persil::whereNotNull('polygon_persil_id')->whereNull('shp_polygon')->first();
         if (!empty($persil)){
             try{
                 $fileName = 'id_'.$persil->id.'_'.$persil->nama_peta."_np_".$persil->no_petak_peta;
-                $command="cd ".$pathTemp."; pgsql2shp ".$fileName.".shp -h ".env("DB_HOST")." -u ".env("DB_USERNAME_PG")." -P ".
+                $command="cd ".$pathTemp."; pgsql2shp -f ".$fileName.".shp -h ".env("DB_HOST")." -u ".env("DB_USERNAME_PG")." -P ".
                     env("DB_PASSWORD_PG")." -p ".env("DB_PORT_PG")." ".env("DB_DATABASE_PG").' "select * from polygon_persil where id='.$persil->polygon_persil_id.';"';
                 exec($command);
 
-                $zipFile = new \PhpZip\ZipFile();
-                try{
-                    $zipFile
-                        ->addDir(__DIR__, $pathTemp) // add files from the directory
-                        ->saveAsFile($fileName) // save the archive to a file
-                        ->close(); // close archive
+                Storage::disk('public')->makeDirectory('shp_polygon');
+                $pathToSave = Storage::disk('public')->path('shp_polygon');
+
+                $rootPath = realpath($pathTemp);
+                // Initialize archive object
+                $zip = new ZipArchive();
+                $zip->open($pathToSave.'/'.$fileName.'.zip', ZipArchive::CREATE | ZipArchive::OVERWRITE);
+                $files = new RecursiveIteratorIterator(
+                    new RecursiveDirectoryIterator($rootPath),
+                    RecursiveIteratorIterator::LEAVES_ONLY
+                );
+
+                foreach ($files as $name => $file)
+                {
+                    // Skip directories (they would be added automatically)
+                    if (!$file->isDir())
+                    {
+                        // Get real and relative path for current file
+                        $filePath = $file->getRealPath();
+                        $relativePath = substr($filePath, strlen($rootPath) + 1);
+
+                        // Add current file to archive
+                        $zip->addFile($filePath, $relativePath);
+                    }
                 }
-                catch(\PhpZip\Exception\ZipException $e){
-                    // handle exception
-                    return false;
-                }
-                finally{
-                    $zipFile->close();
-                }
+                // Zip archive will be created only after closing object
+                $zip->close();
 
                 DB::beginTransaction();
-                Storage::disk('public')->makeDirectory('shp_polygon');
-                $persil->shp_polygon = 'storage/shp_polygon/'.$fileName.'.shp';
+                $persil->shp_polygon = 'storage/shp_polygon/'.$fileName.'.zip';
+                $persil->save();
                 DB::commit();
             }catch (\Exception $exception){
                 DB::rollBack();
+                return $exception->getMessage();
             }
         }
     }
