@@ -55,7 +55,6 @@ class Geo2shp extends Command
                 $command="cd ".$pathTemp."; pgsql2shp -f ".$fileName.".shp -h ".env("DB_HOST")." -u ".env("DB_USERNAME_PG")." -P ".
                     env("DB_PASSWORD_PG")." -p ".env("DB_PORT_PG")." ".env("DB_DATABASE_PG").' "select * from polygon_persil where id='.$persil->polygon_persil_id.';"';
 
-                dd($command);
                 exec($command);
 
                 Storage::disk('public')->makeDirectory('shp_polygon');
