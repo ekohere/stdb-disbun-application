@@ -20,9 +20,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-2 text-right">
-                                        <a href="{!! route('sTDBRegisters.create') !!}" class="btn btn-sm btn-green">Tambah Data</a>
-                                    </div>
+{{--                                    <div class="col-2 text-right">--}}
+{{--                                        <a href="{!! route('sTDBRegisters.create') !!}" class="btn btn-sm btn-green">Tambah Data</a>--}}
+{{--                                    </div>--}}
                                 </div>
                                 @include('s_t_d_b_registers.table')
                             </div>

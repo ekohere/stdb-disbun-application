@@ -81,6 +81,20 @@
     </div>
 </div>
 
+<div class="card bg-grey bg-lighten-4 rounded-2">
+    <div class="d-flex pt-1 pb-1">
+        {!! Form::label('s_role_id', 'Hak Akses Diberikan',['class' => 'col-md-3 label-control text-uppercase mb-0']) !!}
+        <div class="skin skin-flat">
+            @foreach($sRoles as $item)
+                <fieldset>
+                    {!! Form::radio('s_role_id[]', $item->id, in_array($item->id, $roles)?true:false,['id'=>'input-'.$item->id]) !!}
+                    <label for="input-{{$item->id}}" class="ml-1 text-bold-700 black text-uppercase">{!! $item->name !!} - {!! $item->display_name !!}</label>
+                </fieldset>
+            @endforeach
+        </div>
+    </div>
+</div>
+
 <!-- Sudah di modifikasi -->
 <!-- Submit Field -->
 <div class="form-actions center">

@@ -7,12 +7,33 @@
 </div>
 <div class="border-top-green border-bottom-green border-top-3 bet border-bottom-3 card-content rounded-1 box-shadow-1 mt-3 p-0-1">
     <div class="p-2">
-        <span class="float-right"> <input class="ml-0-1" type="checkbox" id="persil-out" onclick="callCleanAndClear(this)"><label>Cek Overlay</label></span>
+        <div class="form-group">
+            <div class="card rounded-1 bg-light-green bg-lighten-3 box-shadow-1">
+                <div class="card-body">
+                    <div class="font-small-4 text-bold-500 brown darken-4">
+                        <i class="fa fa-info-circle font-medium-4"></i><br>
+                        Silahkan klik <b>CEK OVERLAY PERSIL</b> untuk melihat hasil rekomendasi dari sistem dan melakukan pengecekan layer setiap persil terhadap <b>layer APL dan layer RTRW</b>.<br>
+                        Jika ingin melakukan pengecekan diluar sistem, silahkan download shp setiap persil terlebih dahulu dengan cara klik tombol
+                        <code class="badge bg-green small white">Download shp persil <i class="fa fa-download"></i></code> di setiap persil yang tersedia.<br>
+                        Dan ketika ingin melakukan verifikasi silahkan klik button <code>Verifikasi</code>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <span class="float-right"> <input class="ml-0-1" type="checkbox" id="persil-out" onclick="callCleanAndClear(this)"> <label class="text-uppercase text-bold-700"> Cek Overlay Persil</label></span>
         <h3 class="font-weight-bold mb-1">Status Persil</h3>
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
-            <h6>Persil {{$key+1}}: <span class="badge bg-green small"><a class="text-white" href="{{asset($item->persil->shp_polygon)}}">Download shp persil</a> <i class="fa fa-download"></i></span></h6>
+            <h6>Persil {{$key+1}}:
+                @if(!empty($item->persil->shp_polygon))
+                    <span class="badge bg-green small"><a class="text-white" href="{{asset($item->persil->shp_polygon)}}">Download shp persil</a> <i class="fa fa-download"></i></span>
+                @else
+                    <span class="badge bg-warning small text-white">shp persil masih dalam proses konversi <i class="fa fa-refresh"></i></span>
+                @endif
+            </h6>
             <p class="small text-bold-700 mb-0">RTRW: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-rtrw-{!! $item->persil->polygon_persil_id !!}">-</span></p>
             <p class="small text-bold-700 mb-0">APL: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-apl-{!! $item->persil->polygon_persil_id !!}">-</span></p>
+            <hr>
         @endforeach
         <a href="{!! route('sTDBRegisters.verify', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue">Verifikasi</a>
     </div>
@@ -459,8 +480,8 @@
     }
 
     $(document).ready(function() {
-        callPolygonRTRWPerkebunan();
         callPolygonAPL();
+        callPolygonRTRWPerkebunan();
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
             callPolygonPersilByID({!! $item->persil->polygon_persil_id !!});
         @endforeach

@@ -22,9 +22,9 @@
 {{--    <a href="{!! route('sTDBDetailRegisters.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> STDB Detail Registers</span></a>--}}
 {{--</li>--}}
 
-<li class="{{ Request::is('sTDBRegisterStatuses*') ? 'active' : '' }}">
-    <a href="{!! route('sTDBRegisterStatuses.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Status Pengajuan STDB</span></a>
-</li>
+{{--<li class="{{ Request::is('sTDBRegisterStatuses*') ? 'active' : '' }}">--}}
+{{--    <a href="{!! route('sTDBRegisterStatuses.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Status Pengajuan STDB</span></a>--}}
+{{--</li>--}}
 
 {{--<li class="{{ Request::is('sTDBPersils*') ? 'active' : '' }}">--}}
 {{--    <a href="{!! route('sTDBPersils.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Data Persil STDB</span></a>--}}
@@ -307,9 +307,9 @@
 </li>
 
  --}}
-<li class="{{ Request::is('anggotas*') ? 'active' : '' }}">
-    <a href="{!! route('anggotas.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Anggotas</span></a>
-</li>
+{{--<li class="{{ Request::is('anggotas*') ? 'active' : '' }}">--}}
+{{--    <a href="{!! route('anggotas.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Anggota</span></a>--}}
+{{--</li>--}}
 
 {{--<li class="{{ Request::is('persils*') ? 'active' : '' }}">--}}
 {{--    <a href="{!! route('persils.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Persils</span></a>--}}
@@ -454,7 +454,7 @@
 {{--<li class="{{ Request::is('koperasis*') ? 'active' : '' }}">--}}
 {{--    <a href="{!! route('koperasis.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Koperasis</span></a>--}}
 {{--</li>--}}
-<li class="{{ Request::is('desas*') ? 'active' : '' }}">
-    <a href="{!! route('desas.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Desas</span></a>
-</li>
+{{--<li class="{{ Request::is('desas*') ? 'active' : '' }}">--}}
+{{--    <a href="{!! route('desas.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Desa</span></a>--}}
+{{--</li>--}}
 

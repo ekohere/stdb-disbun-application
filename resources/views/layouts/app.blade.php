@@ -13,6 +13,7 @@
         <meta name="apple-touch-fullscreen" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="default">
         <link href="{{asset('master/app-assets/css/font.css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Muli:300,400,500,700')}}" rel="stylesheet">
+        @livewireStyles
         @include('layouts.css')
         @yield('css')
         <style>
@@ -67,6 +68,6 @@
 
         @include('layouts.js')
         @yield('scripts')
-
+        @livewireScripts
     </body>
 </html>

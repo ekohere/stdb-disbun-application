@@ -41,6 +41,12 @@ return [
             'url' => env('APP_URL').'/storage',
             'visibility' => 'public',
         ],
+        'media_pro' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/media_pro'),
+            'url' => env('APP_URL').'/storage/media_pro',
+            'visibility' => 'public',
+        ],
 
         's3' => [
             'driver' => 's3',

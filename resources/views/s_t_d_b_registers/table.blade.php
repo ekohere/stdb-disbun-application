@@ -9,6 +9,7 @@
         <th><code>#</code></th>
         <th>Users Pengaju</th>
         <th>Jumlah Persil</th>
+        <th>Status</th>
         <th style="text-align: center">Action</th>
     </tr>
     </thead>
@@ -35,6 +36,13 @@
                 </td>
             @endif
             <td>{!! $sTDBRegister->stdbDetailRegis->count() !!}</td>
+            <td>
+                @if($sTDBRegister->latest_status->id==1)
+                    <div class="badge bg-warnig small mt-0-1"><i class="fa fa-clock-o"></i> {!! $sTDBRegister->latest_status->name !!}</div>
+                @elseif($sTDBRegister->latest_status->id==2)
+                    <div class="badge bg-green small mt-0-1"><i class="fa fa-check-circle"></i> {!! $sTDBRegister->latest_status->name !!}</div>
+                @endif
+            </td>
             <td class="text-center">
                 {!! Form::open(['route' => ['sTDBRegisters.destroy', $sTDBRegister->id], 'method' => 'delete']) !!}
                 <div class="btn-group" role="group" aria-label="Basic example">
@@ -43,6 +51,9 @@
                         <a href="{!! route('sTDBRegisters.print', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue"><i class="fa fa-print"></i> Cetak Surat</a>
                     @endif
                 </div>
+                @if($sTDBRegister->latest_status->id==2 && !empty($sTDBRegister->getFirstMediaUrl('lampiran_peta_persil')))
+                    <a href="{!! $sTDBRegister->getFirstMediaUrl('lampiran_peta_persil') !!}" class="btn btn-sm btn-blue m-0-1"><i class="fa fa-download"></i> Download Lampiran Map</a>
+                @endif
                 {!! Form::close() !!}
             </td>
         </tr>

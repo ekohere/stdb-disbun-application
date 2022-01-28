@@ -5,6 +5,10 @@ namespace App\Models;
 use Eloquent as Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 /**
  * Class STDBRegister
@@ -18,10 +22,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
  * @property integer $users_id
  * @property integer $anggota_id
  */
-class STDBRegister extends Model
+class STDBRegister extends Model implements HasMedia
 {
     use SoftDeletes;
-
+    use InteractsWithMedia;
     use HasFactory;
 
     public $table = 'stdb_register';
@@ -63,6 +67,29 @@ class STDBRegister extends Model
         'updated_at' => 'nullable',
         'deleted_at' => 'nullable'
     ];
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('preview')
+            ->fit(Manipulations::FIT_CROP, 300, 300)
+            ->nonQueued();
+
+        $this->addMediaConversion('thumb')
+            ->width(368)
+            ->height(232)
+            ->sharpen(10);
+
+        $this->addMediaConversion('cover')
+            ->width(2400)
+            ->height(1800);
+    }
+
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('lampiran_peta_persil')
+            ->singleFile();
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

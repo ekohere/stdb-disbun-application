@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Illuminate\Support\Facades\DB;
 use Response;
+use Spatie\Permission\Models\Role;
 
 class UserController extends AppBaseController
 {
@@ -32,8 +33,9 @@ class UserController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $users = User::where('role_id',6)->get();
-
+        $users = User::whereHas('roles',function ($q) {
+            $q->whereIn('id',[7,8,9]);
+        })->get();
         return view('users.index')
             ->with('users', $users);
     }
@@ -46,7 +48,9 @@ class UserController extends AppBaseController
     public function create()
     {
         $desa = Desa::pluck('nama_desa','id');
-        return view('users.create',compact('desa'));
+        $sRoles=Role::whereIn('name',['KPH','PPR','koordinator'])->get();
+        $roles=[];
+        return view('users.create',compact('desa','sRoles','roles'));
     }
 
     /**
@@ -59,14 +63,16 @@ class UserController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->except('avatar');
-        $input['role_id'] = 7;
+        $roles=[];
+        if($request->has('s_role_id')){
+            $roles=$input['s_role_id'];
+        }
+        $input['verified'] = 1;
         try{
             DB::beginTransaction();
             $user = User::create($input);
             $user->password = bcrypt($input['password']);
-            $roles = ['id'=>7];
-            $user->roles()->sync([]);
-            $user->assignRole($roles);
+            $user->syncRoles($roles);
             //Upload Foto dan simpan path/url foto ke dalam database
             if( $request->hasFile('avatar')) {
                 $file = $request->file('avatar');

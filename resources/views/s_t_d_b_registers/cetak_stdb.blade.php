@@ -2,7 +2,7 @@
 <head>
     <title>Cetak STDB</title>
     <meta charset="utf-8">
-    <style>
+    <style type="text/css">
         #judul {
             text-align: center;
             font-family: "Arial", sans-serif;
@@ -20,20 +20,44 @@
             width: auto;
             background-color: #FFFFFF;
             height: auto;
-            position: absolute;
-            border: 1px solid;
+            /*position: absolute;*/
+            /*border: 1px solid;*/
             padding-top: 0px;
             padding-left: 30px;
             padding-right: 30px;
             padding-bottom: 80px;
+        }
+
+        #lampiran {
+            width: auto;
+            background-color: #FFFFFF;
+            height: auto;
+            padding-top: 80px;
+            padding-left: 30px;
+            padding-right: 30px;
+            padding-bottom: 30px;
+        }
+
+        div.page {
+            page-break-after: always
+        }
+
+        @media print {
+            @page {
+                margin: 0;
+            }
+
+            body {
+                margin: 1.6cm;
+            }
         }
     </style>
     @include('layouts.css')
     @yield('css')
 </head>
 
-<body onload="window.print()">
-<div id=halaman>
+<body style="background-color: #FFFFFF;" onload="window.print()">
+<div class="page" id=halaman>
     <img class="mt-1 mb-0 p-0" width="100%" src="{{asset('image/kop_surat_stdb.jpg')}}"/>
     <svg height="10" width="100%">
         <line x1="100%" y1="0" style="stroke:rgb(0,0,0);stroke-width:10"></line>
@@ -46,7 +70,7 @@
         <line x1="100%" y1="0" style="stroke:rgb(0,0,0);stroke-width:5"></line>
     </svg>
     <h5 id="judul" class="m-0-1">525/00{{$sTDBRegister->id}}/DISBUN-KT/STD-B/{{$sTDBRegister->desa}} -
-        KBG/X/{{date_format($sTDBRegister->latest_status->pivot->created_at,'Y')}} </h5>
+        {{$sTDBRegister->kecamatan}}/X/{{date_format($sTDBRegister->latest_status->pivot->created_at,'Y')}} </h5>
 
     <div class="col-sm-12 pl-5 mt-1 isi_surat">
         <h5 class="isi_surat text-bold-700">A. Keterangan Pemilik</h5>
@@ -171,13 +195,41 @@
             <div class="mb-0" style="width: 100%; text-align: center;">
                 Sangatta, {{date_format($sTDBRegister->latest_status->pivot->created_at,'d M Y')}}</div>
             <div class="mt-0" style="width: 100%; text-align: center;">Kepala Dinas Perkebunan</div>
-{{--            <br><br><br><br>--}}
+            {{--            <br><br><br><br>--}}
             <div class="mt-0" style="width: 100%; text-align: center">
-                <a style="width: 100%; text-align: center;" rel='nofollow' href='https://www.qr-code-generator.com' border='0' style='cursor:default'></a><img src='https://chart.googleapis.com/chart?cht=qr&chl=http%3A%2F%2Fstdb-kutim.britech.id%2FsTDBRegisters%2Fprint%2F21&chs=180x180&choe=UTF-8&chld=L|2' alt=''>
+                <a style="width: 100%; text-align: center;" rel='nofollow' href='https://www.qr-code-generator.com'
+                   border='0' style='cursor:default'></a><img
+                    src='https://chart.googleapis.com/chart?cht=qr&chl=http%3A%2F%2Fstdb-kutim.britech.id%2FsTDBRegisters%2Fprint%2F21&chs=180x180&choe=UTF-8&chld=L|2'
+                    alt=''>
             </div>
             <div style="width: 100%; text-align: center;"><b><u>M. Alfian, S.Sos</u></b></div>
             <div style="width: 100%; text-align: center;">NIP. 19680520 199003 1 009</div>
         </div>
+    </div>
+</div>
+<div class="page" id="lampiran">
+{{--    <img class="mt-1 mb-0 p-0" width="100%" src="{{asset('image/kop_surat_stdb.jpg')}}"/>--}}
+    <svg height="10" width="100%">
+        <line x1="100%" y1="0" style="stroke:rgb(0,0,0);stroke-width:10"></line>
+    </svg>
+    <div class="col-sm-12 pl-5 mt-1 isi_surat">
+        <h5 class="isi_surat text-bold-700">Lampiran SHM Pemilik Kebun</h5>
+        <br>
+        @foreach($sTDBRegister->stdbDetailRegis as $item)
+            @if(!empty($item->persil->getFirstMediaUrl('lampiran_shm')))
+                <img class="mt-2" width="60%" src="{!! asset($item->persil->getFirstMediaUrl('lampiran_shm')) !!}">
+                <br>
+            @else
+                <img class="mt-2" width="60%" src="{!! asset('image/example-shm.jpeg') !!}">
+                <br>
+            @endif
+        @endforeach
+        <h5 class="isi_surat text-bold-700 mt-3">Lampiran KTP</h5>
+        @if($sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas'))
+            <img width="40%" src="{!! asset($sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas')) !!}">
+        @else
+            <img width="40%" src="{!! asset('image/example-ktp.jpeg') !!}">
+        @endif
     </div>
 </div>
 </body>

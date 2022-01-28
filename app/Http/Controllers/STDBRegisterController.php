@@ -8,6 +8,7 @@ use App\Models\STDBRegister;
 use App\Models\STDBRegisterHasSTDBStatus;
 use App\Repositories\STDBRegisterRepository;
 use App\Http\Controllers\AppBaseController;
+use MongoDB\Driver\Exception\ExecutionTimeoutException;
 use PDF;
 use Dompdf\Dompdf;
 use Illuminate\Http\Request;
@@ -165,10 +166,25 @@ class STDBRegisterController extends AppBaseController
 
     public function verified(Request $request)
     {
-        $input = $request->all();
-        $stdbStatus = STDBRegisterHasSTDBStatus::create($input);
-        Flash::success('STDB Register verified successfully.');
-        return redirect(route('sTDBRegisters.index'));
+        $input = $request->except('lampiran_peta_persil');
+        try{
+            DB::beginTransaction();
+            $stdbRegister = STDBRegister::find($input['stdb_register_id']);
+            $stdbRegister->addFromMediaLibraryRequest($request->lampiran_peta_persil)
+                ->toMediaCollection('lampiran_peta_persil');
+            $stdbRegister->save();
+
+            $stdbStatus = STDBRegisterHasSTDBStatus::create($input);
+            $stdbStatus->save();
+            DB::commit();
+
+            Flash::success('STDB Register verified successfully.');
+            return redirect(route('sTDBRegisters.index'));
+        }catch (\Exception $exception){
+            DB::rollBack();
+            Flash::error('STDB Register verified failed.');
+            return redirect(route('sTDBRegisters.index'));
+        }
     }
 
     public function cetakSTDB($id)
@@ -180,13 +196,16 @@ class STDBRegisterController extends AppBaseController
             $center = DB::connection('pgsql')->select(DB::raw("select ST_X(ST_AsText(ST_Centroid('polygon($metry)',true))) as x, ST_Y(ST_AsText(ST_Centroid('polygon($metry)',true))) as y from polygon_persil where id='$idPolygon' "));
             $item->persil->center_point = $center[0];
         }
-//        return $sTDBRegister->stdbDetailRegis;
         //TODO get singkatan desa & kecamatan
         $desa = explode(" ", $sTDBRegister->anggota->alamat_desa_ktp);
         $desaNew = "";
         foreach ($desa as $w) {
             $sTDBRegister['desa'] .= $w[0];
         }
-        return view('s_t_d_b_registers.cetak_stdb',compact('sTDBRegister','desaNew'));
+
+        $kecCleanSpace = implode(explode(",",$sTDBRegister->anggota->alamat_kec_ktp));
+        $kecCleanComa = implode(explode(" ",$kecCleanSpace));
+        $sTDBRegister['kecamatan'] = $kecCleanComa[0].strtoupper($kecCleanComa[strlen($kecCleanComa)/2]).strtoupper($kecCleanComa[strlen($kecCleanComa)-1]);
+        return view('s_t_d_b_registers.cetak_stdb',compact('sTDBRegister'));
     }
 }
