@@ -37,8 +37,8 @@
             @endif
             <td>{!! $sTDBRegister->stdbDetailRegis->count() !!}</td>
             <td>
-                @if($sTDBRegister->latest_status->id===1)
-                    <div class="badge bg-warnig small mt-0-1"><i class="fa fa-clock-o"></i> {!! $sTDBRegister->latest_status->name !!}</div>
+                @if($sTDBRegister->latest_status->id==1)
+                    <div class="badge bg-warning small mt-0-1"><i class="fa fa-clock-o"></i> {!! $sTDBRegister->latest_status->name !!}</div>
                 @elseif($sTDBRegister->latest_status->id===2)
                     <div class="badge bg-green small mt-0-1"><i class="fa fa-check-circle"></i> {!! $sTDBRegister->latest_status->name !!}</div>
                 @endif

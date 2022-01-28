@@ -37,7 +37,6 @@ class STDBRegisterController extends AppBaseController
     public function index(Request $request)
     {
         $sTDBRegisters = $this->sTDBRegisterRepository->all();
-
         return view('s_t_d_b_registers.index')
             ->with('sTDBRegisters', $sTDBRegisters);
     }
