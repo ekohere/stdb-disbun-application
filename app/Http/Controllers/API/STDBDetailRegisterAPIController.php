@@ -206,9 +206,9 @@ class STDBDetailRegisterAPIController extends AppBaseController
 
 
     public function ccRTRW($id){
-        $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_difference(polygon_persil.geom, st_transform(rtrw_perkebunan_disolve.geom,4326))) from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = $id"));
+        $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_difference(st_makevalid(polygon_persil.geom), st_makevalid(st_transform(rtrw_perkebunan_disolve.geom,4326)))) from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = $id"));
 
-        $area_not_clean = DB::connection('pgsql')->select(DB::raw("select ST_area(st_difference(polygon_persil.geom, st_transform(rtrw_perkebunan_disolve.geom,4326)),true)/10000 as area from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = $id"));
+        $area_not_clean = DB::connection('pgsql')->select(DB::raw("select ST_area(st_difference(st_makevalid(polygon_persil.geom), st_makevalid(st_transform(rtrw_perkebunan_disolve.geom,4326))),true)/10000 as area from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = $id"));
         $area_in_float = floatval($area_not_clean[0]->area);
         $features=[];
         foreach ($geom as $key=>$item){
@@ -226,9 +226,9 @@ class STDBDetailRegisterAPIController extends AppBaseController
     }
 
     public function ccAPL($id){
-        $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_difference(polygon_persil.geom, st_transform(apl_sk718_278_disolve.geom,4326))) from polygon_persil, apl_sk718_278_disolve where polygon_persil.id = $id"));
+        $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_difference(st_make_valid(polygon_persil.geom), st_makevalid(st_transform(apl_sk718_278_disolve.geom,4326)))) from polygon_persil, apl_sk718_278_disolve where polygon_persil.id = $id"));
 
-        $area_not_clean = DB::connection('pgsql')->select(DB::raw("select ST_area(st_difference(polygon_persil.geom, st_transform(apl_sk718_278_disolve.geom,4326)),true)/10000 as area from polygon_persil, apl_sk718_278_disolve where polygon_persil.id = $id"));
+        $area_not_clean = DB::connection('pgsql')->select(DB::raw("select ST_area(st_difference(st_make_valid(polygon_persil.geom), st_makevalid(st_transform(apl_sk718_278_disolve.geom,4326))),true)/10000 as area from polygon_persil, apl_sk718_278_disolve where polygon_persil.id = $id"));
         $area_in_float = floatval($area_not_clean[0]->area);
         $features=[];
         foreach ($geom as $key=>$item){
