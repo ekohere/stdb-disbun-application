@@ -21,6 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 //API route for login user
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+
 Route::get('get_polygon/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonByIdRegister']);
 Route::get('get_polygon_persil/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonPersilById']);
 Route::get('get_polygon_clean_rtrw/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'ccRTRW']);

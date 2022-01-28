@@ -37,6 +37,7 @@
             @endif
             <td>{!! $sTDBRegister->stdbDetailRegis->count() !!}</td>
             <td>
+                {{$sTDBRegister->latest_status->id}}
                 @if($sTDBRegister->latest_status->id==1)
                     <div class="badge bg-warnig small mt-0-1"><i class="fa fa-clock-o"></i> {!! $sTDBRegister->latest_status->name !!}</div>
                 @elseif($sTDBRegister->latest_status->id==2)
