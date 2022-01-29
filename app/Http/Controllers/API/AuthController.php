@@ -97,7 +97,7 @@ class AuthController extends AppBaseController
 
     public function syncDataAnggotaPersil()
     {
-        if (Auth::user()->kode_koperasi==0)
+        if (Auth::user()->kode_koperasi=="0")
         {
             if (Auth::user()->getRoleNames()[0]=="koordinator"){
                 $data = Anggota::with(['persils'])->whereHas('users',function ($query){
