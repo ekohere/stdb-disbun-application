@@ -63,6 +63,7 @@ class UserController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->except('avatar');
+        $input['kode_koperasi'] = 0;
         $roles=[];
         if($request->has('s_role_id')){
             $roles=$input['s_role_id'];
@@ -72,6 +73,7 @@ class UserController extends AppBaseController
             DB::beginTransaction();
             $user = User::create($input);
             $user->password = bcrypt($input['password']);
+            $user->role_id = $roles[0];
             $user->syncRoles($roles);
             //Upload Foto dan simpan path/url foto ke dalam database
             if( $request->hasFile('avatar')) {

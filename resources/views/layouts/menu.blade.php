@@ -5,6 +5,12 @@
     <span data-i18n="nav.category.layouts">--Menu Utama</span>
     <i class="ft-more-horizontal ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="Layouts"></i>
 </li>
+@role('koordinator')
+<li class="{{ Request::is('anggotas*') ? 'active' : '' }}">
+    <a href="{!! route('anggotas.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Pekebun</span></a>
+</li>
+@endrole
+
 
 {{--<li class="nav-item"><a href="#"><i class="fa fa-table"></i><span class="menu-title font-small-4 black" data-i18n="nav.dash.main">Master Data</span></a>--}}
 {{--    <ul class="menu-content">--}}

@@ -8,6 +8,7 @@ use App\Repositories\AnggotaRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Response;
 
 class AnggotaController extends AppBaseController

@@ -41,7 +41,7 @@
     <div class="col-4 form-group">
         {!! Form::label('desa_id', 'Desa/kelurahan:') !!}
         <div class="position-relative">
-            {!! Form::select('desa',$desa, null, ['class' => 'form-control','id'=>'desa']) !!}
+            {!! Form::select('desa_id',$desa, null, ['class' => 'form-control','id'=>'desa']) !!}
         </div>
     </div>
     @section('scripts')
@@ -52,7 +52,14 @@
         </script>
     @endsection
 
-    <div class="col-6 form-group">
+    <div class="col-4 form-group">
+        {!! Form::label('alamat', 'Alamat:') !!}
+        <div class="position-relative">
+            {!! Form::text('alamat', null, ['class' => 'form-control']) !!}
+        </div>
+    </div>
+
+    <div class="col-4 form-group">
         {!! Form::label('password', 'Password:') !!}
         <div class="position-relative has-icon-left">
             {!! Form::password('password', ['class' => 'form-control']) !!}
@@ -62,7 +69,7 @@
         </div>
     </div>
 
-    <div class="col-6 form-group">
+    <div class="col-4 form-group">
         {!! Form::label('re-password', 'Re-Password:') !!}
         <div class="position-relative has-icon-left">
             {!! Form::password('re-password', ['class' => 'form-control']) !!}
