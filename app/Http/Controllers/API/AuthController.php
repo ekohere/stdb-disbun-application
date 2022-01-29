@@ -97,7 +97,6 @@ class AuthController extends AppBaseController
 
     public function syncDataAnggotaPersil()
     {
-        return Auth::user()->kode_koperasi;
         if (Auth::user()->kode_koperasi==0)
         {
             if (Auth::user()->role_id==7){
