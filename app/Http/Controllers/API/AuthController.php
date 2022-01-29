@@ -103,16 +103,21 @@ class AuthController extends AppBaseController
                 $data = Anggota::with(['persils'])->whereHas('users',function ($query){
                     $query->where('desa_id',Auth::user()->desa_id);
                 })->get();
+                return $this->sendResponse($data,'Data retrieved successfully by Koordinator');
+
             }else{
                 $data = Anggota::with(['persils'])->where('users_id',Auth::id())->get();
+                return $this->sendResponse($data,'Data retrieved successfully by Pekebun');
+
             }
         }
         else{
             $data = Anggota::with(['persils','koperasi'])->whereHas('koperasi',function ($query){
                 $query->where('id',Auth::user()->koperasi_id);
             })->get();
+            return $this->sendResponse($data,'Data retrieved successfully by Koperasi');
+
         }
 
-        return $this->sendResponse($data,'Data retrieved successfully');
     }
 }
