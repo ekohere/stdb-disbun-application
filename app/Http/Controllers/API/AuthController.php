@@ -99,8 +99,7 @@ class AuthController extends AppBaseController
     {
         if (Auth::user()->kode_koperasi==0)
         {
-            return Auth::user()->getRoleNames();
-            if (Auth::user()->hasRoles()=="koordinator"){
+            if (Auth::user()->getRoleNames()[0]=="koordinator"){
                 $data = Anggota::with(['persils'])->whereHas('users',function ($query){
                     $query->where('desa_id',Auth::user()->desa_id);
                 })->get();
