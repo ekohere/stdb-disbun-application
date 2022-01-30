@@ -86,7 +86,6 @@ class Geo2shp extends Command
 
                 DB::beginTransaction();
                 $persil->shp_polygon = 'storage/shp_polygon/'.$fileName.'.zip';
-                dd($persil);
                 $persil->save();
                 DB::commit();
             }catch (\Exception $exception){
