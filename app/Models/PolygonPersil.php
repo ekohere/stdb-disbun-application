@@ -17,7 +17,14 @@ class PolygonPersil extends Model
 
     protected $connection = 'pgsql';
     protected $table = 'polygon_persil';
-    protected $fillable = ['geom','area'];
+    protected $fillable = [
+        'geom',
+        'area',
+        'geom_cc_rtrw',
+        'geom_cc_apl',
+        'area_cc_rtrw',
+        'area_cc_apl'
+    ];
     protected $postgisFields = [
         'geom'
     ];

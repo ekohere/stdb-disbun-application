@@ -5,7 +5,6 @@ namespace App\Console\Commands;
 use App\Models\Persil;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
-use MongoDB\Driver\Exception\ExecutionTimeoutException;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use Storage;
