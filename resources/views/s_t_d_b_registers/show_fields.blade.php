@@ -310,6 +310,7 @@
 
     //TODO call Polygon Persil
     function callPolygonPersilByID(PolygonPersilID) {
+        console.info(PolygonPersilID);
         $.ajax({url:'{{env('APP_URL').'/api/get_polygon_persil/'}}'+PolygonPersilID,
             success: function (response) {
                 if (Array.isArray(response.features) && response.features.length){
@@ -370,7 +371,10 @@
     }
     //TODO Draw Polygon CC RTRW
     function drawPolygonDifferenceRTRW(poly,id){
-        if(poly.features[0].geometry.type==="GeometryCollection"){
+        if(poly.features[0].geometry==null){
+            alert("Data persil masih dalam proses clean and clear, silahkan cek beberapa saat lagi");
+        }
+        else if(poly.features[0].geometry.type==="GeometryCollection"){
             if(poly.features[0].geometry.geometries.length===0){
                 document.getElementById("status-rtrw-"+id).textContent = "Clear and Clean";
             }
@@ -423,7 +427,10 @@
     }
     //TODO Draw Polygon CC APL
     function drawPolygonDifferenceAPL(poly,id){
-        if(poly.features[0].geometry.type==="GeometryCollection"){
+        if(poly.features[0].geometry==null){
+            alert("Data persil masih dalam proses clean and clear, silahkan cek beberapa saat lagi");
+        }
+        else if(poly.features[0].geometry.type==="GeometryCollection"){
             if(poly.features[0].geometry.geometries.length===0){
                 document.getElementById("status-apl-"+id).textContent = "Clear and Clean";
             }
