@@ -78,4 +78,9 @@ class STDBRegisterHasSTDBStatus extends Model
     {
         return $this->belongsTo(\App\Models\StdbStatus::class, 'stdb_status_id');
     }
+
+    public function user()
+    {
+        return $this->belongsTo(\App\Models\User::class, 'users_id');
+    }
 }

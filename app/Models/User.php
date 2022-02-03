@@ -108,4 +108,8 @@ class User extends Authenticatable
     {
         return $this->belongsTo(KPH::class,'kph_id');
     }
+    public function sdtbStatus()
+    {
+        return $this->hasMany(STDBRegisterHasSTDBStatus::class,'users_id');
+    }
 }

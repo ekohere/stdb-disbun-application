@@ -81,6 +81,11 @@ class KPH extends Model
         return $this->hasMany(\App\Models\User::class, 'kph_id');
     }
 
+    public function kphHasKecamatan()
+    {
+        return $this->hasMany(\App\Models\KphHasKecamatan::class, 'kph_id');
+    }
+
     public function polygonKPH()
     {
         return $this->belongsTo(\App\Models\PolygonKPH::class, 'polygon_id');

@@ -34,7 +34,6 @@ class KPHController extends AppBaseController
     public function index(Request $request)
     {
         $kPHS = $this->kPHRepository->all();
-
         return view('k_p_h_s.index')
             ->with('kPHS', $kPHS);
     }

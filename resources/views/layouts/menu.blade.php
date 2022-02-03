@@ -47,6 +47,9 @@
             <li class="{{ Request::is('kPHS*') ? 'active' : '' }}">
                 <a href="{!! route('kPHS.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Data KPH</span></a>
             </li>
+            <li class="{{ Request::is('kphHasKecamatans*') ? 'active' : '' }}">
+                <a href="{!! route('kphHasKecamatans.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> KPH Has Kecamatan</span></a>
+            </li>
         </ul>
     </li>
     <li class="nav-item"><a href="#"><i class="fa fa-users"></i><span class="menu-title" data-i18n="nav.dash.main">Pengaturan User</span></a>
@@ -472,6 +475,3 @@
 {{--<li class="{{ Request::is('desas*') ? 'active' : '' }}">--}}
 {{--    <a href="{!! route('desas.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Desa</span></a>--}}
 {{--</li>--}}
-
-
-

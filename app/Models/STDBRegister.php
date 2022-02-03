@@ -122,11 +122,12 @@ class STDBRegister extends Model implements HasMedia
      **/
     public function stdbStatuses()
     {
-        return $this->belongsToMany(\App\Models\STDBStatus::class, 'stdb_register_has_stdb_status','stdb_register_id','stdb_status_id')->withTimeStamps();
+        return $this->belongsToMany(\App\Models\STDBStatus::class, 'stdb_register_has_stdb_status','stdb_register_id','stdb_status_id')
+            ->withPivot(['users_id'])->withTimeStamps();
     }
 
     public function getLatestStatusAttribute()
     {
-        return $this->stdbStatuses()->latest('stdb_register_has_stdb_status.created_at')->first();
+        return $this->stdbStatuses()->with('stdbRegisHasStatus.user')->latest('stdb_register_has_stdb_status.created_at')->first();
     }
 }

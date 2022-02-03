@@ -22,7 +22,7 @@ class STDBStatus extends Model
     use HasFactory;
 
     public $table = 'stdb_status';
-    
+
     const CREATED_AT = 'created_at';
     const UPDATED_AT = 'updated_at';
 
@@ -65,6 +65,10 @@ class STDBStatus extends Model
      **/
     public function stdbRegisters()
     {
-        return $this->belongsToMany(\App\Models\StdbRegister::class, 'stdb_register_has_stdb_status');
+        return $this->belongsToMany(\App\Models\STDBRegister::class, 'stdb_register_has_stdb_status');
+    }
+    public function stdbRegisHasStatus()
+    {
+        return $this->hasOne(\App\Models\STDBRegisterHasSTDBStatus::class, 'stdb_status_id');
     }
 }

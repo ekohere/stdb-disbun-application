@@ -48,9 +48,11 @@ class CheckRTRW extends Command
 
                 try{
                     $geom = DB::connection('pgsql')->select(DB::raw("select st_difference(polygon_persil.geom, st_makevalid(st_transform(rtrw_perkebunan_disolve.geom,4326))) from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = $polygonPersil->id"));
-                    $area_not_clean = DB::connection('pgsql')->select(DB::raw("select ST_area(st_difference(polygon_persil.geom, st_makevalid(st_transform(rtrw_perkebunan_disolve.geom,4326))),true)/10000 as area from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = $polygonPersil->id"));
-                    $area_in_float = floatval($area_not_clean[0]->area);
                     $polygonPersil->geom_cc_rtrw = $geom[0]->st_difference;
+                    $polygonPersil->save();
+
+                    $area_not_clean = DB::connection('pgsql')->select(DB::raw("select ST_area(polygon_persil.geom_cc_rtrw,true)/10000 as area from polygon_persil where polygon_persil.id = $polygonPersil->id"));
+                    $area_in_float = floatval($area_not_clean[0]->area);
                     $polygonPersil->area_cc_rtrw = $area_in_float;
                     $polygonPersil->status = "CC RTRW Selesai";
                 }catch (\Exception $exception){

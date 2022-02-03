@@ -9,6 +9,7 @@
         <th><code>#</code></th>
         <th>Nama</th>
         <th>Unit Kph</th>
+        <th>Area Kecamatan</th>
 {{--        <th>Polygon Id</th>--}}
         <th style="text-align: center">Action</th>
     </tr>
@@ -22,13 +23,18 @@
             <td>{!! $no++ !!}</td>
             <td>{!! $kPH->nama !!}</td>
             <td>{!! $kPH->unit_kph !!}</td>
+            <td>
+                @foreach($kPH->kecamatans as $item)
+                    <p class="badge bg-green">{!! $item->nama_kec !!}</p>
+                @endforeach
+            </td>
 {{--            <td>{!! $kPH->polygon_id !!}</td>--}}
             <td>
                 {!! Form::open(['route' => ['kPHS.destroy', $kPH->id], 'method' => 'delete']) !!}
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a href="{!! route('kPHS.show', [$kPH->id]) !!}" class="btn btn-sm btn-success"><i class="fa fa-eye"></i></a>
-                                       <a href="{!! route('kPHS.edit', [$kPH->id]) !!}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
-                                       {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
+                    <a href="{!! route('kPHS.edit', [$kPH->id]) !!}" class="btn btn-sm btn-warning"><i class="fa fa-pencil"></i></a>
+                    {!! Form::button('<i class="fa fa-trash"></i>', ['type' => 'submit', 'class' => 'btn btn-sm btn-danger', 'onclick' => "return confirm('Are you sure?')"]) !!}
                 </div>
                 {!! Form::close() !!}
             </td>

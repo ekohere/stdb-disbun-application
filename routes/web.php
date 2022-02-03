@@ -119,3 +119,6 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('desas', App\Http\Controllers\DesaController::class);
     Route::resource('kPHS', App\Http\Controllers\KPHController::class);
 });
+
+
+Route::resource('kphHasKecamatans', App\Http\Controllers\KphHasKecamatanController::class);

@@ -11,8 +11,8 @@
                                     <i class="fa fa-align-left font-large-2 text-white"></i>
                                 </div>
                                 <div class="media-body p-1">
-                                    <span class="blue font-medium-5"> S T D B Register</span><br>
-                                    <span style="margin-top: -5px">Detail S T D B Register</span>
+                                    <span class="blue font-medium-5"> Kph Has Kecamatan</span><br>
+                                    <span style="margin-top: -5px">Detail Kph Has Kecamatan</span>
                                 </div>
                             </div>
                         </div>
@@ -26,15 +26,9 @@
                                 <form class="form form-horizontal">
                                     <div class="form-body">
                                         <h4 class="form-section">
-                                            <a href="{!! route('sTDBRegisters.index') !!}" class="btn btn-icon danger btn-lg pl-0 ml-0"><i class="ft-arrow-left"></i> Kembali</a>
+                                            <a href="{!! route('kphHasKecamatans.index') !!}" class="btn btn-icon danger btn-lg pl-0 ml-0"><i class="ft-arrow-left"></i> Kembali</a>
                                         </h4>
-                                        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('KPH'))
-                                            @include('s_t_d_b_registers.show_fields_kph')
-                                        @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('PPR'))
-                                            @include('s_t_d_b_registers.show_fields_ppr')
-                                        @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
-                                            @include('s_t_d_b_registers.show_fields')
-                                        @endif
+                                        @include('kph_has_kecamatans.show_fields')
                                     </div>
                                 </form>
                             </div>
