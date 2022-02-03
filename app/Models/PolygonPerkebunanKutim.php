@@ -13,10 +13,20 @@ class PolygonPerkebunanKutim extends Model
     protected $table = 'rtrw_perkebunan';
 
     protected $postgisFields = [
-        'geom'
+        'geom',
+        'geom_cc_rtrw',
+        'geom_cc_apl'
     ];
     protected $postgisTypes = [
         'geom' => [
+            'geomtype' => 'geometry',
+            'srid' => 32650
+        ],
+        'geom_cc_rtrw' => [
+            'geomtype' => 'geometry',
+            'srid' => 32650
+        ],
+        'geom_cc_apl' => [
             'geomtype' => 'geometry',
             'srid' => 32650
         ]
