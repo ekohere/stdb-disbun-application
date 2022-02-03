@@ -326,6 +326,7 @@
     }
     //TODO Draw Polygon CC RTRW
     function drawPolygonDifferenceRTRW(poly,id){
+        console.info(poly);
         if(poly.features[0].geometry==null){
             alert("Data persil masih dalam proses clean and clear, silahkan cek beberapa saat lagi");
         }
