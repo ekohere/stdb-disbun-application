@@ -20,10 +20,12 @@
 {{--    </ul>--}}
 {{--</li>--}}
 
-<li class="{{ Request::is('sTDBRegisters*') ? 'active' : '' }}">
+<li class="{{ Request::is('sTDBRegisters') ? 'active' : '' }}">
     <a href="{!! route('sTDBRegisters.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> List Pengajuan STDB</span></a>
 </li>
-
+<li class="{{ Request::is('sTDBRegister/done-review') ? 'active' : '' }}">
+    <a href="{!! route('stdbDoneVerified') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> STDB Done Reviewed</span></a>
+</li>
 {{--<li class="{{ Request::is('sTDBDetailRegisters*') ? 'active' : '' }}">--}}
 {{--    <a href="{!! route('sTDBDetailRegisters.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> STDB Detail Registers</span></a>--}}
 {{--</li>--}}
@@ -36,10 +38,17 @@
 {{--    <a href="{!! route('sTDBPersils.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Data Persil STDB</span></a>--}}
 {{--</li>--}}
 
-<li class="{{ Request::is('sTDBStatuses*') ? 'active' : '' }}">
-    <a href="{!! route('sTDBStatuses.index') !!}"><i class="fa fa-info-circle"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Jenis Status STDB</span></a>
-</li>
 @role('admin')
+    <li class="nav-item"><a href="#"><i class="fa fa-table"></i><span class="menu-title" data-i18n="nav.dash.main">Master Data</span></a>
+        <ul class="menu-content">
+            <li class="{{ Request::is('sTDBStatuses*') ? 'active' : '' }}">
+                <a href="{!! route('sTDBStatuses.index') !!}"><i class="fa fa-info-circle"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Jenis Status STDB</span></a>
+            </li>
+            <li class="{{ Request::is('kPHS*') ? 'active' : '' }}">
+                <a href="{!! route('kPHS.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Data KPH</span></a>
+            </li>
+        </ul>
+    </li>
     <li class="nav-item"><a href="#"><i class="fa fa-users"></i><span class="menu-title" data-i18n="nav.dash.main">Pengaturan User</span></a>
         <ul class="menu-content">
             <li class="{{ Request::is('users*') ? 'active' : '' }}">
@@ -464,7 +473,5 @@
 {{--    <a href="{!! route('desas.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Desa</span></a>--}}
 {{--</li>--}}
 
-<li class="{{ Request::is('kPHS*') ? 'active' : '' }}">
-    <a href="{!! route('kPHS.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">K P H S</span></a>
-</li>
+
 

@@ -6,12 +6,13 @@ use App\Http\Requests\CreateKPHRequest;
 use App\Http\Requests\UpdateKPHRequest;
 use App\Models\Kecamatan;
 use App\Models\KPH;
+use App\Models\PolygonKPH;
 use App\Repositories\KPHRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\DB;
 use Response;
-use DB;
 
 class KPHController extends AppBaseController
 {
@@ -183,6 +184,33 @@ class KPHController extends AppBaseController
         Flash::success('KPH deleted successfully.');
 
         return redirect(route('kPHS.index'));
+    }
+
+    public function getPolygonKPH($id){
+        $kphPolygon = PolygonKPH::find($id);
+        $features=[];
+        $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_transform(kph_kutim.geom,4326)) from kph_kutim where id='$id'"));
+        unset($kphPolygon->geom);
+        $feature=['type'=>'Feature', 'geometry'=>json_decode($geom[0]->st_asgeojson),'properties'=>$kphPolygon];
+        array_push($features,$feature);
+        $featureCollections = [
+            'type'=>'FeatureCollection',
+            'features'=>$features
+        ];
+        return  response()->json($featureCollections);
+
+//        $kphPolygon = PolygonKPH::find($id);
+//        $features=[];
+//        $geometry = $kphPolygon->geom;
+//        unset($kphPolygon->geom);
+//        $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>$kphPolygon];
+//        array_push($features,$feature);
+//        $featureCollections = [
+//            'type'=>'FeatureCollection',
+//            'features'=>$features
+//        ];
+//        return response()->json($featureCollections);
+
     }
 }
 

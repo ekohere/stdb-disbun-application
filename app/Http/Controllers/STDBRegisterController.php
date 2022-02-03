@@ -8,6 +8,7 @@ use App\Models\STDBRegister;
 use App\Models\STDBRegisterHasSTDBStatus;
 use App\Repositories\STDBRegisterRepository;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Support\Facades\Auth;
 use MongoDB\Driver\Exception\ExecutionTimeoutException;
 use PDF;
 use Dompdf\Dompdf;
@@ -36,7 +37,13 @@ class STDBRegisterController extends AppBaseController
      */
     public function index(Request $request)
     {
-        $sTDBRegisters = $this->sTDBRegisterRepository->all();
+        if (Auth::user()->hasRole('KPH')){
+            $sTDBRegisters = STDBRegister::where('verified_by_kph',0)->get();
+        }elseif (Auth::user()->hasRole('PPR')){
+            $sTDBRegisters = STDBRegister::where('verified_by_ppr',0)->get();
+        }elseif (Auth::user()->hasRole('admin')){
+            $sTDBRegisters = STDBRegister::where('verified_by_ppr',1)->where('verified_by_kph',1)->get();
+        }
         return view('s_t_d_b_registers.index')
             ->with('sTDBRegisters', $sTDBRegisters);
     }
@@ -79,11 +86,8 @@ class STDBRegisterController extends AppBaseController
     public function show($id)
     {
         $sTDBRegister = $this->sTDBRegisterRepository->find($id);
-
-
         if (empty($sTDBRegister)) {
             Flash::error('S T D B Register not found');
-
             return redirect(route('sTDBRegisters.index'));
         }
         return view('s_t_d_b_registers.show')->with('sTDBRegister', $sTDBRegister);
@@ -169,10 +173,14 @@ class STDBRegisterController extends AppBaseController
         try{
             DB::beginTransaction();
             $stdbRegister = STDBRegister::find($input['stdb_register_id']);
-            $stdbRegister->addFromMediaLibraryRequest($request->lampiran_peta_persil)
-                ->toMediaCollection('lampiran_peta_persil');
+            if (isset($request->lampiran_peta_persil)){
+                $stdbRegister->addFromMediaLibraryRequest($request->lampiran_peta_persil)
+                    ->toMediaCollection('lampiran_peta_persil');
+            }
+            $stdbRegister->update($input);
             $stdbRegister->save();
 
+            $input['users_id'] = Auth::id();
             $stdbStatus = STDBRegisterHasSTDBStatus::create($input);
             $stdbStatus->save();
             DB::commit();
@@ -181,7 +189,7 @@ class STDBRegisterController extends AppBaseController
             return redirect(route('sTDBRegisters.index'));
         }catch (\Exception $exception){
             DB::rollBack();
-            Flash::error('STDB Register verified failed.');
+            Flash::error('STDB Register verified failed. error:'.$exception->getMessage());
             return redirect(route('sTDBRegisters.index'));
         }
     }
@@ -206,5 +214,20 @@ class STDBRegisterController extends AppBaseController
         $kecCleanComa = implode(explode(" ",$kecCleanSpace));
         $sTDBRegister['kecamatan'] = $kecCleanComa[0].strtoupper($kecCleanComa[strlen($kecCleanComa)/2]).strtoupper($kecCleanComa[strlen($kecCleanComa)-1]);
         return view('s_t_d_b_registers.cetak_stdb',compact('sTDBRegister'));
+    }
+
+    public function doneReview()
+    {
+        if (Auth::user()->hasRole('KPH')){
+            $sTDBRegisters = STDBRegister::where('verified_by_kph',1)->get();
+        }elseif (Auth::user()->hasRole('PPR')){
+            $sTDBRegisters = STDBRegister::where('verified_by_ppr',1)->get();
+        }elseif (Auth::user()->hasRole('admin')){
+            $sTDBRegisters = STDBRegister::where('verified_by_ppr',1)->where('verified_by_kph',1)->latest()->get()->filter(function ($q){
+                return $q->latest_status->id == 2;
+            })->flatten();
+        }
+        return view('s_t_d_b_registers.index')
+            ->with('sTDBRegisters', $sTDBRegisters);
     }
 }

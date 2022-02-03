@@ -195,6 +195,8 @@ class STDBRegisterAPIController extends AppBaseController
     {
         $input = $request->except('polygon');
         $input['users_id'] = Auth::id();
+        $input['verified_by_kph'] = 0;
+        $input['verified_by_ppr'] = 0;
         try{
             DB::beginTransaction();
 

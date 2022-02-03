@@ -106,6 +106,6 @@ class User extends Authenticatable
     }
     public function kph()
     {
-        return $this->hasOne(KPH::class,'kph_id');
+        return $this->belongsTo(KPH::class,'kph_id');
     }
 }

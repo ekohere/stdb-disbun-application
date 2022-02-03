@@ -38,7 +38,9 @@ class STDBRegister extends Model implements HasMedia
 
     public $fillable = [
         'users_id',
-        'anggota_id'
+        'anggota_id',
+        'verified_by_kph',
+        'verified_by_ppr',
     ];
     protected $appends = [
         'latest_status',

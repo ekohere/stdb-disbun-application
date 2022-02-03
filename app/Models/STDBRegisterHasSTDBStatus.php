@@ -35,7 +35,8 @@ class STDBRegisterHasSTDBStatus extends Model
     public $fillable = [
         'stdb_register_id',
         'stdb_status_id',
-        'message'
+        'message',
+        'users_id'
     ];
 
     /**

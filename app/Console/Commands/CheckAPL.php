@@ -21,7 +21,7 @@ class CheckAPL extends Command
      *
      * @var string
      */
-    protected $description = 'Check status done rtrw dan set proses menjadi proses cc apl';
+    protected $description = 'Check status null dan set proses menjadi proses cc apl';
 
     /**
      * Create a new command instance.
@@ -40,7 +40,7 @@ class CheckAPL extends Command
      */
     public function handle()
     {
-        $polygonPersil=PolygonPersil::where('status','CC RTRW Selesai')->first();
+        $polygonPersil=PolygonPersil::whereNull('status')->first();
         if (!empty($polygonPersil)) {
                 $polygonPersil->status="Proses CC APL";
                 $polygonPersil->save();

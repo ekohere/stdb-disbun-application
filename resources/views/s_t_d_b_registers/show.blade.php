@@ -28,7 +28,11 @@
                                         <h4 class="form-section">
                                             <a href="{!! route('sTDBRegisters.index') !!}" class="btn btn-icon danger btn-lg pl-0 ml-0"><i class="ft-arrow-left"></i> Kembali</a>
                                         </h4>
-                                        @include('s_t_d_b_registers.show_fields')
+                                        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('KPH'))
+                                            @include('s_t_d_b_registers.show_fields_kph')
+                                        @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('PPR'))
+                                            @include('s_t_d_b_registers.show_fields_ppr')
+                                        @endif
                                     </div>
                                 </form>
                             </div>

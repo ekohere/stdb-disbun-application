@@ -29,6 +29,8 @@ Route::get('get_polygon_clean_apl/{id}',[\App\Http\Controllers\API\STDBDetailReg
 Route::get('rtrw_perkebunan',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonPerkebunan']);
 Route::get('apl_perkebunan',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonAPL']);
 
+Route::get('polygon_kph/{id}',[\App\Http\Controllers\KPHController::class,'getPolygonKPH']);
+
 //=============testing api disini
 //Route::get('testing_clear_clean',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'ccRTRW']);
 

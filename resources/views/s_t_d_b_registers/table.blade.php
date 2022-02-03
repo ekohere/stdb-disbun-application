@@ -9,7 +9,7 @@
         <th><code>#</code></th>
         <th>Users Pengaju</th>
         <th>Jumlah Persil</th>
-        <th>Status</th>
+        <th>Status Terbaru</th>
         <th style="text-align: center">Action</th>
     </tr>
     </thead>
@@ -41,6 +41,12 @@
                     <div class="badge bg-warning small mt-0-1"><i class="fa fa-clock-o"></i> {!! $sTDBRegister->latest_status->name !!}</div>
                 @elseif($sTDBRegister->latest_status->id===2)
                     <div class="badge bg-green small mt-0-1"><i class="fa fa-check-circle"></i> {!! $sTDBRegister->latest_status->name !!}</div>
+                @elseif($sTDBRegister->latest_status->id===3)
+                    <div class="badge bg-alert small mt-0-1"><i class="fa fa-close"></i> {!! $sTDBRegister->latest_status->name !!}</div>
+                @elseif($sTDBRegister->latest_status->id===4)
+                    <div class="badge bg-info small mt-0-1"><i class="fa fa-clock-o"></i> {!! $sTDBRegister->latest_status->name !!}</div>
+                @elseif($sTDBRegister->latest_status->id===5)
+                    <div class="badge bg-info small mt-0-1"><i class="fa fa-clock-o"></i> {!! $sTDBRegister->latest_status->name !!}</div>
                 @endif
             </td>
             <td class="text-center">

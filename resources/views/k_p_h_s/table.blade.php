@@ -9,7 +9,7 @@
         <th><code>#</code></th>
         <th>Nama</th>
         <th>Unit Kph</th>
-        <th>Polygon Id</th>
+{{--        <th>Polygon Id</th>--}}
         <th style="text-align: center">Action</th>
     </tr>
     </thead>
@@ -22,7 +22,7 @@
             <td>{!! $no++ !!}</td>
             <td>{!! $kPH->nama !!}</td>
             <td>{!! $kPH->unit_kph !!}</td>
-            <td>{!! $kPH->polygon_id !!}</td>
+{{--            <td>{!! $kPH->polygon_id !!}</td>--}}
             <td>
                 {!! Form::open(['route' => ['kPHS.destroy', $kPH->id], 'method' => 'delete']) !!}
                 <div class="btn-group" role="group" aria-label="Basic example">

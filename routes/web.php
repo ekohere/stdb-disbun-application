@@ -110,6 +110,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('sTDBStatuses', App\Http\Controllers\STDBStatusController::class);
     Route::resource('sTDBPersils', App\Http\Controllers\STDBPersilController::class);
     Route::resource('sTDBRegisters', App\Http\Controllers\STDBRegisterController::class);
+    Route::get('sTDBRegister/done-review', [App\Http\Controllers\STDBRegisterController::class,'doneReview'])->name('stdbDoneVerified');
     Route::resource('sTDBDetailRegisters', App\Http\Controllers\STDBDetailRegisterController::class);
     Route::resource('sTDBRegisterStatuses', App\Http\Controllers\STDBRegisterHasSTDBStatusController::class);
     Route::get('sTDBRegisters/verify/{id}', [App\Http\Controllers\STDBRegisterController::class,'getVerify'])->name('sTDBRegisters.verify');

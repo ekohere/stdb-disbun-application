@@ -38,48 +38,10 @@
         </div>
     </div>
 
-{{--    <div class="col-4 form-group">--}}
-{{--        {!! Form::label('kecamatan_id', 'Kecamatan:') !!}--}}
-{{--        <div class="position-relative">--}}
-{{--            {!! Form::select('kecamatan_id',$kecamatan, null, ['class' => 'form-control','id'=>'kecamatan']) !!}--}}
-{{--        </div>--}}
-{{--    </div>--}}
-{{--    @section('scripts')--}}
-{{--        <script>--}}
-{{--            $.ajaxSetup({--}}
-{{--                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }--}}
-{{--            });--}}
-{{--            $('#kelurahan_id').on('change', function () {--}}
-{{--                $.ajax({--}}
-{{--                    url: '{{ route('desaByKecamatan') }}',--}}
-{{--                    method: 'get',--}}
-{{--                    data: {id: $(this).val()},--}}
-{{--                    success: function (response) {--}}
-{{--                        if (!$.trim(response)){--}}
-{{--                            // $('#rt_id').empty().append(new Option("Tidak ada data", null)).attr('disabled','disabled');--}}
-{{--                            // $('#periode_id').empty().append(new Option("Tidak ada data", null)).attr('disabled','disabled');--}}
-{{--                            // $(':input[type="submit"]').prop('disabled',true);--}}
-{{--                        }else{--}}
-{{--                            $.each(response, function (id, name) {--}}
-{{--                                // $('#rt_id').removeAttr('disabled').append(new Option(name, id)).focus();--}}
-{{--                                // $('#periode_id').empty().attr('disabled');--}}
-{{--                                // $(':input[type="submit"]').prop('disabled',false);--}}
-{{--                            })--}}
-{{--                        }--}}
-{{--                    },--}}
-{{--                    error: function (error) {--}}
-{{--                        console.log(error);--}}
-{{--                        alert("Error: "+error);--}}
-{{--                    }--}}
-{{--                })--}}
-{{--            });--}}
-{{--        </script>--}}
-{{--    @endsection--}}
-
     <div class="col-4 form-group">
         {!! Form::label('desa_id', 'Alamat Desa/kelurahan:') !!}
         <div class="position-relative">
-            {!! Form::select('desa_id',$desa, null, ['class' => 'form-control','id'=>'desa']) !!}
+            {!! Form::select('desa_id',$desa, null, ['class' => 'form-control','id'=>'desa', 'placeholder'=>'pilih desa']) !!}
         </div>
     </div>
     @section('scripts')
@@ -91,7 +53,7 @@
     @endsection
 
     <div class="col-4 form-group">
-        {!! Form::label('alamat', 'Alamat:') !!}
+        {!! Form::label('alamat', 'Alamat/Kantor:') !!}
         <div class="position-relative">
             {!! Form::text('alamat', null, ['class' => 'form-control']) !!}
         </div>
@@ -135,7 +97,7 @@
     <div id="kph" class="col-12 form-group">
         {!! Form::label('kph_id', 'KPH:') !!}
         <div class="position-relative">
-            {!! Form::select('kph_id', $kph, null, ['class' => 'form-control']) !!}
+            {!! Form::select('kph_id', $kph, null, ['class' => 'form-control', 'placeholder'=>'pilih kph']) !!}
         </div>
     </div>
 </div>
