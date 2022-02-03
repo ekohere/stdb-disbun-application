@@ -207,11 +207,9 @@ class STDBDetailRegisterAPIController extends AppBaseController
 
     public function ccRTRW($id){
         $polygonPersil = PolygonPersil::find($id);
-        $features=[];
         $geometry = $polygonPersil->geom_cc_rtrw;
         unset($polygonPersil->geom_cc_rtrw);
-        $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>['area'=>number_format($polygonPersil->area_cc_rtrw,0,',','.')]];
-        array_push($features,$feature);
+        $features=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>['area'=>number_format($polygonPersil->area_cc_rtrw,0,',','.')]];
 
         $featureCollections = [
             'type'=>'FeatureCollection',
