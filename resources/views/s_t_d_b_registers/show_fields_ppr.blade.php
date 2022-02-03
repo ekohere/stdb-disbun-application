@@ -308,6 +308,7 @@
         if (elementCB.checked){
             $.ajax({url:'{{env('APP_URL').'/api/get_polygon_clean_rtrw/'}}'+PolygonPersilID,
                 success: function (response) {
+                console.info(response);
                     if (Array.isArray(response.features) && response.features.length){
                         drawPolygonDifferenceRTRW(response,PolygonPersilID);
                     }else {
