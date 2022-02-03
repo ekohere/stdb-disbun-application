@@ -4,11 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateKPHRequest;
 use App\Http\Requests\UpdateKPHRequest;
+use App\Models\Kecamatan;
+use App\Models\KPH;
 use App\Repositories\KPHRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
 use Response;
+use DB;
 
 class KPHController extends AppBaseController
 {
@@ -42,7 +45,9 @@ class KPHController extends AppBaseController
      */
     public function create()
     {
-        return view('k_p_h_s.create');
+        $kecamatan = Kecamatan::all();
+        $s = 0;
+        return view('k_p_h_s.create', compact('kecamatan','s'));
     }
 
     /**
@@ -54,11 +59,20 @@ class KPHController extends AppBaseController
      */
     public function store(CreateKPHRequest $request)
     {
+        $this->validate($request, [
+            'nama' => 'required|unique:kph,nama',
+            'kecamatan' => 'required',
+        ]);
         $input = $request->all();
 
-        $kPH = $this->kPHRepository->create($input);
+        $kPH = KPH::create([
+            'nama'=>$input['nama'],
+            'unit_kph'=>$input['unit_kph'],
+            'polygon_id'=>$input['polygon_id']
+        ]);
+        $kPH->kecamatans()->sync($input['kecamatan']);
 
-        Flash::success('K P H saved successfully.');
+        Flash::success('KPH saved successfully.');
 
         return redirect(route('kPHS.index'));
     }
@@ -79,6 +93,9 @@ class KPHController extends AppBaseController
 
             return redirect(route('kPHS.index'));
         }
+        $kphKecamatan = Kecamatan::join("kph_has_kecamatan","kph_has_kecamatan.kecamatan_id","=","kecamatan.id")
+            ->where("kph_has_kecamatan.kph_id",$id)
+            ->get();
 
         return view('k_p_h_s.show')->with('kPH', $kPH);
     }
@@ -99,8 +116,13 @@ class KPHController extends AppBaseController
 
             return redirect(route('kPHS.index'));
         }
+        $kecamatan = Kecamatan::all();
+        $kphKecamatan = DB::table("kph_has_kecamatan")->where("kph_has_kecamatan.kph_id",$id)
+            ->pluck('kph_has_kecamatan.kecamatan_id','kph_has_kecamatan.kecamatan_id')
+            ->all();
+        $s = 1;
 
-        return view('k_p_h_s.edit')->with('kPH', $kPH);
+        return view('k_p_h_s.edit',compact('kecamatan','kphKecamatan','s'))->with('kPH', $kPH);
     }
 
     /**
@@ -113,15 +135,24 @@ class KPHController extends AppBaseController
      */
     public function update($id, UpdateKPHRequest $request)
     {
-        $kPH = $this->kPHRepository->find($id);
-
+        $this->validate($request, [
+            'nama' => 'required',
+            'kecamatan' => 'required',
+        ]);
+//        $kPH = $this->kPHRepository->find($id);
+        $kPH = KPH::find($id);
         if (empty($kPH)) {
-            Flash::error('K P H not found');
+            Flash::error('KPH not found');
 
             return redirect(route('kPHS.index'));
         }
 
-        $kPH = $this->kPHRepository->update($request->all(), $id);
+        $kPH->nama = $request->input('nama');
+        $kPH->unit_kph = $request->input('unit_kph');
+        $kPH->polygon_id = $request->input('polygon_id');
+        $kPH->save();
+        $kPH->kecamatans()->sync($request->input('kecamatan'));
+//        $kPH = $this->kPHRepository->update($request->all(), $id);
 
         Flash::success('K P H updated successfully.');
 
@@ -146,7 +177,7 @@ class KPHController extends AppBaseController
 
             return redirect(route('kPHS.index'));
         }
-
+        $kPH->kecamatans()->detach();
         $this->kPHRepository->delete($id);
 
         Flash::success('KPH deleted successfully.');

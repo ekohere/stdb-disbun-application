@@ -70,7 +70,7 @@ class KPH extends Model
      **/
     public function kecamatans()
     {
-        return $this->belongsToMany(\App\Models\Kecamatan::class, 'kph_has_kecamatan');
+        return $this->belongsToMany(\App\Models\Kecamatan::class, 'kph_has_kecamatan','kph_id','kecamatan_id');
     }
 
     /**
