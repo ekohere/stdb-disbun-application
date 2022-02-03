@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\Desa;
+use App\Models\KPH;
 use App\Models\User;
 use App\Repositories\UserRepository;
 use App\Http\Controllers\AppBaseController;
@@ -48,9 +49,9 @@ class UserController extends AppBaseController
     public function create()
     {
         $desa = Desa::pluck('nama_desa','id');
-        $sRoles=Role::whereIn('name',['KPH','PPR','koordinator'])->get();
-        $roles=[];
-        return view('users.create',compact('desa','sRoles','roles'));
+        $kph = KPH::pluck('nama','id');
+        $roles = Role::whereIn('name',['KPH','PPR','koordinator'])->pluck('name','id');
+        return view('users.create',compact('desa','roles','kph'));
     }
 
     /**
@@ -63,20 +64,16 @@ class UserController extends AppBaseController
     public function store(Request $request)
     {
         $input = $request->except('avatar');
-        $input['kode_koperasi'] = 0;
-        $roles=[];
-        if($request->has('s_role_id')){
-            $roles=$input['s_role_id'];
-        }
+        $input['koperasi_id'] = 0;
+        $input['kode_koperasi'] = "KOP-0";
         $input['verified'] = 1;
         try{
             DB::beginTransaction();
             $user = User::create($input);
             $user->password = bcrypt($input['password']);
-            $user->role_id = $roles[0];
-            $user->syncRoles($roles);
+            $user->assignRole($input['role_id']);
             //Upload Foto dan simpan path/url foto ke dalam database
-            if( $request->hasFile('avatar')) {
+            if( $request->hasFile('avatar')){
                 $file = $request->file('avatar');
                 $filename = $user->id.'imgAvatar.'.$file->getClientOriginalExtension();
                 $path=$request->avatar->storeAs('public/userAvatar', $filename,'local');

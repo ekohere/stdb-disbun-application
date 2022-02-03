@@ -464,3 +464,7 @@
 {{--    <a href="{!! route('desas.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Desa</span></a>--}}
 {{--</li>--}}
 
+<li class="{{ Request::is('kPHS*') ? 'active' : '' }}">
+    <a href="{!! route('kPHS.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">K P H S</span></a>
+</li>
+

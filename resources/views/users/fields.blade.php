@@ -38,8 +38,46 @@
         </div>
     </div>
 
+{{--    <div class="col-4 form-group">--}}
+{{--        {!! Form::label('kecamatan_id', 'Kecamatan:') !!}--}}
+{{--        <div class="position-relative">--}}
+{{--            {!! Form::select('kecamatan_id',$kecamatan, null, ['class' => 'form-control','id'=>'kecamatan']) !!}--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--    @section('scripts')--}}
+{{--        <script>--}}
+{{--            $.ajaxSetup({--}}
+{{--                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }--}}
+{{--            });--}}
+{{--            $('#kelurahan_id').on('change', function () {--}}
+{{--                $.ajax({--}}
+{{--                    url: '{{ route('desaByKecamatan') }}',--}}
+{{--                    method: 'get',--}}
+{{--                    data: {id: $(this).val()},--}}
+{{--                    success: function (response) {--}}
+{{--                        if (!$.trim(response)){--}}
+{{--                            // $('#rt_id').empty().append(new Option("Tidak ada data", null)).attr('disabled','disabled');--}}
+{{--                            // $('#periode_id').empty().append(new Option("Tidak ada data", null)).attr('disabled','disabled');--}}
+{{--                            // $(':input[type="submit"]').prop('disabled',true);--}}
+{{--                        }else{--}}
+{{--                            $.each(response, function (id, name) {--}}
+{{--                                // $('#rt_id').removeAttr('disabled').append(new Option(name, id)).focus();--}}
+{{--                                // $('#periode_id').empty().attr('disabled');--}}
+{{--                                // $(':input[type="submit"]').prop('disabled',false);--}}
+{{--                            })--}}
+{{--                        }--}}
+{{--                    },--}}
+{{--                    error: function (error) {--}}
+{{--                        console.log(error);--}}
+{{--                        alert("Error: "+error);--}}
+{{--                    }--}}
+{{--                })--}}
+{{--            });--}}
+{{--        </script>--}}
+{{--    @endsection--}}
+
     <div class="col-4 form-group">
-        {!! Form::label('desa_id', 'Desa/kelurahan:') !!}
+        {!! Form::label('desa_id', 'Alamat Desa/kelurahan:') !!}
         <div class="position-relative">
             {!! Form::select('desa_id',$desa, null, ['class' => 'form-control','id'=>'desa']) !!}
         </div>
@@ -86,21 +124,35 @@
             {!! Form::file('avatar', null, ['class' => 'form-control']) !!}
         </div>
     </div>
-</div>
 
-<div class="card bg-grey bg-lighten-4 rounded-2">
-    <div class="d-flex pt-1 pb-1">
-        {!! Form::label('s_role_id', 'Hak Akses Diberikan',['class' => 'col-md-3 label-control text-uppercase mb-0']) !!}
-        <div class="skin skin-flat">
-            @foreach($sRoles as $item)
-                <fieldset>
-                    {!! Form::radio('s_role_id[]', $item->id, in_array($item->id, $roles)?true:false,['id'=>'input-'.$item->id]) !!}
-                    <label for="input-{{$item->id}}" class="ml-1 text-bold-700 black text-uppercase">{!! $item->name !!} - {!! $item->display_name !!}</label>
-                </fieldset>
-            @endforeach
+    <div class="col-12 form-group">
+        {!! Form::label('role_id', 'Hak Akses:') !!}
+        <div class="position-relative">
+            {!! Form::select('role_id', $roles, null, ['class' => 'form-control','id'=>'role_id', 'placeholder'=>'pilih hak akses']) !!}
+        </div>
+    </div>
+
+    <div id="kph" class="col-12 form-group">
+        {!! Form::label('kph_id', 'KPH:') !!}
+        <div class="position-relative">
+            {!! Form::select('kph_id', $kph, null, ['class' => 'form-control']) !!}
         </div>
     </div>
 </div>
+
+{{--<div class="card bg-grey bg-lighten-4 rounded-2">--}}
+{{--    <div class="d-flex pt-1 pb-1">--}}
+{{--        {!! Form::label('s_role_id', 'Hak Akses Diberikan',['class' => 'col-md-3 label-control text-uppercase mb-0']) !!}--}}
+{{--        <div class="skin skin-flat">--}}
+{{--            @foreach($sRoles as $item)--}}
+{{--                <fieldset>--}}
+{{--                    {!! Form::radio('s_role_id[]', $item->id, in_array($item->id, $roles)?true:false,['id'=>'input-'.$item->id]) !!}--}}
+{{--                    <label for="input-{{$item->id}}" class="ml-1 text-bold-700 black text-uppercase">{!! $item->name !!} - {!! $item->display_name !!}</label>--}}
+{{--                </fieldset>--}}
+{{--            @endforeach--}}
+{{--        </div>--}}
+{{--    </div>--}}
+{{--</div>--}}
 
 <!-- Sudah di modifikasi -->
 <!-- Submit Field -->
@@ -109,3 +161,18 @@
     {!! Form::submit('Simpan', ['class' => 'btn btn-green mr-1']) !!}
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $("#kph").hide('fast');
+    });
+    $('#role_id').on('change', function () {
+        var role = this.value;
+        console.info(role);
+        if (role==8){
+            $("#kph").show('slow');
+        }else {
+            $("#kph").hide('slow');
+        }
+    });
+</script>

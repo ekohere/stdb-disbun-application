@@ -47,7 +47,8 @@ class User extends Authenticatable
         'nik',
         'alamat',
         'kontak',
-        'desa_id'
+        'desa_id',
+        'kph_id'
 
     ];
 
@@ -102,5 +103,9 @@ class User extends Authenticatable
     public function anggota()
     {
         return $this->hasOne(Anggota::class,'users_id');
+    }
+    public function kph()
+    {
+        return $this->hasOne(KPH::class,'kph_id');
     }
 }
