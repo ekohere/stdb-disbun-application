@@ -7,7 +7,7 @@
     <thead>
     <tr>
         <th><code>#</code></th>
-        <th>Users Pengaju</th>
+        <th>Users Pemohon</th>
         <th>Jumlah Persil</th>
         <th>Status Terbaru</th>
         <th style="text-align: center">Action</th>
