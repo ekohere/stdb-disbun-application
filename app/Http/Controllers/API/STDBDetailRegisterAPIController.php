@@ -277,38 +277,42 @@ class STDBDetailRegisterAPIController extends AppBaseController
 
     public function getPolygonPerkebunan()
     {
-        $kutimPerkebunan = PolygonPerkebunanKutim::all();
-        $features=[];
-        foreach ($kutimPerkebunan as $key=>$item){
-            $properties['peta'] = $item->peta;
-            $properties['rtrwk_2032'] = $item->rtrwk_2032;
-            $properties['sk_554'] = $item->sk_554;
-            $properties['ekse_4'] = $item->ekse_4;
-            $properties['ekse_5'] = $item->ekse_5;
-            $properties['peruntuk_r'] = $item->peruntuk_r;
-            $properties['pola_ruang'] = $item->pola_ruang;
-            $properties['outline'] = $item->outline;
-            $properties['perimeter'] = $item->perimeter;
-            $properties['area'] = $item->area;
-            $properties['acres'] = $item->acres;
-            $properties['hectares'] = $item->hectares;
-            $properties['kab'] = $item->kab;
+        $featureCollections = Cache::remember("polygon-perkebunan",7200 , function (){
+            $kutimPerkebunan = PolygonPerkebunanKutim::all();
+            $features=[];
+            foreach ($kutimPerkebunan as $key=>$item){
+                $properties['peta'] = $item->peta;
+                $properties['rtrwk_2032'] = $item->rtrwk_2032;
+                $properties['sk_554'] = $item->sk_554;
+                $properties['ekse_4'] = $item->ekse_4;
+                $properties['ekse_5'] = $item->ekse_5;
+                $properties['peruntuk_r'] = $item->peruntuk_r;
+                $properties['pola_ruang'] = $item->pola_ruang;
+                $properties['outline'] = $item->outline;
+                $properties['perimeter'] = $item->perimeter;
+                $properties['area'] = $item->area;
+                $properties['acres'] = $item->acres;
+                $properties['hectares'] = $item->hectares;
+                $properties['kab'] = $item->kab;
 
-            $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_transform(rtrw_perkebunan.geom,4326)) from rtrw_perkebunan where id='$item->id'"));
-            unset($item->geom);
-            $feature=['type'=>'Feature', 'geometry'=>json_decode($geom[0]->st_asgeojson),'properties'=>$properties];
-            array_push($features,$feature);
-        }
-        $featureCollections = [
-            'type'=>'FeatureCollection',
-            'features'=>$features
-        ];
+                $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_transform(rtrw_perkebunan.geom,4326)) from rtrw_perkebunan where id='$item->id'"));
+                unset($item->geom);
+                $feature=['type'=>'Feature', 'geometry'=>json_decode($geom[0]->st_asgeojson),'properties'=>$properties];
+                array_push($features,$feature);
+            }
+            $featureCollections = [
+                'type'=>'FeatureCollection',
+                'features'=>$features
+            ];
+            return $featureCollections;
+        });
+
         return  response()->json($featureCollections);
     }
 
     public function getPolygonAPL()
     {
-        $featureCollections = Cache::remember("polygon-apl",360 , function (){
+        $featureCollections = Cache::remember("polygon-apl",7200 , function (){
             $kutimPerkebunan = PolygonAPL718278::all();
             $features=[];
             foreach ($kutimPerkebunan as $key=>$item){
