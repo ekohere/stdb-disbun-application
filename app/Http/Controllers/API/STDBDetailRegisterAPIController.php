@@ -14,6 +14,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Support\Facades\DB;
 use Response;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Class STDBDetailRegisterController
@@ -307,27 +308,34 @@ class STDBDetailRegisterAPIController extends AppBaseController
 
     public function getPolygonAPL()
     {
-        $kutimPerkebunan = PolygonAPL718278::all();
-        $features=[];
-        foreach ($kutimPerkebunan as $key=>$item){
-            $properties['fid_kaltim'] = $item->peta;
-            $properties['ekse_5'] = $item->ekse_5;
-            $properties['kode'] = $item->kode;
-            $properties['luas'] = $item->luas;
-            $properties['sk_718'] = $item->sk_718;
-            $properties['sk_278'] = $item->sk_278;
-            $properties['sk_718_278'] = $item->sk_718_278;
-            $properties['hektar'] = $item->hektar;
 
-            $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_transform(apl_sk718_278.geom,4326)) from apl_sk718_278 where id='$item->id'"));
-            unset($item->geom);
-            $feature=['type'=>'Feature', 'geometry'=>json_decode($geom[0]->st_asgeojson),'properties'=>$properties];
-            array_push($features,$feature);
-        }
-        $featureCollections = [
-            'type'=>'FeatureCollection',
-            'features'=>$features
-        ];
+        $featureCollections = Cache::remember("polygon-apl",360 , function (){
+            $kutimPerkebunan = PolygonAPL718278::all();
+            $features=[];
+            foreach ($kutimPerkebunan as $key=>$item){
+                $properties['fid_kaltim'] = $item->peta;
+                $properties['ekse_5'] = $item->ekse_5;
+                $properties['kode'] = $item->kode;
+                $properties['luas'] = $item->luas;
+                $properties['sk_718'] = $item->sk_718;
+                $properties['sk_278'] = $item->sk_278;
+                $properties['sk_718_278'] = $item->sk_718_278;
+                $properties['hektar'] = $item->hektar;
+
+                $geom = DB::connection('pgsql')->select(DB::raw("select ST_AsGeoJSON(st_transform(apl_sk718_278.geom,4326)) from apl_sk718_278 where id='$item->id'"));
+                unset($item->geom);
+                $feature=['type'=>'Feature', 'geometry'=>json_decode($geom[0]->st_asgeojson),'properties'=>$properties];
+                array_push($features,$feature);
+            }
+            $featureCollections = [
+                'type'=>'FeatureCollection',
+                'features'=>$features
+            ];
+
+            return $featureCollections;
+        });
+
+
         return  response()->json($featureCollections);
     }
 }
