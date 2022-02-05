@@ -308,7 +308,6 @@ class STDBDetailRegisterAPIController extends AppBaseController
 
     public function getPolygonAPL()
     {
-
         $featureCollections = Cache::remember("polygon-apl",360 , function (){
             $kutimPerkebunan = PolygonAPL718278::all();
             $features=[];
