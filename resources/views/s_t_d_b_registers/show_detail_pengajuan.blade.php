@@ -86,8 +86,7 @@
                     <td>: </td>
                     @if(!empty($sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas')))
                         <td class="pl-1 text-bold-700">
-                            <p>{{str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas')) }}</p>
-                            <a href="{!! url(env('URL_KOMPILASI').'/'.$sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas')) !!}">download disini</a>
+                            <a href="{!! url(str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas'))) !!}">download disini</a>
                         </td>
                     @else
                         <td class="pl-1 text-bold-700">
@@ -121,7 +120,7 @@
                         <td>: </td>
                         @if(!empty($item->persil->getFirstMediaUrl('lampiran_shm')))
                             <td class="pl-1 text-bold-700">
-                                <a href="{!! env('URL_KOMPILASI').$sTDBRegister->anggota->getFirstMediaUrl('lampiran_shm') !!}">download disini</a>
+                                <a href="{!! url(str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$item->persil->getFirstMediaUrl('lampiran_shm'))) !!}">download disini</a>
                             </td>
                         @else
                             <td class="pl-1 text-bold-700">
