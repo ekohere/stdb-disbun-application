@@ -124,7 +124,7 @@
                             </td>
                         @else
                             <td class="pl-1 text-bold-700">
-                                <a href="#" onclick="alert('lampiran KTP masih dalam proses upload')">download disini</a>
+                                <a href="#" onclick="alert('lampiran surat lahan masih dalam proses upload')">download disini</a>
                             </td>
                         @endif
                     </tr>
