@@ -86,11 +86,11 @@
                     <td>: </td>
                     @if(!empty($sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas')))
                         <td class="pl-1 text-bold-700">
-                            <a href="{!! url(str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas'))) !!}">download disini</a>
+                            <a href="{!! url(str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas'))) !!}">lihat disini</a>
                         </td>
                     @else
                         <td class="pl-1 text-bold-700">
-                            <a href="#" onclick="alert('lampiran KTP masih dalam proses upload')">download disini</a>
+                            <a href="#" onclick="alert('lampiran KTP masih dalam proses upload')">lihat disini</a>
                         </td>
                     @endif
                 </tr>
@@ -120,11 +120,11 @@
                         <td>: </td>
                         @if(!empty($item->persil->getFirstMediaUrl('lampiran_shm')))
                             <td class="pl-1 text-bold-700">
-                                <a href="{!! url(str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$item->persil->getFirstMediaUrl('lampiran_shm'))) !!}">download disini</a>
+                                <a href="{!! url(str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$item->persil->getFirstMediaUrl('lampiran_shm'))) !!}">lihat disini</a>
                             </td>
                         @else
                             <td class="pl-1 text-bold-700">
-                                <a href="#" onclick="alert('lampiran surat lahan masih dalam proses upload')">download disini</a>
+                                <a href="#" onclick="alert('lampiran surat lahan masih dalam proses upload')">lihat disini</a>
                             </td>
                         @endif
                     </tr>
