@@ -86,6 +86,7 @@
                     <td>: </td>
                     @if(!empty($sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas')))
                         <td class="pl-1 text-bold-700">
+                            <p>{{$sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas')}}</p>
                             <a href="{!! url(env('URL_KOMPILASI').'/'.$sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas')) !!}">download disini</a>
                         </td>
                     @else
