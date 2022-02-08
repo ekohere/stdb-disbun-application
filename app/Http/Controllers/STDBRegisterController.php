@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateSTDBRegisterRequest;
 use App\Http\Requests\UpdateSTDBRegisterRequest;
+use App\Models\KphHasKecamatan;
 use App\Models\STDBRegister;
 use App\Models\STDBRegisterHasSTDBStatus;
 use App\Repositories\STDBRegisterRepository;
@@ -38,6 +39,11 @@ class STDBRegisterController extends AppBaseController
     public function index(Request $request)
     {
         if (Auth::user()->hasRole('KPH')){
+            $kecKPH = KphHasKecamatan::where('kph_id', Auth::user()->kph_id)->join('kecamatan','kph_has_kecamatan.kecamatan_id','=','kecamatan.id')->get();
+            $kecamatan=[];
+            foreach ($kecKPH as $item){
+                array_push($kecamatan,$item->kecamatan->kode_kec);
+            }
             $sTDBRegisters = STDBRegister::where('verified_by_kph',0)->get();
         }elseif (Auth::user()->hasRole('PPR')){
             $sTDBRegisters = STDBRegister::where('verified_by_ppr',0)->get();

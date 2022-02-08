@@ -28,8 +28,8 @@ class Kernel extends ConsoleKernel
         $schedule->command('media-library:delete-old-temporary-uploads')->daily();
         $schedule->command('command:postgre2shp')->everyMinute();
 
-        $schedule->command('command:check-apl')->everyFiveMinutes();
-        $schedule->command('command:check-rtrw')->everyFiveMinutes();
+        $schedule->command('command:check-apl')->everyMinute();
+        $schedule->command('command:check-rtrw')->everyMinute();
     }
 
     /**

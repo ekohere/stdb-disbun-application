@@ -47,7 +47,7 @@ class CheckRTRW extends Command
                 $polygonPersil->save();
 
                 try{
-                    $geom = DB::connection('pgsql')->select(DB::raw("select st_difference(polygon_persil.geom, st_makevalid(st_transform(rtrw_perkebunan_disolve.geom,4326))) from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = $polygonPersil->id"));
+                    $geom = DB::connection('pgsql')->select(DB::raw("select st_difference(polygon_persil.geom, st_transform(rtrw_perkebunan_disolve.geom,4326)) from polygon_persil, rtrw_perkebunan_disolve where polygon_persil.id = $polygonPersil->id"));
                     $polygonPersil->geom_cc_rtrw = $geom[0]->st_difference;
                     $polygonPersil->save();
 

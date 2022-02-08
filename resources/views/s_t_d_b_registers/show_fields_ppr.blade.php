@@ -188,21 +188,48 @@
     </table>
 </div>
 
-
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
 
 <script>
-    //init map and layer
-    var newMap = L.map('mapPrev').setView([0.016373, 116.4330107], 7);
-    var layerGroup =new L.LayerGroup();
-
     //set title to map
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    var newMap = L.map('mapPrev').setView([0.016373, 116.4330107], 7);
+
+    var esriTile = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '<i>Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community</i>'
+    });
+    var baseTile = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '<i>Sumber Data: Pemerintah Kabupaten Kutai Timur</i>'
     }).addTo(newMap);
-    layerGroup.addTo(newMap);
+
+    var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
+        {
+            subdomains:['mt0','mt1','mt2','mt3']
+        });
+
+    //init map and layer
+    var layerRTRW =new L.LayerGroup().addTo(newMap);
+    var layerAPL =new L.LayerGroup().addTo(newMap);
+    var layerPersil =new L.LayerGroup().addTo(newMap);
+    var layerCCRTRW =new L.LayerGroup();
+
+    var baseMaps = {
+        "Grayscale": baseTile,
+        "Satellite": esriTile,
+        "Terrain": googleTerrain
+    };
+    var overlayMaps = {
+        "RTRW": layerRTRW,
+        "Persil": layerPersil,
+        "CC RTRW": layerCCRTRW
+
+    };
+
+    var tipeLayer =L.control.layers(baseMaps,overlayMaps).addTo(newMap);
+
+    // layerGroup.addTo(newMap);
     /*Legend specific*/
     var legend = L.control({ position: "bottomright" });
     legend.onAdd = function(map) {
@@ -259,7 +286,7 @@
             }
         });
         datalayer._leaflet_id = 2;
-        layerGroup.addLayer(datalayer);
+        layerRTRW.addLayer(datalayer);
         newMap.fitBounds(datalayer.getBounds());
     }
 
@@ -281,7 +308,7 @@
     }
     //TODO Draw Polygon Persil After Call
     function drawPolygonPersil(poly,id){
-        datalayer2 = L.geoJson(poly.features,{
+        datalayer = L.geoJson(poly.features,{
             style: {
                 color : '#6495ED',
                 weight:3
@@ -298,9 +325,9 @@
                 );
             }
         });
-        datalayer2._leaflet_id = 800+id;
-        layerGroup.addLayer(datalayer2);
-        newMap.fitBounds(datalayer2.getBounds());
+        datalayer._leaflet_id = 800+id;
+        layerPersil.addLayer(datalayer);
+        newMap.fitBounds(datalayer.getBounds());
     }
 
     //TODO call Polygon CC RTRW
@@ -308,7 +335,6 @@
         if (elementCB.checked){
             $.ajax({url:'{{env('APP_URL').'/api/get_polygon_clean_rtrw/'}}'+PolygonPersilID,
                 success: function (response) {
-                console.info(response.features.length);
                     if (Array.isArray(response.features) && response.features.length){
                         drawPolygonDifferenceRTRW(response,PolygonPersilID);
                     }else {
@@ -320,14 +346,13 @@
                 }
             });
         }else{
-            if (layerGroup.hasLayer(900+PolygonPersilID)){
-                layerGroup.removeLayer(900+PolygonPersilID);
+            if (layerCCRTRW.hasLayer(900+PolygonPersilID)){
+                layerCCRTRW.removeLayer(900+PolygonPersilID);
             }
         }
     }
     //TODO Draw Polygon CC RTRW
     function drawPolygonDifferenceRTRW(poly,id){
-        console.info(poly);
         if(poly.features[0].geometry==null){
             alert("Data persil masih dalam proses clean and clear, silahkan cek beberapa saat lagi");
         }
@@ -341,8 +366,8 @@
             }else{
                 document.getElementById("status-rtrw-"+id).textContent = "ada sebagian area persil diluar dari RTRW: "+poly.features[0].properties.area+" Ha";
                 document.getElementById("status-rtrw-"+id).className = "badge bg-danger bg-lighten-2 mb-0-1";
-                // $("#status-"+id).val("ada sebagian area diluar dari peruntukan perkebunan seluas:"+poly.features[0].properties.area);
-                datalayer3 = L.geoJson(poly.features,{
+
+                datalayer = L.geoJson(poly.features,{
                     style: {
                         color : '#ed6a6d',
                         weight:3
@@ -353,43 +378,26 @@
                         );
                     }
                 });
-                datalayer3._leaflet_id = 900+id;
-                layerGroup.addLayer(datalayer3);
-                newMap.fitBounds(datalayer3.getBounds());
+                datalayer._leaflet_id = 900+id;
+                layerCCRTRW.addLayer(datalayer).addTo(newMap);
+                newMap.fitBounds(datalayer.getBounds());
             }
 
         }
     }
 
-    //TODO Clear Maps
-    // function clearMaps() {
-    //     layerGroup.clearLayers();
-    //     $("#cb-id-def").prop('checked',false);
-    //     $("#cb-id-deg").prop('checked',false);
-    //     $("#cb-id-peat").prop('checked',false);
-    //     $("#cb-id-fire").prop('checked',false);
-    //     $("#cb-id-smg").prop('checked',false);
-    // }
-
     function callCleanAndClear(elementCB) {
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
-        callPolygonCCRTRW({!! $item->persil->polygon_persil_id !!},elementCB);
+            var id = parseInt({!! $item->persil->polygon_persil_id !!});
+            callPolygonCCRTRW(id,elementCB);
         @endforeach
-        {{--if (elementCB.checked){--}}
-        {{--    --}}
-        {{--}else{--}}
-        {{--    $("#div-loading").hide();--}}
-        {{--    $("#pre-loader").hide();--}}
-        {{--    if (layerGroup.hasLayer({!! $item->persil->polygon_persil_id !!})){--}}
-        {{--        layerGroup.removeLayer({!! $item->persil->polygon_persil_id !!});--}}
-        {{--    }--}}
-        {{--}--}}
     }
 
     $(document).ready(function() {
         callPolygonRTRWPerkebunan();
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
-            callPolygonPersilByID({!! $item->persil->polygon_persil_id !!});
+        callPolygonPersilByID({!! $item->persil->polygon_persil_id !!});
         @endforeach
     });
+
 </script>

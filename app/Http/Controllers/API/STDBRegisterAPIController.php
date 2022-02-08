@@ -236,7 +236,8 @@ class STDBRegisterAPIController extends AppBaseController
                     $stdbDetail = STDBDetailRegister::create($item);
                     $stdbDetail->save();
                 }else{
-                    return $this->sendError("ada persil yang sudah pernah didaftarkan: ".$cekDetailSTDBRegis->persil_id);
+                    DB::rollBack();
+                    return $this->sendError("ada persil yang sudah pernah didaftarkan: persil_id ".$cekDetailSTDBRegis->persil_id);
                 }
 
                 //$polygonPersil = DB::connection('pgsql')->insert("insert into polygon_persil(geom,area) values(ST_GeomFromGeoJSON('$geojson'),ST_Area(ST_GeomFromGeoJSON('$geojson')))");
@@ -256,7 +257,6 @@ class STDBRegisterAPIController extends AppBaseController
             DB::rollBack();
             return $this->sendError("Error:".$exception);
         }
-        //return $this->sendResponse($sTDBRegister->toArray(), 'STDB Register requested successfully');
     }
 
     public function storeByNonKoperasi(Request $request)

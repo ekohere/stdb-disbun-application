@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-{{--        <span class="float-right"> <input class="ml-0-1" type="checkbox" id="persil-out" onclick="callCleanAndClear(this)"> <label class="text-uppercase text-bold-700"> Cek Overlay Persil</label></span>--}}
+        <span class="float-right"> <input class="ml-0-1" type="checkbox" id="persil-out" onclick="callCleanAndClear(this)"> <label class="text-uppercase text-bold-700"> Cek Overlay Persil</label></span>
         <h3 class="font-weight-bold mb-1">Status Persil</h3>
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
             <h6>Persil {{$key+1}}:
@@ -31,7 +31,8 @@
                     <span class="badge bg-warning small text-white">shp persil masih dalam proses konversi <i class="fa fa-refresh"></i></span>
                 @endif
             </h6>
-{{--            <p class="small text-bold-700 mb-0">Area Kawasan KPH: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-kph-{!! $item->persil->polygon_persil_id !!}">-</span></p>--}}
+            <p class="small text-bold-700 mb-0">APL: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-apl-{!! $item->persil->polygon_persil_id !!}">-</span></p>
+            <p class="small text-bold-700 mb-0">Area Kawasan KPH: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-kph-{!! $item->persil->polygon_persil_id !!}">-</span></p>
             <hr>
         @endforeach
         @if($sTDBRegister->verified_by_kph==0)
@@ -189,31 +190,104 @@
     </table>
 </div>
 
-
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
 
 <script>
-    //init map and layer
-    var newMap = L.map('mapPrev').setView([0.016373, 116.4330107], 7);
-    var layerGroup =new L.LayerGroup();
-
     //set title to map
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    var newMap = L.map('mapPrev').setView([0.016373, 116.4330107], 7);
+
+    var baseTile = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '<i>Sumber Data: Pemerintah Kabupaten Kutai Timur</i>'
     }).addTo(newMap);
-    layerGroup.addTo(newMap);
+    var esriTile = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '<i>Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community</i>'
+    });
+
+    var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',{
+        subdomains:['mt0','mt1','mt2','mt3']
+    });
+
+    //init map and layer
+    var layerKPH =new L.LayerGroup().addTo(newMap);
+    var layerAPL =new L.LayerGroup().addTo(newMap);
+    var layerPersil =new L.LayerGroup().addTo(newMap);
+    var layerCCAPL =new L.LayerGroup();
+    var layerCCKPH =new L.LayerGroup();
+
+    var baseMaps = {
+        "Grayscale": baseTile,
+        "Satellite": esriTile,
+        "Terrain": googleTerrain
+    };
+    var overlayMaps = {
+        "KPH": layerKPH,
+        "APL": layerAPL,
+        "Persil": layerPersil,
+        "CC APL": layerCCAPL,
+        "CC KPH": layerCCKPH
+    };
+
+    var tipeLayer =L.control.layers(baseMaps,overlayMaps).addTo(newMap);
+
     /*Legend specific*/
     var legend = L.control({ position: "bottomright" });
     legend.onAdd = function(map) {
         var div = L.DomUtil.create("div", "legend");
         div.innerHTML += "<h5 class='text-left'>Keterangan:</h5>";
-        div.innerHTML += '<i style="background: #ede666"></i><span class="small">Area Kawasan KPH</span><br>';
+        div.innerHTML += '<i style="background: #5ded8c"></i><span class="small">Area Kawasan KPH</span><br>';
+        div.innerHTML += '<i style="background: #ffdc00"></i><span class="small">APL Perkebunan</span><br>';
         div.innerHTML += '<i style="background: #87c1e6"></i><span class="small">Area persil</span><br>';
+        div.innerHTML += '<i style="background: #ed43ed"></i><span class="small">Area persil diluar APL</span><br>';
+        div.innerHTML += '<i style="background: #ff2500"></i><span class="small">Area persil diluar KPH</span><br>';
         return div;
     };
     legend.addTo(newMap);
+
+    //TODO call polygon APL
+    function callPolygonAPL() {
+        $.ajax({url:'{{env('APP_URL').'/api/apl_perkebunan'}}',
+            success: function (response) {
+                if (Array.isArray(response.features) && response.features.length){
+                    drawPolygonAPL(response);
+                }else {
+                    alert("Data Persil Kosong");
+                }
+            },
+            error: function (xhr, status, error){
+                alert("Error:"+error);
+            }
+        });
+    }
+
+    //TODO Draw Polygon APL After Call
+    function drawPolygonAPL(poly){
+        datalayer = L.geoJson(poly.features,{
+            style: {
+                color : '#ffdc00',
+                weight:3,
+                opacity:0.65
+
+            },
+            onEachFeature: function(feature, featureLayer) {
+                featureLayer.bindPopup(
+                    "fid_kaltim: "+feature.properties.fid_kaltim+("<br>")+
+                    "ekse_5: "+feature.properties.ekse_5+("<br>")+
+                    "kode: "+feature.properties.kode+("<br>")+
+                    "luas: "+feature.properties.luas+("<br>")+
+                    "sk_718: "+feature.properties.sk_718+("<br>")+
+                    "sk_278: "+feature.properties.sk_278+("<br>")+
+                    "sk_718_278: "+feature.properties.sk_718_278+("<br>")+
+                    "hektar: "+feature.properties.hektar+("<br>")
+                );
+            }
+        });
+        datalayer._leaflet_id = 1;
+        layerAPL.addLayer(datalayer);
+        newMap.fitBounds(datalayer.getBounds());
+    }
 
     //TODO call polygon KPH
     function callPolygonKPH() {
@@ -231,11 +305,11 @@
         });
     }
 
-    //TODO Draw Polygon APLPerkebunan After Call
+    //TODO Draw Polygon KPH After Call
     function drawPolygonKPH(poly){
         datalayer = L.geoJson(poly.features,{
             style: {
-                color : '#ede666',
+                color : '#5ded8c',
                 weight:3,
                 opacity:0.65
 
@@ -253,8 +327,8 @@
                 );
             }
         });
-        datalayer._leaflet_id = 1;
-        layerGroup.addLayer(datalayer);
+        datalayer._leaflet_id = 2;
+        layerKPH.addLayer(datalayer);
         newMap.fitBounds(datalayer.getBounds());
     }
 
@@ -276,7 +350,7 @@
     }
     //TODO Draw Polygon Persil After Call
     function drawPolygonPersil(poly,id){
-        datalayer2 = L.geoJson(poly.features,{
+        datalayer = L.geoJson(poly.features,{
             style: {
                 color : '#6495ED',
                 weight:3
@@ -293,16 +367,134 @@
                 );
             }
         });
-        datalayer2._leaflet_id = 800+id;
-        layerGroup.addLayer(datalayer2);
-        newMap.fitBounds(datalayer2.getBounds());
+        datalayer._leaflet_id = 800+id;
+        layerPersil.addLayer(datalayer);
+        newMap.fitBounds(datalayer.getBounds());
+    }
+
+    //TODO call Polygon CC APL
+    function callPolygonCCAPL(PolygonPersilID,elementCB) {
+        if (elementCB.checked){
+            $.ajax({url:'{{env('APP_URL').'/api/get_polygon_clean_apl/'}}'+PolygonPersilID,
+                success: function (response) {
+                    if (Array.isArray(response.features) && response.features.length){
+                        drawPolygonDifferenceAPL(response,PolygonPersilID);
+                    }else {
+                        alert("Data Persil Kosong");
+                    }
+                },
+                error: function (xhr, status, error){
+                    alert("Error:"+error);
+                }
+            });
+        }else{
+            if (layerCCAPL.hasLayer(1000+PolygonPersilID)){
+                layerCCAPL.removeLayer(1000+PolygonPersilID);
+            }
+        }
+    }
+    //TODO Draw Polygon CC APL
+    function drawPolygonDifferenceAPL(poly,id){
+        if(poly.features[0].geometry==null){
+            alert("Data persil masih dalam proses clean and clear, silahkan cek beberapa saat lagi");
+        }
+        else if(poly.features[0].geometry.type==="GeometryCollection"){
+            if(poly.features[0].geometry.geometries.length===0){
+                document.getElementById("status-apl-"+id).textContent = "Clear and Clean";
+            }
+        }else{
+            if(poly.features[0].geometry.coordinates.length===0){
+                document.getElementById("status-apl-"+id).textContent = "Clear and Clean";
+            }else{
+                document.getElementById("status-apl-"+id).textContent = "ada area persil diluar dari APL: "+poly.features[0].properties.area+" Ha";
+                document.getElementById("status-apl-"+id).className = "badge bg-danger bg-lighten-2 mb-0-1";
+                // $("#status-"+id).val("ada sebagian area diluar dari peruntukan perkebunan seluas:"+poly.features[0].properties.area);
+                datalayer = L.geoJson(poly.features,{
+                    style: {
+                        color : '#ed43ed',
+                        weight:3
+                    },
+                    onEachFeature: function(feature, featureLayer) {
+                        featureLayer.bindPopup(
+                            "Luas diluar APL: "+feature.properties.area+" Ha"+("<br>")
+                        );
+                    }
+                });
+                datalayer._leaflet_id = 1000+id;
+                layerCCAPL.addLayer(datalayer).addTo(newMap);
+                newMap.fitBounds(datalayer.getBounds());
+            }
+        }
+    }
+
+    //TODO call Polygon CC KPH
+    function callPolygonCCKPH(PolygonPersilID,elementCB) {
+        if (elementCB.checked){
+            var idKPH = '{!! \Illuminate\Support\Facades\Auth::user()->kph->polygon_id !!}';
+            $.ajax({url:'{{env('APP_URL').'/api/get_polygon_clean_kph/'}}'+PolygonPersilID+'/'+idKPH,
+                success: function (response) {
+                    if (Array.isArray(response.features) && response.features.length){
+                        drawPolygonCCKPH(response,PolygonPersilID);
+                    }else {
+                        alert("Data Hasil Clean and Clear KPH Kosong");
+                    }
+                },
+                error: function (xhr, status, error){
+                    alert("Error:"+error);
+                }
+            });
+        }else{
+            if (layerCCKPH.hasLayer(2000+PolygonPersilID)){
+                layerCCKPH.removeLayer(2000+PolygonPersilID);
+            }
+        }
+    }
+    //TODO Draw Polygon CC KPH
+    function drawPolygonCCKPH(poly,id){
+        if(poly.features[0].geometry==null){
+            alert("Data persil masih dalam proses clean and clear, silahkan cek beberapa saat lagi");
+        }
+        else if(poly.features[0].geometry.type==="GeometryCollection"){
+            if(poly.features[0].geometry.geometries.length===0){
+                document.getElementById("status-kph-"+id).textContent = "Clear and Clean";
+            }
+        }else{
+            if(poly.features[0].geometry.coordinates.length===0){
+                document.getElementById("status-kph-"+id).textContent = "Clear and Clean";
+            }else{
+                document.getElementById("status-kph-"+id).textContent = "ada area persil didalam area kawasan hutan: "+poly.features[0].properties.area+" Ha";
+                document.getElementById("status-kph-"+id).className = "badge bg-danger bg-lighten-2 mb-0-1";
+                datalayer = L.geoJson(poly.features,{
+                    style: {
+                        color : '#ff2500',
+                        weight:3
+                    },
+                    onEachFeature: function(feature, featureLayer) {
+                        featureLayer.bindPopup(
+                            "Luas didalam kawasan hutan: "+feature.properties.area+" Ha"+("<br>")
+                        );
+                    }
+                });
+                datalayer._leaflet_id = 2000+id;
+                layerCCKPH.addLayer(datalayer).addTo(newMap);
+                newMap.fitBounds(datalayer.getBounds());
+            }
+        }
+    }
+
+    function callCleanAndClear(elementCB) {
+        @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
+            var id = parseInt({!! $item->persil->polygon_persil_id !!});
+            callPolygonCCAPL(id,elementCB);
+            callPolygonCCKPH(id,elementCB);
+        @endforeach
     }
 
     $(document).ready(function() {
+        callPolygonAPL();
         callPolygonKPH();
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
-            callPolygonPersilByID({!! $item->persil->polygon_persil_id !!});
+        callPolygonPersilByID({!! $item->persil->polygon_persil_id !!});
         @endforeach
     });
-
 </script>

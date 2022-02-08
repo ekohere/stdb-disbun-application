@@ -2,7 +2,6 @@
 
 <div class="card-content rounded-1 box-shadow-1 mt-3 p-0-1">
     <div name="mapPrev" id="mapPrev" style="height: 500px" class="m-0-1">
-{{--        <div class="col-sm-12 align-items-center float-sm-none" id="div-loading"></div>--}}
     </div>
 </div>
 <div class="border-top-green border-bottom-green border-top-3 bet border-bottom-3 card-content rounded-1 box-shadow-1 mt-3 p-0-1">
@@ -16,7 +15,6 @@
                         Jika ingin melakukan pengecekan diluar sistem, silahkan download shp setiap persil terlebih dahulu dengan cara klik tombol
                         <code class="badge bg-green small white">Download shp persil <i class="fa fa-download"></i></code> di setiap persil yang tersedia.<br>
                         Dan ketika ingin melakukan verifikasi silahkan klik button <code>Verifikasi</code>
-
                     </div>
                 </div>
             </div>
@@ -192,24 +190,54 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/leaflet.gridlayer.googlemutant@latest/dist/Leaflet.GoogleMutant.js"></script>
 
 <script>
-    //init map and layer
-    var newMap = L.map('mapPrev').setView([0.016373, 116.4330107], 7);
-    var layerGroup =new L.LayerGroup();
-
     //set title to map
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+    var newMap = L.map('mapPrev').setView([0.016373, 116.4330107], 7);
+
+    var esriTile = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+        attribution: '<i>Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community</i>'
+    });
+    var baseTile = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '<i>Sumber Data: Pemerintah Kabupaten Kutai Timur</i>'
     }).addTo(newMap);
-    layerGroup.addTo(newMap);
+
+    var googleTerrain = L.tileLayer('http://{s}.google.com/vt/lyrs=p&x={x}&y={y}&z={z}',
+        {
+            subdomains:['mt0','mt1','mt2','mt3']
+        });
+
+    //init map and layer
+    var layerRTRW =new L.LayerGroup().addTo(newMap);
+    var layerAPL =new L.LayerGroup().addTo(newMap);
+    var layerPersil =new L.LayerGroup().addTo(newMap);
+    var layerCCRTRW =new L.LayerGroup();
+    var layerCCAPL =new L.LayerGroup();
+
+    var baseMaps = {
+        "Grayscale": baseTile,
+        "Satellite": esriTile,
+        "Terrain": googleTerrain
+    };
+    var overlayMaps = {
+        "RTRW": layerRTRW,
+        "APL": layerAPL,
+        "Persil": layerPersil,
+        "CC RTRW": layerCCRTRW,
+        "CC APL": layerCCAPL
+    };
+
+    var tipeLayer =L.control.layers(baseMaps,overlayMaps).addTo(newMap);
+
+    // layerGroup.addTo(newMap);
     /*Legend specific*/
     var legend = L.control({ position: "bottomright" });
     legend.onAdd = function(map) {
         var div = L.DomUtil.create("div", "legend");
         div.innerHTML += "<h5 class='text-left'>Keterangan:</h5>";
         div.innerHTML += '<i style="background: #5ded8c"></i><span class="small">RTRW Perkebunan Kutim</span><br>';
-        div.innerHTML += '<i style="background: #ede666"></i><span class="small">APL Perkebunan</span><br>';
+        div.innerHTML += '<i style="background: #ffdc00"></i><span class="small">APL Perkebunan</span><br>';
         div.innerHTML += '<i style="background: #87c1e6"></i><span class="small">Area persil</span><br>';
         div.innerHTML += '<i style="background: #ed6a6d"></i><span class="small">Area persil diluar rtrw</span><br>';
         div.innerHTML += '<i style="background: #ed43ed"></i><span class="small">Area persil diluar apl</span><br>';
@@ -237,7 +265,7 @@
     function drawPolygonAPL(poly){
         datalayer = L.geoJson(poly.features,{
             style: {
-                color : '#ede666',
+                color : '#ffdc00',
                 weight:3,
                 opacity:0.65
 
@@ -256,7 +284,7 @@
             }
         });
         datalayer._leaflet_id = 1;
-        layerGroup.addLayer(datalayer);
+        layerAPL.addLayer(datalayer);
         newMap.fitBounds(datalayer.getBounds());
     }
 
@@ -304,7 +332,7 @@
             }
         });
         datalayer._leaflet_id = 2;
-        layerGroup.addLayer(datalayer);
+        layerRTRW.addLayer(datalayer);
         newMap.fitBounds(datalayer.getBounds());
     }
 
@@ -326,7 +354,7 @@
     }
     //TODO Draw Polygon Persil After Call
     function drawPolygonPersil(poly,id){
-        datalayer2 = L.geoJson(poly.features,{
+        datalayer = L.geoJson(poly.features,{
             style: {
                 color : '#6495ED',
                 weight:3
@@ -343,9 +371,9 @@
                 );
             }
         });
-        datalayer2._leaflet_id = 800+id;
-        layerGroup.addLayer(datalayer2);
-        newMap.fitBounds(datalayer2.getBounds());
+        datalayer._leaflet_id = 800+id;
+        layerPersil.addLayer(datalayer);
+        newMap.fitBounds(datalayer.getBounds());
     }
 
     //TODO call Polygon CC RTRW
@@ -364,8 +392,8 @@
                 }
             });
         }else{
-            if (layerGroup.hasLayer(900+PolygonPersilID)){
-                layerGroup.removeLayer(900+PolygonPersilID);
+            if (layerCCRTRW.hasLayer(900+PolygonPersilID)){
+                layerCCRTRW.removeLayer(900+PolygonPersilID);
             }
         }
     }
@@ -385,7 +413,7 @@
                 document.getElementById("status-rtrw-"+id).textContent = "ada sebagian area persil diluar dari RTRW: "+poly.features[0].properties.area+" Ha";
                 document.getElementById("status-rtrw-"+id).className = "badge bg-danger bg-lighten-2 mb-0-1";
                 // $("#status-"+id).val("ada sebagian area diluar dari peruntukan perkebunan seluas:"+poly.features[0].properties.area);
-                datalayer3 = L.geoJson(poly.features,{
+                datalayer = L.geoJson(poly.features,{
                     style: {
                         color : '#ed6a6d',
                         weight:3
@@ -396,9 +424,9 @@
                         );
                     }
                 });
-                datalayer3._leaflet_id = 900+id;
-                layerGroup.addLayer(datalayer3);
-                newMap.fitBounds(datalayer3.getBounds());
+                datalayer._leaflet_id = 900+id;
+                layerCCRTRW.addLayer(datalayer).addTo(newMap);
+                newMap.fitBounds(datalayer.getBounds());
             }
 
         }
@@ -420,8 +448,8 @@
                 }
             });
         }else{
-            if (layerGroup.hasLayer(1000+PolygonPersilID)){
-                layerGroup.removeLayer(1000+PolygonPersilID);
+            if (layerCCAPL.hasLayer(1000+PolygonPersilID)){
+                layerCCAPL.removeLayer(1000+PolygonPersilID);
             }
         }
     }
@@ -441,7 +469,7 @@
                 document.getElementById("status-apl-"+id).textContent = "ada sebagian area persil diluar dari APL: "+poly.features[0].properties.area+" Ha";
                 document.getElementById("status-apl-"+id).className = "badge bg-danger bg-lighten-2 mb-0-1";
                 // $("#status-"+id).val("ada sebagian area diluar dari peruntukan perkebunan seluas:"+poly.features[0].properties.area);
-                datalayer4 = L.geoJson(poly.features,{
+                datalayer = L.geoJson(poly.features,{
                     style: {
                         color : '#ed43ed',
                         weight:3
@@ -452,38 +480,19 @@
                         );
                     }
                 });
-                datalayer4._leaflet_id = 1000+id;
-                layerGroup.addLayer(datalayer4);
-                newMap.fitBounds(datalayer4.getBounds());
+                datalayer._leaflet_id = 1000+id;
+                layerCCAPL.addLayer(datalayer).addTo(newMap);
+                newMap.fitBounds(datalayer.getBounds());
             }
-
         }
     }
 
-    //TODO Clear Maps
-    // function clearMaps() {
-    //     layerGroup.clearLayers();
-    //     $("#cb-id-def").prop('checked',false);
-    //     $("#cb-id-deg").prop('checked',false);
-    //     $("#cb-id-peat").prop('checked',false);
-    //     $("#cb-id-fire").prop('checked',false);
-    //     $("#cb-id-smg").prop('checked',false);
-    // }
-
     function callCleanAndClear(elementCB) {
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
-        callPolygonCCRTRW({!! $item->persil->polygon_persil_id !!},elementCB);
-        callPolygonCCAPL({!! $item->persil->polygon_persil_id !!},elementCB);
+            var id = parseInt({!! $item->persil->polygon_persil_id !!});
+            callPolygonCCRTRW(id,elementCB);
+            callPolygonCCAPL(id,elementCB);
         @endforeach
-        {{--if (elementCB.checked){--}}
-        {{--    --}}
-        {{--}else{--}}
-        {{--    $("#div-loading").hide();--}}
-        {{--    $("#pre-loader").hide();--}}
-        {{--    if (layerGroup.hasLayer({!! $item->persil->polygon_persil_id !!})){--}}
-        {{--        layerGroup.removeLayer({!! $item->persil->polygon_persil_id !!});--}}
-        {{--    }--}}
-        {{--}--}}
     }
 
     $(document).ready(function() {

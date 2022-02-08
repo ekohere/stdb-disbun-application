@@ -22,13 +22,15 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
 
-Route::get('get_polygon/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonByIdRegister']);
-Route::get('get_polygon_persil/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonPersilById']);
-Route::get('get_polygon_clean_rtrw/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'ccRTRW']);
-Route::get('get_polygon_clean_apl/{id}',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class, 'ccAPL']);
-Route::get('rtrw_perkebunan',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonPerkebunan']);
-Route::get('apl_perkebunan',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'getPolygonAPL']);
+Route::get('get_polygon/{id}',[\App\Http\Controllers\API\SpatialAPIController::class,'getPolygonByIdRegister']);
+Route::get('get_polygon_persil/{id}',[\App\Http\Controllers\API\SpatialAPIController::class,'getPolygonPersilById']);
 
+Route::get('get_polygon_clean_rtrw/{id}',[\App\Http\Controllers\API\SpatialAPIController::class,'ccRTRW']);
+Route::get('get_polygon_clean_apl/{id}',[\App\Http\Controllers\API\SpatialAPIController::class, 'ccAPL']);
+Route::get('get_polygon_clean_kph/{id}/{kph_id}',[\App\Http\Controllers\API\SpatialAPIController::class, 'ccKPH']);
+
+Route::get('rtrw_perkebunan',[\App\Http\Controllers\API\SpatialAPIController::class,'getPolygonPerkebunan']);
+Route::get('apl_perkebunan',[\App\Http\Controllers\API\SpatialAPIController::class,'getPolygonAPL']);
 Route::get('polygon_kph/{id}',[\App\Http\Controllers\KPHController::class,'getPolygonKPH']);
 
 //=============testing api disini

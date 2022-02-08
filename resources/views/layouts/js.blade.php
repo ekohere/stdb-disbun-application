@@ -45,3 +45,4 @@
 <script src="{{asset('master/app-assets/js/scripts/customizer.js')}}" type="text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
 <!--//-->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCKRPPVKEReyv6tbeXblgDiB2xqw_yO3Sk&language=id&region=ID&libraries=places"></script>
