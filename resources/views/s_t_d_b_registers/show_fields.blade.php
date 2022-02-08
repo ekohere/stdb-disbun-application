@@ -286,10 +286,6 @@
         datalayer._leaflet_id = 1;
         layerAPL.addLayer(datalayer);
         newMap.fitBounds(datalayer.getBounds());
-
-        @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
-        callPolygonPersilByID({!! $item->persil->polygon_persil_id !!});
-        @endforeach
     }
 
     //TODO call polygon RTRW
@@ -338,8 +334,6 @@
         datalayer._leaflet_id = 2;
         layerRTRW.addLayer(datalayer);
         newMap.fitBounds(datalayer.getBounds());
-
-        callPolygonAPL();
     }
 
     //TODO call Polygon Persil
@@ -503,6 +497,10 @@
 
     $(document).ready(function() {
         callPolygonRTRWPerkebunan();
+        callPolygonAPL();
+        @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
+        callPolygonPersilByID({!! $item->persil->polygon_persil_id !!});
+        @endforeach
     });
 
 </script>
