@@ -220,7 +220,7 @@ class STDBRegisterController extends AppBaseController
         $kecCleanSpace = implode(explode(",",$sTDBRegister->anggota->alamat_kec_ktp));
         $kecCleanComa = implode(explode(" ",$kecCleanSpace));
         $sTDBRegister['kecamatan'] = $kecCleanComa[0].strtoupper($kecCleanComa[strlen($kecCleanComa)/2]).strtoupper($kecCleanComa[strlen($kecCleanComa)-1]);
-        return view('s_t_d_b_registers.cetak_stdb',compact('sTDBRegister'));
+        return view('s_t_d_b_registers.print_stdb.cetak_stdb',compact('sTDBRegister'));
     }
 
     public function doneReview()
