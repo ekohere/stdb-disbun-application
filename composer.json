@@ -39,6 +39,7 @@
         "nao-pon/flysystem-google-drive": "~1.1",
         "nelexa/zip": "^4.0",
         "predis/predis": "^1.1",
+        "simplesoftwareio/simple-qrcode": "~4",
         "spatie/laravel-backup": "^6.16",
         "spatie/laravel-medialibrary": "^9.0.0",
         "spatie/laravel-medialibrary-pro": "^1.0.0",

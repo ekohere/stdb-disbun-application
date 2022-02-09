@@ -222,10 +222,12 @@
                     <div class="mt-0" style="width: 100%; text-align: center;">Kepala Dinas Perkebunan</div>
                     {{--            <br><br><br><br>--}}
                     <div class="mt-0" style="width: 100%; text-align: center">
-                        <a style="width: 100%; text-align: center;" rel='nofollow' href='https://www.qr-code-generator.com'
-                           border='0' style='cursor:default'></a><img
-                            src='https://chart.googleapis.com/chart?cht=qr&chl=http%3A%2F%2Fstdb-kutim.britech.id%2FsTDBRegisters%2Fprint%2F21&chs=180x180&choe=UTF-8&chld=L|2'
-                            alt=''>
+                        {!! QrCode::size(150)->margin(3)->merge('/public/image/logo.png', .2)->generate(route('sTDBRegisters.print',$sTDBRegister->id)); !!}
+
+{{--                        <a style="width: 100%; text-align: center;" rel='nofollow' href='https://www.qr-code-generator.com'--}}
+{{--                           border='0' style='cursor:default'></a><img--}}
+{{--                            src='https://chart.googleapis.com/chart?cht=qr&chl=http%3A%2F%2Fstdb-kutim.britech.id%2FsTDBRegisters%2Fprint%2F21&chs=180x180&choe=UTF-8&chld=L|2'--}}
+{{--                            alt=''>--}}
                     </div>
                     <div style="width: 100%; text-align: center;"><b><u>M. Alfian, S.Sos</u></b></div>
                     <div style="width: 100%; text-align: center;">NIP. 19680520 199003 1 009</div>
@@ -234,30 +236,7 @@
         </div>
 
         @include('s_t_d_b_registers.print_stdb.lampiran_map')
+        @include('s_t_d_b_registers.print_stdb.lampiran_pendukung')
 
-        <div class="page" id="lampiran">
-            <svg height="10" width="100%">
-                <line x1="100%" y1="0" style="stroke:rgb(0,0,0);stroke-width:10"></line>
-            </svg>
-            <div class="col-sm-12 pl-5 mt-1 isi_surat center">
-                <h5 class="isi_surat text-bold-700">Lampiran SHM Pemilik Kebun</h5>
-                <br>
-                @foreach($sTDBRegister->stdbDetailRegis as $item)
-                    @if(!empty($item->persil->getFirstMediaUrl('lampiran_shm')))
-                        <img class="mt-2" width="60%" src="{!! url(str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$item->persil->getFirstMediaUrl('lampiran_shm'))) !!}">
-                        <br>
-                    @else
-                        <img class="mt-2" width="60%" src="{!! asset('image/example-shm.jpeg') !!}">
-                        <br>
-                    @endif
-                @endforeach
-                <h5 class="isi_surat text-bold-700 mt-3">Lampiran KTP</h5>
-                @if($sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas'))
-                    <img width="40%" src="{!! asset(str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$sTDBRegister->anggota->getFirstMediaUrl('lampiran_identitas'))) !!}">
-                @else
-                    <img width="40%" src="{!! asset('image/example-ktp.jpeg') !!}">
-                @endif
-            </div>
-        </div>
     </body>
 </html>
