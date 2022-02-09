@@ -103,7 +103,6 @@
         @foreach($sTDBRegister->stdbDetailRegis as $key=>$item)
             callPolygonPersilByID({!! $item->persil->polygon_persil_id !!});
         @endforeach
-
         var delayInMilliseconds = 1500; //1.5 second
         setTimeout(function() {
             window.print();

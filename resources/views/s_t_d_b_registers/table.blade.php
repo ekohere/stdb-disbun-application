@@ -59,7 +59,7 @@
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a href="{!! route('sTDBRegisters.show', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-success"><i class="fa fa-eye"></i> Detail</a>
                     @if($sTDBRegister->latest_status->id==2)
-                        <a href="{!! route('sTDBRegisters.print', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue"><i class="fa fa-print"></i> Cetak Surat</a>
+                        <a target="_blank" href="{!! route('sTDBRegisters.print', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue"><i class="fa fa-print"></i> Cetak Surat</a>
                     @endif
                 </div>
                 @if($sTDBRegister->latest_status->id==2 && !empty($sTDBRegister->getFirstMediaUrl('lampiran_peta_persil')))
