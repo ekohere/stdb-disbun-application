@@ -8,8 +8,7 @@
     <tr>
         <th><code>#</code></th>
         <th>Users Pemohon</th>
-        <th>Jumlah Persil</th>
-        <th>Status Terbaru</th>
+        <th>Status Pengajuan</th>
         <th style="text-align: center">Action</th>
     </tr>
     </thead>
@@ -23,9 +22,10 @@
             @if(!empty($sTDBRegister->anggota_id))
                 <td>
                     Koperasi<br><span class="badge bg-green">{{$sTDBRegister->anggota->koperasi->nama_koperasi}}</span>
-                    <hr class="border-1 mt-1 mb-0">
-                    Nama Pengaju<br><span class="badge badge-blue">{{$sTDBRegister->anggota->nama_ktp}}</span>
-{{--                    <hr class="border-1 mt-0 mb-0">--}}
+                    <hr class="border-1 mt-0-1 mb-0">
+                    Nama Petani<br><span class="badge badge-blue">{{$sTDBRegister->anggota->nama_ktp}}</span>
+                    <hr class="border-1 mt-0-1 mb-0">
+                    Jumlah Persil: <b>{!! $sTDBRegister->stdbDetailRegis->count() !!} Lahan</b>
                 </td>
             @else
                 <td>
@@ -35,24 +35,32 @@
                     <hr class="border-1">
                 </td>
             @endif
-            <td>{!! $sTDBRegister->stdbDetailRegis->count() !!}</td>
             <td>
-                @if($sTDBRegister->latest_status->id==1)
-                    <div class="badge bg-warning small mt-0-1"><i class="fa fa-clock-o"></i> {!! $sTDBRegister->latest_status->name !!}</div>
-                @elseif($sTDBRegister->latest_status->id===2)
-                    <div class="badge bg-green small mt-0-1"><i class="fa fa-check-circle"></i> {!! $sTDBRegister->latest_status->name !!}</div>
-                    <p class="small m-0-1">review by:{{$sTDBRegister->latest_status->stdbRegisHasStatus->user->name}}</p>
-                @elseif($sTDBRegister->latest_status->id===3)
-                    <div class="badge bg-alert small mt-0-1"><i class="fa fa-close"></i> {!! $sTDBRegister->latest_status->name !!}</div>
-                    <p class="small m-0-1">review by:{{$sTDBRegister->latest_status->stdbRegisHasStatus->user->name}}</p>
-                @elseif($sTDBRegister->latest_status->id===4)
-                    <div class="badge bg-info small mt-0-1"><i class="fa fa-clock-o"></i> {!! $sTDBRegister->latest_status->name !!}</div>
-                    <p class="small m-0-1">review by:{{$sTDBRegister->latest_status->stdbRegisHasStatus->user->name}}</p>
-                @elseif($sTDBRegister->latest_status->id===5)
-                    <div class="badge bg-info small mt-0-1"><i class="fa fa-clock-o"></i> {!! $sTDBRegister->latest_status->name !!}</div>
-                    <p class="small mt-0-1">review by: <b>{{$sTDBRegister->latest_status->stdbRegisHasStatus->user->name}}</b></p>
-
-                @endif
+                    <div class="timeline">
+                        <ul>
+                            @foreach($sTDBRegister->listSTDBStatus as $item)
+                            <li>
+                                @if($item->id==1)
+                                    <span class="bg-warning"><i class="fa fa-clock-o"></i> {{$item->name}}</span>
+                                @elseif($item->id==2)
+                                    <span class="bg-green"><i class="fa fa-check-circle"></i> {{$item->name}}</span>
+                                @elseif($item->id==3)
+                                    <span class="bg-alert"><i class="fa fa-close"></i> {{$item->name}}</span>
+                                @elseif($item->id==4)
+                                    <span class="bg-info"><i class="fa fa-check"></i> {{$item->name}}</span>
+                                @elseif($item->id==5)
+                                    <span class="bg-info"><i class="fa fa-check"></i> {{$item->name}}</span>
+                                @endif
+                                <div>
+                                    <h6 class="mt-0-1 small text-bold-700">{{$item->stdbRegisHasStatus->created_at}}</h6>
+                                    <h6>
+                                        Catatan:<br><b>{{!empty($item->stdbRegisHasStatus->message)?$item->stdbRegisHasStatus->message:"-"}}</b>
+                                    </h6>
+                                </div>
+                            </li>
+                            @endforeach
+                        </ul>
+                    </div>
             </td>
             <td class="text-center">
                 {!! Form::open(['route' => ['sTDBRegisters.destroy', $sTDBRegister->id], 'method' => 'delete']) !!}

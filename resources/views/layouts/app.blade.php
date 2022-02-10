@@ -17,6 +17,68 @@
         @include('layouts.css')
         @yield('css')
         <style>
+            /*.timeline{*/
+            /*    !*width:800px;*!*/
+            /*    !*background-color:#072736;*!*/
+            /*    color:#fff;*/
+            /*    padding:10px 10px;*/
+            /*    !*box-shadow:0px 0px 10px rgba(0,0,0,.5);*!*/
+            /*}*/
+            .timeline ul{
+                list-style-type:none;
+                border-left:2px dashed #bcbcbc;
+                padding:0px 5px;
+            }
+            .timeline ul li{
+                padding:20px 10px;
+                position:relative;
+                cursor:pointer;
+                transition:.5s;
+                border-radius: 5%;
+                color:#fff;
+            }
+            .timeline ul li span{
+                display:inline-block;
+                background-color:#1685b8;
+                border-radius:25px;
+                padding:2px 5px;
+                font-size:12px;
+                text-align:center;
+            }
+            .timeline ul li:before{
+                position:absolute;
+                content:'';
+                width:10px;
+                height:10px;
+                background-color: #adadad;
+                border-radius:50%;
+                left:-11px;
+                top:28px;
+                transition:.5s;
+            }
+            .timeline ul li:hover{
+                background-color: rgb(204, 204, 204);
+            }
+            .timeline ul li:hover:before{
+                background-color: #38c7ff;
+                box-shadow:0px 0px 10px 2px #38C7FF;
+            }
+            .timeline ul li:first-child:before{
+                background-color:#0F0;
+                box-shadow:0px 0px 10px 2px #0F0;
+            }
+            @media (max-width:300px){
+                .timeline{
+                    width:100%;
+                    padding:30px 5px 30px 10px;
+                }
+                .timeline ul li .content h3{
+                    color:#34ace0;
+                    font-size:12px;
+                }
+
+            }
+
             /*Legend specific*/
             .legend {
                 padding: 6px 8px;
