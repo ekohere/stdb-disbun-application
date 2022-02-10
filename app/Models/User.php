@@ -112,4 +112,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(STDBRegisterHasSTDBStatus::class,'users_id');
     }
+    public function sdtbRegister()
+    {
+        return $this->hasMany(STDBRegister::class,'users_id');
+    }
 }

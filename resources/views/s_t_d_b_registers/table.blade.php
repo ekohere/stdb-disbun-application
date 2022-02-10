@@ -52,10 +52,10 @@
                                     <span class="bg-info"><i class="fa fa-check"></i> {{$item->name}}</span>
                                 @endif
                                 <div>
-                                    <h6 class="mt-0-1 mb-0 p-0 small text-bold-700">{{$item->stdbRegisHasStatus->created_at->format('d M Y h:m:s')}}</h6>
-                                    <h6 class="small mt-0 p-0">di review oleh: {{!empty($item->stdbRegisHasStatus->users_id)?$item->stdbRegisHasStatus->user->name:"-"}}</h6>
-                                    <h6>
-                                        Catatan:<br><b>{{!empty($item->stdbRegisHasStatus->message)?$item->stdbRegisHasStatus->message:"-"}}</b>
+                                    <h6 class="mt-0-1 mb-0 p-0 font-small-3 text-bold-700">{{$item->stdbRegisHasStatus->created_at->format('d M Y h:m:s')}}</h6>
+                                    <h6 class="small mt-0 p-0">di review oleh: <b>{{!empty($item->stdbRegisHasStatus->users_id)?$item->stdbRegisHasStatus->user->name:"-"}}</b></h6>
+                                    <h6 class="mt-1">
+                                        Catatan: <b><i>{{!empty($item->stdbRegisHasStatus->message)?$item->stdbRegisHasStatus->message:"-"}}</i></b>
                                     </h6>
                                 </div>
                                 <hr class="m-0 p-0">
