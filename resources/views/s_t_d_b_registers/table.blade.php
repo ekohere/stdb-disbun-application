@@ -52,7 +52,7 @@
                                     <span class="bg-info"><i class="fa fa-check"></i> {{$item->name}}</span>
                                 @endif
                                 <div>
-                                    <h6 class="mt-0-1 small text-bold-700">{{$item->stdbRegisHasStatus->created_at}}</h6>
+                                    <h6 class="mt-0-1 small text-bold-700">{{$item->stdbRegisHasStatus->created_at->format('d M Y h:m:s')}}</h6>
                                     <h6>
                                         Catatan:<br><b>{{!empty($item->stdbRegisHasStatus->message)?$item->stdbRegisHasStatus->message:"-"}}</b>
                                     </h6>
