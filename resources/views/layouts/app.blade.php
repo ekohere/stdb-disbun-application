@@ -58,6 +58,7 @@
             }
             .timeline ul li:hover{
                 background-color: rgb(204, 204, 204);
+                border-radius:8px;
             }
             .timeline ul li:hover:before{
                 background-color: #38c7ff;
