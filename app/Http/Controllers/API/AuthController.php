@@ -49,8 +49,8 @@ class AuthController extends AppBaseController
         }
 
         $user = User::where('email', $request['email'])->firstOrFail();
-        if ($user->koperasi_id!==null){
-            $user = User::with(['koperasi.anggota:koperasi_id,id,nama_ktp,kode_anggota','koperasi.anggota.persils:anggota_id,kode_persil,id'])->where('email',$request['email'])->get()->first();
+        if ($user->koperasi_id!==0){
+            $user = User::with(['koperasi.anggota:koperasi_id,id,nama_ktp,kode_anggota','koperasi.anggota.persils:anggota_id,kode_persil,id','desa'])->where('email',$request['email'])->get()->first();
             $joinAt = date_format($user->created_at,"d M Y");
             $user['tanggal_gabung'] = strval($joinAt);
         }
@@ -97,7 +97,7 @@ class AuthController extends AppBaseController
 
     public function syncDataAnggotaPersil()
     {
-        if (Auth::user()->kode_koperasi=="0")
+        if (Auth::user()->koperasi_id==0)
         {
             if (Auth::user()->getRoleNames()[0]=="koordinator"){
                 $data = Anggota::with(['persils'])->whereHas('users',function ($query){
