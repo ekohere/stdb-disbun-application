@@ -181,4 +181,9 @@ class UserController extends AppBaseController
 
         return redirect(route('users.index'));
     }
+
+    public function profil()
+    {
+        //
+    }
 }

@@ -321,7 +321,7 @@
                     "Nama Pemilik: "+feature.properties.nama_peta+("<br>")+
                     "No. Petak Persil: "+feature.properties.no_petak_peta+("<br>")+
                     "Jenis Tanaman: "+feature.properties.jenis_tanaman+("<br>")+
-                    "Luas: "+luas.toFixed(2)+" Ha"+("<br>")+
+                    "Luas: "+feature.properties.area+" Ha"+("<br>")+
                     "Status Lahan: "+feature.properties.status_lahan+("<br>")+
                     "Total Produksi/Tahun:"+feature.properties.total_produksi_setahun
                 );
