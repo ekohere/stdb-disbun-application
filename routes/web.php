@@ -115,10 +115,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('sTDBRegisterStatuses', App\Http\Controllers\STDBRegisterHasSTDBStatusController::class);
     Route::get('sTDBRegisters/verify/{id}', [App\Http\Controllers\STDBRegisterController::class,'getVerify'])->name('sTDBRegisters.verify');
     Route::post('sTDBRegisters/verify', [App\Http\Controllers\STDBRegisterController::class,'verified'])->name('sTDBRegisters.verified');
-    Route::get('sTDBRegisters/print/{id}', [App\Http\Controllers\STDBRegisterController::class,'cetakSTDB'])->name('sTDBRegisters.print');
+    //Route::get('sTDBRegisters/print/{id}', [App\Http\Controllers\STDBRegisterController::class,'cetakSTDB'])->name('sTDBRegisters.print');
     Route::resource('desas', App\Http\Controllers\DesaController::class);
     Route::resource('kPHS', App\Http\Controllers\KPHController::class);
 });
 
+Route::get('sTDBRegisters/print/{id}', [App\Http\Controllers\STDBRegisterController::class,'cetakSTDB'])->name('sTDBRegisters.print');
 
 Route::resource('kphHasKecamatans', App\Http\Controllers\KphHasKecamatanController::class);
