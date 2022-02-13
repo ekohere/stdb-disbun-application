@@ -67,6 +67,7 @@ class STDBRegisterAPIController extends AppBaseController
     public function riwayatMappingOperatorKoperasi(Request $request){
         $stdbRegister = STDBRegister::with(['stdbDetailRegis.persil','anggota.koperasi'])->where('users_id',Auth::id())->latest()->get();
         foreach ($stdbRegister as $stdb){
+            $stdb['link_surat'] = env('APP_URL').'/sTDBRegisters/print/'.$stdb->id;
             foreach ($stdb->stdbDetailRegis as $item){
                 $idPolygon = $item->persil->polygon_persil_id;
                 $metry = $item->persil->polygonPersil->geom;
