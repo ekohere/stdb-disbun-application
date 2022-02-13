@@ -49,11 +49,10 @@ class AuthController extends AppBaseController
         }
 
         $user = User::where('email', $request['email'])->firstOrFail();
-        if ($user->koperasi_id!==0){
-            $user = User::with(['koperasi.anggota:koperasi_id,id,nama_ktp,kode_anggota','koperasi.anggota.persils:anggota_id,kode_persil,id','desa'])->where('email',$request['email'])->get()->first();
-            $joinAt = date_format($user->created_at,"d M Y");
-            $user['tanggal_gabung'] = strval($joinAt);
-        }
+
+        $user = User::with(['koperasi.anggota:koperasi_id,id,nama_ktp,kode_anggota','koperasi.anggota.persils:anggota_id,kode_persil,id','desa'])->where('email',$request['email'])->get()->first();
+        $joinAt = date_format($user->created_at,"d M Y");
+        $user['tanggal_gabung'] = strval($joinAt);
 
         $token = $user->createToken('auth_token')->plainTextToken;
         $url = env('APP_URL').'/detail_koperasi/'.$user->koperasi_id;
