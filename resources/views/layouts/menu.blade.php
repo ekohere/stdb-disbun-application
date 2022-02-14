@@ -1,6 +1,9 @@
 <li class="{{ Request::is('home') ? 'active' : '' }}">
     <a href="{{route('home')}}"><i class="fa fa-home"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Home</span></a>
 </li>
+<li class="{{ Request::is('profile') ? 'active' : '' }}">
+    <a href="{{route('profil')}}"><i class="fa fa-user-circle"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Profile</span></a>
+</li>
 <li class="navigation-header">
     <span data-i18n="nav.category.layouts">--Menu Utama</span>
     <i class="ft-more-horizontal ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="Layouts"></i>

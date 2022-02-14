@@ -11,7 +11,9 @@ use App\Repositories\UserRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Response;
 use Spatie\Permission\Models\Role;
 
@@ -184,6 +186,51 @@ class UserController extends AppBaseController
 
     public function profil()
     {
-        //
+        $user = User::find(Auth::id());
+        $desa = Desa::all();
+        return view('users.profil.profil',compact('desa','user'));
+    }
+
+    public function editProfiles($id) {
+        $user = User::find($id);
+        return view('users.profil.edit',compact('user'));
+    }
+
+    public function updateProfile($id, Request $request)
+    {
+        $user = User::find($id);
+        $input=$request->except('avatar');
+        if($input['current_password']==='' || $input['current_password']===null){
+            unset($input['password']);
+        } else {
+            if (!(Hash::check($input['current_password'], Auth::user()->password))) {
+                unset($input['password']);
+            }
+        }
+        $user->update($input);
+        $user->save();
+
+        if( $request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $filename = $user->id.'imgAvatar.'.$file->getClientOriginalExtension();
+            $path=$request->avatar->storeAs('public/userAvatar', $filename,'local');
+            $user->avatar='storage'.substr($path,strpos($path,'/'));
+        }
+
+        if(isset($input['current_password'])){
+            if (!(Hash::check($input['current_password'], Auth::user()->password))) {
+                Flash::error('Opps!','Sepertinya bukan kata sandi anda.','warning');
+            } else {
+                $user->password = bcrypt($input['password']);
+                $user->save();
+                Flash::success('Berhasil','Pembaruan Data Successfully','success');
+            }
+        } else {
+            unset($input['password']);
+            $user->save();
+            Flash::success('Pembaruan Data Successfully','success','Updated');
+        }
+
+        return redirect(url('profil'));
     }
 }
