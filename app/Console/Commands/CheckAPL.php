@@ -47,9 +47,12 @@ class CheckAPL extends Command
 
                 try{
                     $geom = DB::connection('pgsql')->select(DB::raw("select st_difference(polygon_persil.geom, st_transform(apl_sk718_278_disolve.geom,4326)) from polygon_persil, apl_sk718_278_disolve where polygon_persil.id = $polygonPersil->id"));
+                    if ($geom[0]->st_difference!='0107000020E610000000000000') {
+                        $polygonPersil->geom_cc_apl = $geom[0]->st_difference;
+                    }
+
                     $area_not_clean = DB::connection('pgsql')->select(DB::raw("select ST_area(st_difference(polygon_persil.geom, st_transform(apl_sk718_278_disolve.geom,4326)),true)/10000 as area from polygon_persil, apl_sk718_278_disolve where polygon_persil.id = $polygonPersil->id"));
                     $area_in_float = floatval($area_not_clean[0]->area);
-                    $polygonPersil->geom_cc_apl = $geom[0]->st_difference;
                     $polygonPersil->area_cc_apl = $area_in_float;
                     $polygonPersil->status="CC APL Selesai";
                     $polygonPersil->save();

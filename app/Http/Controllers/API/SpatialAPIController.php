@@ -71,6 +71,10 @@ class SpatialAPIController extends AppBaseController
 
 
     public function ccRTRW($id){
+//        check debug purpouse here (Do not delete this comment below)
+//        $geom = DB::connection('pgsql')->select(DB::raw("select st_difference(polygon_persil.geom, st_transform(new_rtrw_disolve.geom,4326)) from polygon_persil, new_rtrw_disolve where polygon_persil.id = $id"));
+//        $area_not_clean = DB::connection('pgsql')->select(DB::raw("select ST_area(polygon_persil.geom_cc_rtrw,true)/10000 as area from polygon_persil where polygon_persil.id = $id"));
+
         $polygonPersil = PolygonPersil::where('id',$id)->get();
         $features=[];
         foreach ($polygonPersil as $key=>$item){
