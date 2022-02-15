@@ -355,8 +355,11 @@
     }
     //TODO Draw Polygon CC RTRW
     function drawPolygonDifferenceRTRW(poly,id){
-        if(poly.features[0].geometry==null){
+        if (poly.features[0].properties.status==="Proses CC RTRW"){
             alert("Data persil masih dalam proses clean and clear, silahkan cek beberapa saat lagi");
+        }else if(poly.features[0].geometry==null){
+            document.getElementById("status-rtrw-"+id).textContent = "Clear and Clean";
+            // alert("Data persil masih dalam proses clean and clear, silahkan cek beberapa saat lagi");
         }
         else if(poly.features[0].geometry.type==="GeometryCollection"){
             if(poly.features[0].geometry.geometries.length===0){
