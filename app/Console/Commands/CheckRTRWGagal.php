@@ -59,7 +59,7 @@ class CheckRTRWGagal extends Command
                 $polygonPersil->save();
 
             }catch (\Exception $exception){
-                    $polygonPersil->status = "Gagal CC RTRW";
+                    $polygonPersil->status = "Gagal CC RTRW Juga";
                 }
                 $polygonPersil->save();
         }
