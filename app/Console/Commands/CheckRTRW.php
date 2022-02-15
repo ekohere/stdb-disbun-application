@@ -47,16 +47,17 @@ class CheckRTRW extends Command
                 $polygonPersil->save();
 
                 try{
-                    $geom = DB::connection('pgsql')->select(DB::raw("select st_difference(polygon_persil.geom, st_transform(new_rtrw_disolve.geom,4326)) from polygon_persil, new_rtrw_disolve where polygon_persil.id = $polygonPersil->id"));
-                    if ($geom[0]->st_difference!='0107000020E610000000000000'){
-                        $polygonPersil->geom_cc_rtrw = $geom[0]->st_difference;
-                        $polygonPersil->save();
-                    }
-
-                    $area_not_clean = DB::connection('pgsql')->select(DB::raw("select ST_area(polygon_persil.geom_cc_rtrw,true)/10000 as area from polygon_persil where polygon_persil.id = $polygonPersil->id"));
+                    $area_not_clean = DB::connection('pgsql')->select(DB::raw("select st_area(st_difference(polygon_persil.geom, st_transform(new_rtrw_disolve.geom,4326))) from polygon_persil, new_rtrw_disolve where polygon_persil.id = $polygonPersil->id"));
                     $area_in_float = floatval($area_not_clean[0]->area);
                     $polygonPersil->area_cc_rtrw = $area_in_float;
+
+                    if ($area_not_clean[0]->area>0){
+                        $geom = DB::connection('pgsql')->select(DB::raw("select st_difference(polygon_persil.geom, st_transform(new_rtrw_disolve.geom,4326)) from polygon_persil, new_rtrw_disolve where polygon_persil.id = $polygonPersil->id"));
+                        $polygonPersil->geom_cc_rtrw = $geom[0]->st_difference;
+                    }
                     $polygonPersil->status = "CC RTRW Selesai";
+                    $polygonPersil->save();
+
                 }catch (\Exception $exception){
                     $polygonPersil->status = "Gagal CC RTRW";
                 }
