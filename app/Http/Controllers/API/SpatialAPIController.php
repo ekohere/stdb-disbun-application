@@ -76,7 +76,7 @@ class SpatialAPIController extends AppBaseController
         foreach ($polygonPersil as $key=>$item){
             $geometry =$item->geom_cc_rtrw;
             unset($item->geom_cc_rtrw);
-            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>['area'=>number_format($item->area_cc_rtrw,0,',','.')]];
+            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>['area'=>number_format($item->area_cc_rtrw,2,',','.')]];
             array_push($features,$feature);
         }
         $featureCollections = [
@@ -110,7 +110,7 @@ class SpatialAPIController extends AppBaseController
         $features=[];
         $geometry = $polygonPersil->geom_cc_apl;
         unset($polygonPersil->geom_cc_apl);
-        $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>['area'=>number_format($polygonPersil->area_cc_apl,0,',','.')]];
+        $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>['area'=>number_format($polygonPersil->area_cc_apl,2,',','.')]];
         array_push($features,$feature);
 
         $featureCollections = [
