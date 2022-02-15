@@ -48,7 +48,7 @@ class CheckRTRW extends Command
 
                 try{
                     $area_not_clean = DB::connection('pgsql')->select(DB::raw("select st_area(st_difference(polygon_persil.geom, st_transform(new_rtrw_disolve.geom,4326))) from polygon_persil, new_rtrw_disolve where polygon_persil.id = $polygonPersil->id"));
-                    $area_in_float = floatval($area_not_clean[0]->area);
+                    $area_in_float = floatval($area_not_clean[0]->st_area);
                     $polygonPersil->area_cc_rtrw = $area_in_float;
 
                     if ($area_not_clean[0]->area>0){
