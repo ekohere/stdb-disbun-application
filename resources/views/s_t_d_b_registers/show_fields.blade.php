@@ -14,7 +14,7 @@
                         Silahkan klik <b>CEK OVERLAY PERSIL</b> untuk melihat hasil rekomendasi dari sistem dan melakukan pengecekan layer setiap persil terhadap <b>layer APL dan layer RTRW</b>.<br>
                         Jika ingin melakukan pengecekan diluar sistem, silahkan download shp setiap persil terlebih dahulu dengan cara klik tombol
                         <code class="badge bg-green small white">Download shp persil <i class="fa fa-download"></i></code> di setiap persil yang tersedia.<br>
-                        Dan ketika ingin melakukan verifikasi silahkan klik button <code>Verifikasi</code>
+                        Dan ketika pengajuan sudah di review oleh PPR dan KPH admin dapat melakukan verifikasi dengan cara klik button <code>Verifikasi</code>
                     </div>
                 </div>
             </div>
@@ -33,7 +33,7 @@
             <p class="small text-bold-700 mb-0">APL: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-apl-{!! $item->persil->polygon_persil_id !!}">-</span></p>
             <hr>
         @endforeach
-        @if($sTDBRegister->latest_status->id!=2 && $sTDBRegister->latest_status->id!=3)
+        @if($sTDBRegister->latest_status->id!=2 && $sTDBRegister->latest_status->id!=3 && $sTDBRegister->verified_by_ppr==1 && $sTDBRegister->verified_by_kph==1)
             <a href="{!! route('sTDBRegisters.verify', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue">Verifikasi</a>
         @endif
     </div>
@@ -138,7 +138,7 @@
         });
         datalayer._leaflet_id = 1;
         layerAPL.addLayer(datalayer);
-        newMap.fitBounds(datalayer.getBounds());
+        //newMap.fitBounds(datalayer.getBounds());
     }
 
     //TODO call polygon RTRW
@@ -186,7 +186,7 @@
         });
         datalayer._leaflet_id = 2;
         layerRTRW.addLayer(datalayer);
-        newMap.fitBounds(datalayer.getBounds());
+        //newMap.fitBounds(datalayer.getBounds());
     }
 
     //TODO call Polygon Persil

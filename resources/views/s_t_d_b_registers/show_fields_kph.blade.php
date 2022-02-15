@@ -288,7 +288,7 @@
         });
         datalayer._leaflet_id = 1;
         layerAPL.addLayer(datalayer);
-        newMap.fitBounds(datalayer.getBounds());
+        //newMap.fitBounds(datalayer.getBounds());
     }
 
     //TODO call polygon KPH
@@ -331,7 +331,7 @@
         });
         datalayer._leaflet_id = 2;
         layerKPH.addLayer(datalayer);
-        newMap.fitBounds(datalayer.getBounds());
+        //newMap.fitBounds(datalayer.getBounds());
     }
 
     //TODO call Polygon Persil

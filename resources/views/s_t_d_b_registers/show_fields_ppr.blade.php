@@ -289,7 +289,7 @@
         });
         datalayer._leaflet_id = 2;
         layerRTRW.addLayer(datalayer);
-        newMap.fitBounds(datalayer.getBounds());
+        //newMap.fitBounds(datalayer.getBounds());
     }
 
     //TODO call Polygon Persil
