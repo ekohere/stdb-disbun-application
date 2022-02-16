@@ -35,6 +35,7 @@
         @endforeach
         @if($sTDBRegister->latest_status->id!=2 && $sTDBRegister->latest_status->id!=3 && $sTDBRegister->verified_by_ppr==1 && $sTDBRegister->verified_by_kph==1)
             <a href="{!! route('sTDBRegisters.verify', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue">Verifikasi</a>
+        @else
         @endif
     </div>
 </div>
