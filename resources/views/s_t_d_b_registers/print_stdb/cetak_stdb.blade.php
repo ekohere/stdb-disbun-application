@@ -215,7 +215,7 @@
                     </table>
                     <br class="mt-0 mb-0 p-0">
                 @endforeach
-                <h5 class="isi_surat">STD-B ini hanya sebagai tanda daftar budidaya perkebunan bukan merupakan hak keperdataan dan tidak berlaku apabila terjadi perubahan terhadap informasi tersebut diatas.</h5>
+                <h5 class="isi_surat">STD-B ini hanya sebagai tanda daftar budidaya perkebunan bukan merupakan hak keperdataan. STD-B ini tidak berlaku apabila terjadi perubahan terhadap informasi tersebut diatas.</h5>
                 <div class="float-right col-sm-6 pl-5 mt-1 isi_surat">
                     <div class="mb-0" style="width: 100%; text-align: center;">
                         Sangatta, {{date_format($sTDBRegister->latest_status->pivot->created_at,'d M Y')}}</div>
