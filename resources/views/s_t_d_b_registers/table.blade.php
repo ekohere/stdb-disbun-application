@@ -68,9 +68,11 @@
                 {!! Form::open(['route' => ['sTDBRegisters.destroy', $sTDBRegister->id], 'method' => 'delete']) !!}
                 <div class="btn-group" role="group" aria-label="Basic example">
                     <a href="{!! route('sTDBRegisters.show', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-success"><i class="fa fa-eye"></i> Detail</a>
-                    @if($sTDBRegister->latest_status->id==2)
-                        <a target="_blank" href="{!! route('sTDBRegisters.print', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue"><i class="fa fa-print"></i> Cetak Surat</a>
-                    @endif
+                    @role('admin_disbun|operator|koordinator|koperasi|admin|non_koperasi')
+                        @if($sTDBRegister->latest_status->id==2)
+                            <a target="_blank" href="{!! route('sTDBRegisters.print', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue"><i class="fa fa-print"></i> Cetak Surat</a>
+                        @endif
+                    @endrole
                 </div>
                 @if($sTDBRegister->latest_status->id==2 && !empty($sTDBRegister->getFirstMediaUrl('lampiran_peta_persil')))
                     <a href="{!! $sTDBRegister->getFirstMediaUrl('lampiran_peta_persil') !!}" class="btn btn-sm btn-blue m-0-1"><i class="fa fa-download"></i> Download Lampiran Map</a>

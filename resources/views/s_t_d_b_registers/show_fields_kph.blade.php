@@ -1,4 +1,5 @@
 <!-- Sudah di modifikasi -->
+@include('s_t_d_b_registers.show_detail_pengajuan')
 
 <div class="card-content rounded-1 box-shadow-1 mt-3 p-0-1">
     <div name="mapPrev" id="mapPrev" style="height: 500px" class="m-0-1">
@@ -40,7 +41,6 @@
         @endif
     </div>
 </div>
-@include('s_t_d_b_registers.show_detail_pengajuan')
 
 {{--<div class="card-content bg-gradient-striped-grey-blue rounded-1 box-shadow-1 mt-3 p-2">--}}
 {{--    <span class="content-header-title mb-0 d-inline-block font-medium-4"><b>Detail Persil</b></span>--}}

@@ -1,4 +1,5 @@
 <!-- Sudah di modifikasi -->
+@include('s_t_d_b_registers.show_detail_pengajuan')
 
 <div class="card-content rounded-1 box-shadow-1 mt-3 p-0-1">
     <div name="mapPrev" id="mapPrev" style="height: 500px" class="m-0-1">
@@ -39,7 +40,6 @@
         @endif
     </div>
 </div>
-@include('s_t_d_b_registers.show_detail_pengajuan')
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>

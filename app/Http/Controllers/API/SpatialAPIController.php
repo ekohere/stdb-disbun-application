@@ -87,7 +87,7 @@ class SpatialAPIController extends AppBaseController
                 'type'=>'Feature',
                 'geometry'=>$geometry,
                 'properties'=>[
-                    'area'=>number_format($item->area_cc_rtrw,3,',','.'),
+                    'area'=>number_format($item->area_cc_rtrw,4,',','.'),
                     'status'=>$item->status
                 ]
             ];
@@ -128,7 +128,7 @@ class SpatialAPIController extends AppBaseController
             'type'=>'Feature',
             'geometry'=>$geometry,
             'properties'=>[
-                'area'=>number_format($polygonPersil->area_cc_apl,3,',','.'),
+                'area'=>number_format($polygonPersil->area_cc_apl,4,',','.'),
                 'status'=>$polygonPersil->status
             ]
         ];
@@ -239,7 +239,7 @@ class SpatialAPIController extends AppBaseController
         foreach ($geom as $key=>$item){
             $geometry = json_decode($item->st_asgeojson,true);
             unset($item->st_asgeojson);
-            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>['area'=>number_format($area_in_float,0,',','.')]];
+            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>['area'=>number_format($area_in_float,4,',','.')]];
             array_push($features,$feature);
         }
         $featureCollections = [
