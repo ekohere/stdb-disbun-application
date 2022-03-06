@@ -1,5 +1,5 @@
 <!-- Sudah di modifikasi untuk Edit,Lihat,Hapus -->
-<table class="table table-hover table-bordered table-striped default">
+<table class="table table-responsive table-bordered table-striped default">
     <colgroup>
         <col class="col-xs-1">
         <col class="col-xs-7">

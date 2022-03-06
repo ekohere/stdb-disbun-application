@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Flash;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Object_;
 use Response;
 
 class STDBRegisterController extends AppBaseController
@@ -239,5 +240,15 @@ class STDBRegisterController extends AppBaseController
         }
         return view('s_t_d_b_registers.index')
             ->with('sTDBRegisters', $sTDBRegisters);
+    }
+
+    public function reportSTDB()
+    {
+        return view('s_t_d_b_registers.report');
+    }
+
+    public function allPersil()
+    {
+        return view('s_t_d_b_registers.show_stdb_persil');
     }
 }

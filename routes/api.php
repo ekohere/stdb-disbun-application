@@ -24,6 +24,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('get_polygon/{id}',[\App\Http\Controllers\API\SpatialAPIController::class,'getPolygonByIdRegister']);
 Route::get('get_polygon_persil/{id}',[\App\Http\Controllers\API\SpatialAPIController::class,'getPolygonPersilById']);
+Route::get('all_polygon_persil',[\App\Http\Controllers\API\SpatialAPIController::class,'allPolygonPersil']);
 
 Route::get('get_polygon_clean_rtrw/{id}',[\App\Http\Controllers\API\SpatialAPIController::class,'ccRTRW']);
 Route::get('get_polygon_clean_apl/{id}',[\App\Http\Controllers\API\SpatialAPIController::class, 'ccAPL']);
@@ -32,6 +33,8 @@ Route::get('get_polygon_clean_kph/{id}/{kph_id}',[\App\Http\Controllers\API\Spat
 Route::get('rtrw_perkebunan',[\App\Http\Controllers\API\SpatialAPIController::class,'getPolygonPerkebunan']);
 Route::get('apl_perkebunan',[\App\Http\Controllers\API\SpatialAPIController::class,'getPolygonAPL']);
 Route::get('polygon_kph/{id}',[\App\Http\Controllers\KPHController::class,'getPolygonKPH']);
+
+Route::get('reportSTDB',[\App\Http\Controllers\API\STDBRegisterAPIController::class,'reportSTDB']);
 
 //=============testing api disini
 //Route::get('testing_clear_clean',[\App\Http\Controllers\API\STDBDetailRegisterAPIController::class,'ccRTRW']);

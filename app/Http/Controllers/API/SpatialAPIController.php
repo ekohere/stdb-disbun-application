@@ -16,6 +16,27 @@ use Illuminate\Support\Facades\DB;
 
 class SpatialAPIController extends AppBaseController
 {
+    public function allPolygonPersil()
+    {
+        $polygonPersil = PolygonPersil::all();
+
+        //TODO transform data geom to geojson format
+        $features=[];
+        foreach ($polygonPersil as $key=>$item){
+            $infoPersil[$key]['area'] = $item->area;
+            $geometry =$item->geom;
+            unset($item->geom);
+            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>$infoPersil[$key]];
+            array_push($features,$feature);
+        }
+        $featureCollections = [
+            'type'=>'FeatureCollection',
+            'features'=>$features
+        ];
+        return  response()->json($featureCollections);
+
+    }
+
     public function getPolygonByIdRegister($id)
     {
         $detailRegis = STDBDetailRegister::where('stdb_register_id',$id)->get();

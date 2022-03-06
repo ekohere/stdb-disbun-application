@@ -22,12 +22,18 @@
 {{--        </li>--}}
 {{--    </ul>--}}
 {{--</li>--}}
-@role('admin|PPR|KPH')
+@role('admin|PPR|KPH|admin_disbun')
 <li class="{{ Request::is('sTDBRegisters') ? 'active' : '' }}">
     <a href="{!! route('sTDBRegisters.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> List Pengajuan STDB</span></a>
 </li>
 <li class="{{ Request::is('sTDBRegister/done-review') ? 'active' : '' }}">
     <a href="{!! route('stdbDoneVerified') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> STDB Done Reviewed</span></a>
+</li>
+<li class="{{ Request::is('reportSTDB*') ? 'active' : '' }}">
+    <a href="{!! route('reportSTDB') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> STDB Report</span></a>
+</li>
+<li class="{{ Request::is('allPersil*') ? 'active' : '' }}">
+    <a href="{!! route('allPersil') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> STDB Persils</span></a>
 </li>
 @endrole
 {{--<li class="{{ Request::is('sTDBDetailRegisters*') ? 'active' : '' }}">--}}
@@ -42,7 +48,7 @@
 {{--    <a href="{!! route('sTDBPersils.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title"> Data Persil STDB</span></a>--}}
 {{--</li>--}}
 
-@role('admin')
+@role('admin|admin_disbun')
     <li class="nav-item"><a href="#"><i class="fa fa-table"></i><span class="menu-title" data-i18n="nav.dash.main">Master Data</span></a>
         <ul class="menu-content">
             <li class="{{ Request::is('sTDBStatuses*') ? 'active' : '' }}">
@@ -61,12 +67,14 @@
             <li class="{{ Request::is('users*') ? 'active' : '' }}">
                 <a href="{!! route('users.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Akun Pengguna</span></a>
             </li>
+            @role('admin')
             <li class="{{ Request::is('permissions*') ? 'active' : '' }}">
                 <a href="{!! route('permissions.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Permissions</span></a>
             </li>
             <li class="{{ Request::is('roles*') ? 'active' : '' }}">
                 <a href="{!! route('roles.index') !!}"><i class="icon-circle-right"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Roles</span></a>
             </li>
+            @endrole
         </ul>
     </li>
 @endrole
