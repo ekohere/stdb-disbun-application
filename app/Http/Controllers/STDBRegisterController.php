@@ -245,7 +245,7 @@ class STDBRegisterController extends AppBaseController
     public function reportSTDB()
     {
         $years =[
-            "0"=>"Semua Tahun"
+            "0"=>"Tahun ini"
         ];
         $stdbYear = STDBRegister::groupBy('created_at')->get('created_at');
         foreach ($stdbYear as $item) {
