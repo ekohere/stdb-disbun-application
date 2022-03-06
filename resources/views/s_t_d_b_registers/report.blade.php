@@ -16,17 +16,41 @@
                                         @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || \Illuminate\Support\Facades\Auth::user()->hasRole('admin_disbun'))
                                             <livewire:s-t-d-b-report></livewire:s-t-d-b-report>
                                         @endif
-
-                                        <div class="col-sm-12 mt-2 pr-3">
-                                            <div id="img-loader" class="position-absolute" style="display: none;">
-                                                <img src="{{asset('image/img-loader.gif')}}" width="48px" height="48px">
-                                            </div>
-                                            <div id="chart-report-stdb" class="text-center" style="height: 300px;"></div>
-                                        </div>
                                     </div>
                                 </form>
                             </div>
 
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-content collpase show">
+                            <div class="card-body">
+                                <div class="col-sm-12 mt-2">
+                                    <div class="blog-item">
+                                        <div class="blog-item">
+                                            <div class="row justify-content-around">
+                                                <h4 class="text-center text-uppercase text-bold-700">Report STDB By Month</h4>
+                                            </div>
+                                            <div class="row col-sm-4 mb-2">
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text bg-green bg-darken-2 text-white text-bold-600">Filter Tahun</span>
+                                                    </div>
+                                                    {!! Form::select('year-selected-chart', $years, 0, ['id'=>'year-selected-chart','class' => 'form-control']) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="blog-content">
+                                            <div id="img-loader" class="position-absolute" style="display: none;">
+                                                <img src="{{asset('image/img-loader.gif')}}" width="48px" height="48px">
+                                            </div>
+                                            <!-- Chart's container -->
+                                            <div id="chart-report" class="text-center" style="height: 300px;"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -47,9 +71,9 @@
     <script>
         $(document).ready(function() {
             am4core.options.autoDispose = true;
-            $('#yearSelected').on('change', function() {
-                var month = document.getElementById("monthSelected").value;
-                $.ajax({url:'api/reportSTDB?year='+this.value+'&month='+month,
+            $('#year-selected-chart').on('change', function() {
+                var year = document.getElementById("year-selected-chart").value;
+                $.ajax({url:'api/reportSTDB?year='+year,
                     beforeSend: function(){
                         // Show image container
                         $("#img-loader").show();
@@ -71,33 +95,8 @@
                 });
             });
 
-            $('#monthSelected').on('change', function() {
-                var year = document.getElementById("yearSelected").value;
-                $.ajax({url:'api/reportSTDB?year='+year+'&month='+this.value,
-                    beforeSend: function(){
-                        // Show image container
-                        $("#img-loader").show();
-                    },
-                    success: function (response) {
-                        if (Array.isArray(response) && response.length){
-                            createChart(response);
-                        }else {
-                            alert("Data Kosong");
-                        }
-                    },
-                    complete:function(data){
-                        // Hide image container
-                        $("#img-loader").hide();
-                    },
-                    error: function (xhr, status, error){
-                        alert("Error: "+error);
-                    }
-                });
-            });
-
-            var year = document.getElementById("yearSelected").value;
-            var month = document.getElementById("monthSelected").value;
-            $.ajax({url:'api/reportSTDB?year='+year+'&month='+this.value,
+            var year = document.getElementById("year-selected-chart").value;
+            $.ajax({url:'api/reportSTDB?year='+year,
                 beforeSend: function(){
                     // Show image container
                     $("#img-loader").show();
@@ -119,19 +118,13 @@
             });
         });
 
-        {{--document.addEventListener('livewire:load', function () {--}}
-        {{--    var data = {!! $status !!};--}}
-        {{--    createChart(data);--}}
-        {{--});--}}
-        {{--document.addEventListener('livewire:update', function () {--}}
-
-        {{--});--}}
-        function createChart(data){
-            var chart = am4core.create("chart-report-stdb", am4charts.XYChart);
+        function createChart(data) {
             am4core.useTheme(am4themes_animated);
 
+            var chart = am4core.create("chart-report", am4charts.XYChart);
             chart.data = data;
             chart.legend = new am4charts.Legend();
+            chart.fontSize = 12;
             //Create Export Chart
             chart.exporting.menu = new am4core.ExportMenu();
             chart.exporting.menu.items = [
@@ -139,56 +132,92 @@
                     "label": "...",
                     "menu": [
                         { "type": "png", "label": "PNG" },
-                        { "type": "csv", "label": "CSV" },
+                        { "type": "csv", "label": "CSV" }
                     ]
                 }
             ];
             chart.exporting.menu.items[0].icon = "{{asset('image/save.png')}}";
-            // chart.exporting.menu.items[0].menu.push({
-            //     label: "Excel",
-            //     type: "custom",
-            //     options: {
-            //         callback: function() {
-            //             window.open(data[0]['name']);
-            //         }
-            //     }
-            // });
 
             // Create axes
             var categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-            categoryAxis.dataFields.category = "name";
-            categoryAxis.title.text = "Jumlah";
+            categoryAxis.dataFields.category = "bulan";
+            categoryAxis.title.text = "[bold]Bulan";
             categoryAxis.renderer.grid.template.location = 0;
             categoryAxis.renderer.minGridDistance = 20;
+
             var  valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-            valueAxis.title.text = "Jumlah (STDB)";
+            valueAxis.title.text = "[bold]Jumlah STDB";
 
-            // Create series
-            var series = chart.series.push(new am4charts.ColumnSeries());
-            series.dataFields.valueY = "total";
-            series.dataFields.categoryX = "name";
-            series.fontSize = 5;
-            series.name = "Jumlah STDB Pengajuan";
-            series.tooltipText = "[bold]{valueY}[/] STDB";
-            // series.stacked = true;
-            series.strokeWidth = 0;
+            function createSeries(status, title,color1, color2) {
+                var series = chart.series.push(new am4charts.ColumnSeries());
+                series.dataFields.valueY = status;
+                series.dataFields.categoryX = "bulan";
+                series.name = title;
+                series.tooltipText = "{valueY}[/] STDB";
+                series.strokeWidth = 0;
+                //series.interpolationEasing = am4core.ease.elasticIn;
+                series.sequencedInterpolation = true;
+
+                //Modify Color Series
+                var gradient = new am4core.LinearGradient();
+                gradient.addColor(am4core.color(color1));
+                gradient.addColor(am4core.color(color2));
+                gradient.rotation = 60;
+                series.fill = gradient;
+
+                var labelBullet = series.bullets.push(new am4charts.LabelBullet());
+                labelBullet.locationX = 0.5;
+                labelBullet.locationY = -0.1;
+                labelBullet.label.text = "{valueY}";
+                labelBullet.label.text.fontSize = 6;
+                labelBullet.label.fill = am4core.color("#000");
+            }
+
+            createSeries("stdb_proses","Di Proses","#F6D066","#f6b747");
+            createSeries("stdb_valid_kph","Reviewed KPH","#8cecf6","#44d7f6");
+            createSeries("stdb_valid_ppr","Reviewed PPR","#8fc3f6","#4e9df6");
+            createSeries("stdb_verified","Terverifikasi","#8af67f","#10c919");
+            createSeries("stdb_rejected","Tertolak","#f67b75","#c22725");
+
+
+            // // Create series
+            // var series = chart.series.push(new am4charts.ColumnSeries());
+            // series.dataFields.valueY = "adhb";
+            // series.dataFields.categoryX = "tahun";
+            // series.name = "ADHB";
+            // series.tooltipText = "{name}: [bold]Rp. {valueY}[/]";
+            // series.strokeWidth = 0;
+            // //series.interpolationEasing = am4core.ease.elasticIn;
             // series.sequencedInterpolation = true;
+            // //Create series 2
+            // var series2 = chart.series.push(new am4charts.ColumnSeries());
+            // series2.dataFields.valueY = "adhk";
+            // series2.dataFields.categoryX = "tahun";
+            // series2.name = "ADHK";
+            // series2.tooltipText = "{name}: [bold]Rp. {valueY}[/]";
+            // series2.strokeWidth = 0;
+            // //series.interpolationEasing = am4core.ease.elasticIn;
+            // series2.sequencedInterpolation = true;
 
-            var labelBullet = series.bullets.push(new am4charts.LabelBullet());
-            labelBullet.locationX = 0.5;
-            labelBullet.locationY = 0.5;
-            labelBullet.label.text = "{valueY}[/] STDB";
-            labelBullet.label.fill = am4core.color("#fff");
-
-            //Modify Color Series
-            var gradient = new am4core.LinearGradient();
-            gradient.addColor(am4core.color("#388E3C"));
-            gradient.addColor(am4core.color("#2E7D32"));
-            gradient.rotation = 20;
-            series.fill = gradient;
+            // //Modify Color Series
+            // var gradient = new am4core.LinearGradient();
+            // gradient.addColor(am4core.color("#b892ff"));
+            // gradient.addColor(am4core.color("#6d53b0"));
+            // gradient.rotation = 60;
+            // series.fill = gradient;
+            // var gradient2 = new am4core.LinearGradient();
+            // gradient2.addColor(am4core.color("#f09fff"));
+            // gradient2.addColor(am4core.color("#ae21b0"));
+            // gradient2.rotation = 60;
+            // series2.fill = gradient2;
 
             // Add cursor
             chart.cursor = new am4charts.XYCursor();
+            chart.cursor.xAxis = categoryAxis;
+            chart.cursor.fullWidthLineX = true;
+            chart.cursor.lineX.strokeWidth = 0;
+            chart.cursor.lineX.fill = am4core.color("#8F3985");
+            chart.cursor.lineX.fillOpacity = 0.1;
         }
     </script>
 @endsection

@@ -13,6 +13,7 @@ use App\Models\STDBRegister;
 use App\Models\STDBRegisterHasSTDBStatus;
 use App\Models\STDBStatus;
 use App\Repositories\STDBRegisterRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Support\Facades\Auth;
@@ -335,113 +336,90 @@ class STDBRegisterAPIController extends AppBaseController
     }
 
     public function reportSTDB(Request $request){
-        if ($request->year!=0 && $request->month!=0){
-            $stdbProcess = STDBRegister::whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->get()->filter(function ($q){
-                return $q->latest_status->id==1;
-            })->flatten()->count();
+        $month =[
+            1=>"Jan",
+            2=>"Feb",
+            3=>"Mar",
+            4=>"Apr",
+            5=>"Mei",
+            6=>"Jun",
+            7=>"Jul",
+            8=>"Aug",
+            9=>"Sep",
+            10=>"Oct",
+            11=>"Nov",
+            12=>"Dec",
+        ];
+        $report=[];
 
-            $stdbValidKPH = STDBRegister::whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->get()->filter(function ($q){
-                return $q->latest_status->id==4;
-            })->flatten()->count();
+        if ($request->year!=0){
+            $year   = $request->year;
+            foreach ($month as $key=>$item){
+                $stdbProcess = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==1;
+                })->flatten()->count();
 
-            $stdbValidPPR = STDBRegister::whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->get()->filter(function ($q){
-                return $q->latest_status->id==5;
-            })->flatten()->count();
+                $stdbValidKPH = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==4;
+                })->flatten()->count();
 
-            $stdbVerified = STDBRegister::whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->get()->filter(function ($q){
-                return $q->latest_status->id==2;
-            })->flatten()->count();
+                $stdbValidPPR = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==5;
+                })->flatten()->count();
 
-            $stdbRejected = STDBRegister::whereYear('created_at',$request->year)->whereMonth('created_at',$request->month)->get()->filter(function ($q){
-                return $q->latest_status->id==3;
-            })->flatten()->count();
+                $stdbVerified = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==2;
+                })->flatten()->count();
+
+                $stdbRejected = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==3;
+                })->flatten()->count();
+
+                $data['tahun'] = $year;
+                $data['bulan'] = $item;
+                $data['stdb_proses'] = $stdbProcess;
+                $data['stdb_valid_kph'] = $stdbValidKPH;
+                $data['stdb_valid_ppr'] = $stdbValidPPR;
+                $data['stdb_verified'] = $stdbVerified;
+                $data['stdb_rejected'] = $stdbRejected;
+                array_push($report,$data);
+            }
         }
-        elseif ($request->year!=0 && $request->month==0){
-            $stdbProcess = STDBRegister::whereYear('created_at',$request->year)->get()->filter(function ($q){
-                return $q->latest_status->id==1;
-            })->flatten()->count();
+        else {
+            $year   = Carbon::today()->year;
+            foreach ($month as $key=>$item){
+                $stdbProcess = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==1;
+                })->flatten()->count();
 
-            $stdbValidKPH = STDBRegister::whereYear('created_at',$request->year)->get()->filter(function ($q){
-                return $q->latest_status->id==4;
-            })->flatten()->count();
+                $stdbValidKPH = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==4;
+                })->flatten()->count();
 
-            $stdbValidPPR = STDBRegister::whereYear('created_at',$request->year)->get()->filter(function ($q){
-                return $q->latest_status->id==5;
-            })->flatten()->count();
+                $stdbValidPPR = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==5;
+                })->flatten()->count();
 
-            $stdbVerified = STDBRegister::whereYear('created_at',$request->year)->get()->filter(function ($q){
-                return $q->latest_status->id==2;
-            })->flatten()->count();
+                $stdbVerified = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==2;
+                })->flatten()->count();
 
-            $stdbRejected = STDBRegister::whereYear('created_at',$request->year)->get()->filter(function ($q){
-                return $q->latest_status->id==3;
-            })->flatten()->count();
-        }
-        elseif ($request->year==0 && $request->month!=0){
-            $stdbProcess = STDBRegister::whereMonth('created_at',$request->month)->get()->filter(function ($q){
-                return $q->latest_status->id==1;
-            })->flatten()->count();
+                $stdbRejected = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==3;
+                })->flatten()->count();
 
-            $stdbValidKPH = STDBRegister::whereMonth('created_at',$request->month)->get()->filter(function ($q){
-                return $q->latest_status->id==4;
-            })->flatten()->count();
-
-            $stdbValidPPR = STDBRegister::whereMonth('created_at',$request->month)->get()->filter(function ($q){
-                return $q->latest_status->id==5;
-            })->flatten()->count();
-
-            $stdbVerified = STDBRegister::whereMonth('created_at',$request->month)->get()->filter(function ($q){
-                return $q->latest_status->id==2;
-            })->flatten()->count();
-
-            $stdbRejected = STDBRegister::whereMonth('created_at',$request->month)->get()->filter(function ($q){
-                return $q->latest_status->id==3;
-            })->flatten()->count();
-        }
-        elseif ($request->year==0 && $request->month==0){
-            $stdbProcess = STDBRegister::get()->filter(function ($q){
-                return $q->latest_status->id==1;
-            })->flatten()->count();
-
-            $stdbValidKPH = STDBRegister::get()->filter(function ($q){
-                return $q->latest_status->id==4;
-            })->flatten()->count();
-
-            $stdbValidPPR = STDBRegister::get()->filter(function ($q){
-                return $q->latest_status->id==5;
-            })->flatten()->count();
-
-            $stdbVerified = STDBRegister::get()->filter(function ($q){
-                return $q->latest_status->id==2;
-            })->flatten()->count();
-
-            $stdbRejected = STDBRegister::get()->filter(function ($q){
-                return $q->latest_status->id==3;
-            })->flatten()->count();
-        }
-
-        //SET total dari jenis status STDB ke dalam data Status
-        $status = STDBStatus::all();
-        foreach ($status as $item){
-            switch ($item->id){
-                case 1:
-                    $item['total']=$stdbProcess;
-                    break;
-                case 2:
-                    $item['total']=$stdbVerified;
-                    break;
-                case 3:
-                    $item['total']=$stdbRejected;
-                    break;
-                case 4:
-                    $item['total']=$stdbValidKPH;
-                    break;
-                case 5:
-                    $item['total']=$stdbValidPPR;
-                    break;
+                $data['tahun'] = $year;
+                $data['bulan'] = $item.' '.$year;
+                $data['stdb_proses'] = $stdbProcess;
+                $data['stdb_valid_kph'] = $stdbValidKPH;
+                $data['stdb_valid_ppr'] = $stdbValidPPR;
+                $data['stdb_verified'] = $stdbVerified;
+                $data['stdb_rejected'] = $stdbRejected;
+                array_push($report,$data);
             }
         }
 
-        return response()->json($status);
+        return response()->json($report);
     }
+
 }

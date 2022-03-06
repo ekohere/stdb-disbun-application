@@ -1,4 +1,7 @@
 <div>
+    <div class="row justify-content-around mb-2">
+        <h4 class="text-center text-uppercase text-bold-700">Report STDB By Status</h4>
+    </div>
     <div class="row col-sm-12">
         <div class="col-sm-6">
             {!! Form::label('tahun', 'Filter Tahun',['class'=>' text-uppercase']) !!}
@@ -40,4 +43,3 @@
         </div>
     </div>
 </div>
-<script src="{{asset('master/app-assets/js/britech/table-settings-britech.js')}}"></script>

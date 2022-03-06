@@ -244,7 +244,14 @@ class STDBRegisterController extends AppBaseController
 
     public function reportSTDB()
     {
-        return view('s_t_d_b_registers.report');
+        $years =[
+            "0"=>"Semua Tahun"
+        ];
+        $stdbYear = STDBRegister::groupBy('created_at')->get('created_at');
+        foreach ($stdbYear as $item) {
+            $years[date_format($item->created_at,'Y')]=date_format($item->created_at,'Y');
+        }
+        return view('s_t_d_b_registers.report',compact('years'));
     }
 
     public function allPersil()
