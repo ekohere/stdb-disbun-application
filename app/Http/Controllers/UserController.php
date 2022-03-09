@@ -37,7 +37,7 @@ class UserController extends AppBaseController
     public function index(Request $request)
     {
         $users = User::whereHas('roles',function ($q) {
-            $q->whereIn('id',[7,8,9]);
+            $q->whereIn('id',[7,8,9,11]);
         })->get();
         return view('users.index')
             ->with('users', $users);
@@ -52,7 +52,7 @@ class UserController extends AppBaseController
     {
         $desa = Desa::pluck('nama_desa','id');
         $kph = KPH::pluck('nama','id');
-        $roles = Role::whereIn('name',['KPH','PPR','koordinator'])->pluck('name','id');
+        $roles = Role::whereIn('name',['KPH','PPR','koordinator','BPN'])->pluck('name','id');
         return view('users.create',compact('desa','roles','kph'));
     }
 

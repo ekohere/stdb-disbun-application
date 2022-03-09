@@ -50,6 +50,8 @@
                                     <span class="bg-info"><i class="fa fa-check"></i> {{$item->name}}</span>
                                 @elseif($item->id==5)
                                     <span class="bg-info"><i class="fa fa-check"></i> {{$item->name}}</span>
+                                @elseif($item->id==6)
+                                    <span class="bg-info"><i class="fa fa-check"></i> {{$item->name}}</span>
                                 @endif
                                 <div>
                                     <h6 class="mt-0-1 mb-0 p-0 font-small-3 text-bold-700">{{$item->stdbRegisHasStatus->created_at->format('d M Y h:m:s')}}</h6>

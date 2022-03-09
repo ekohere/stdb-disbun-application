@@ -32,6 +32,8 @@
                                             @include('s_t_d_b_registers.show_fields_kph')
                                         @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('PPR'))
                                             @include('s_t_d_b_registers.show_fields_ppr')
+                                        @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('BPN'))
+                                            @include('s_t_d_b_registers.show_fields_bpn')
                                         @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || \Illuminate\Support\Facades\Auth::user()->hasRole('admin_disbun'))
                                             @include('s_t_d_b_registers.show_fields')
                                         @endif

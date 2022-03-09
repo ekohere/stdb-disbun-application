@@ -46,15 +46,20 @@ class STDBRegisterController extends AppBaseController
                 array_push($kecamatan,$item->kecamatan->kode_kec);
             }
             $sTDBRegisters = STDBRegister::where('verified_by_kph',0)->get();
-        }elseif (Auth::user()->hasRole('PPR')){
+        }
+        elseif (Auth::user()->hasRole('PPR')){
             $sTDBRegisters = STDBRegister::where('verified_by_ppr',0)->get();
-        }elseif (Auth::user()->hasRole('admin')){
-            $sTDBRegisters = STDBRegister::/*where('verified_by_ppr',1)->where('verified_by_kph',1)
-                ->*/get()->filter(function ($q){
+        }
+        elseif (Auth::user()->hasRole('admin') || Auth::user()->hasRole('admin_disbun')){
+            $sTDBRegisters = STDBRegister::get()->filter(function ($q){
                     return $q->latest_status->id != 2 && $q->latest_status->id != 3;
                 })->flatten();
         }
-//        return $sTDBRegisters;
+        elseif (Auth::user()->hasRole('BPN')){
+            $sTDBRegisters = STDBRegister::get()->filter(function ($q){
+                return $q->latest_status->id != 2 && $q->latest_status->id != 3 && $q->latest_status->id != 6;
+            })->flatten();
+        }
         return view('s_t_d_b_registers.index')
             ->with('sTDBRegisters', $sTDBRegisters);
     }
@@ -233,6 +238,10 @@ class STDBRegisterController extends AppBaseController
             $sTDBRegisters = STDBRegister::where('verified_by_kph',1)->get();
         }elseif (Auth::user()->hasRole('PPR')){
             $sTDBRegisters = STDBRegister::where('verified_by_ppr',1)->get();
+        }elseif (Auth::user()->hasRole('BPN')){
+            $sTDBRegisters = STDBRegister::get()->filter(function ($q){
+                return $q->latest_status->id == 6;
+            })->flatten();
         }elseif (Auth::user()->hasRole('admin') || Auth::user()->hasRole('admin_disbun')){
             $sTDBRegisters = STDBRegister::where('verified_by_ppr',1)->where('verified_by_kph',1)->latest()->get()->filter(function ($q){
                 return $q->latest_status->id == 2;

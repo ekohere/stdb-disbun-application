@@ -16,13 +16,15 @@
                 @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('PPR'))
                     {!! Form::hidden('stdb_status_id', 5, ['class' => 'form-control']) !!}
                     {!! Form::hidden('verified_by_ppr', 1, ['class' => 'form-control']) !!}
-                @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+                @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('BPN'))
+                    {!! Form::hidden('stdb_status_id', 6, ['class' => 'form-control']) !!}
+                @elseif(\Illuminate\Support\Facades\Auth::user()->hasRole('admin_disbun'))
                     {!! Form::hidden('stdb_status_id', 2, ['class' => 'form-control']) !!}
                 @endif
             </div>
         </div>
 
-        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin'))
+        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || \Illuminate\Support\Facades\Auth::user()->hasRole('admin_disbun'))
         <!-- Lampiran Peta Persil Field -->
             <div class="form-group">
                 {!! Form::label('lampiran_peta_persil', 'Lampiran Peta Persil (pdf)',['class'=>' text-uppercase text-bold-700']) !!}
