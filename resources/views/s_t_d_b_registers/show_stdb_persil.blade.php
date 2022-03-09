@@ -13,7 +13,7 @@
                                         <h4 class="form-section">
                                             <a href="{!! route('home') !!}" class="btn btn-icon danger btn-lg pl-0 ml-0"><i class="ft-arrow-left"></i> Kembali</a>
                                         </h4>
-                                        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || \Illuminate\Support\Facades\Auth::user()->hasRole('admin_disbun'))
+                                        @if(\Illuminate\Support\Facades\Auth::user()->hasRole('admin') || \Illuminate\Support\Facades\Auth::user()->hasRole('admin_disbun') || \Illuminate\Support\Facades\Auth::user()->hasRole('BPN') || \Illuminate\Support\Facades\Auth::user()->hasRole('PPR') || \Illuminate\Support\Facades\Auth::user()->hasRole('KPH'))
                                             <div class="card-content rounded-1 box-shadow-1 mt-3 p-0-1">
                                                 <div name="mapPrev" id="mapPrev" style="height: 500px" class="m-0-1">
                                                 </div>
