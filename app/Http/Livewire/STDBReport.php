@@ -9,7 +9,7 @@ use Livewire\Component;
 
 class STDBReport extends Component
 {
-    public $stdbProcess,$stdbValidKPH,$stdbValidPPR,$stdbVerified,$stdbRejected;
+    public $stdbProcess,$stdbValidKPH,$stdbValidPPR,$stdbVerified,$stdbRejected,$stdbValidBPN;
     public $status;
 
     public $year =[
@@ -56,6 +56,10 @@ class STDBReport extends Component
                 return $q->latest_status->id==5;
             })->flatten()->count();
 
+            $this->stdbValidBPN = STDBRegister::get()->filter(function ($q){
+                return $q->latest_status->id==6;
+            })->flatten()->count();
+
             $this->stdbVerified = STDBRegister::get()->filter(function ($q){
                 return $q->latest_status->id==2;
             })->flatten()->count();
@@ -82,6 +86,9 @@ class STDBReport extends Component
                     case 5:
                         $item['total']=$this->stdbValidPPR;
                         break;
+                    case 6:
+                        $item['total']=$this->stdbValidBPN;
+                        break;
                 }
             }
         }
@@ -96,6 +103,10 @@ class STDBReport extends Component
 
             $this->stdbValidPPR = STDBRegister::whereYear('created_at',$this->yearSelected)->get()->filter(function ($q){
                 return $q->latest_status->id==5;
+            })->flatten()->count();
+
+            $this->stdbValidBPN = STDBRegister::whereYear('created_at',$this->yearSelected)->get()->filter(function ($q){
+                return $q->latest_status->id==6;
             })->flatten()->count();
 
             $this->stdbVerified = STDBRegister::whereYear('created_at',$this->yearSelected)->get()->filter(function ($q){
@@ -124,6 +135,9 @@ class STDBReport extends Component
                     case 5:
                         $item['total']=$this->stdbValidPPR;
                         break;
+                    case 6:
+                        $item['total']=$this->stdbValidBPN;
+                        break;
                 }
             }
         }
@@ -138,6 +152,10 @@ class STDBReport extends Component
 
             $this->stdbValidPPR = STDBRegister::whereMonth('created_at',$this->monthSelected)->get()->filter(function ($q){
                 return $q->latest_status->id==5;
+            })->flatten()->count();
+
+            $this->stdbValidBPN = STDBRegister::whereMonth('created_at',$this->monthSelected)->get()->filter(function ($q){
+                return $q->latest_status->id==6;
             })->flatten()->count();
 
             $this->stdbVerified = STDBRegister::whereMonth('created_at',$this->monthSelected)->get()->filter(function ($q){
@@ -166,6 +184,9 @@ class STDBReport extends Component
                     case 5:
                         $item['total']=$this->stdbValidPPR;
                         break;
+                    case 6:
+                        $item['total']=$this->stdbValidBPN;
+                        break;
                 }
             }
         }
@@ -180,6 +201,10 @@ class STDBReport extends Component
 
             $this->stdbValidPPR = STDBRegister::whereYear('created_at',$this->yearSelected)->whereMonth('created_at',$this->monthSelected)->get()->filter(function ($q){
                 return $q->latest_status->id==5;
+            })->flatten()->count();
+
+            $this->stdbValidBPN = STDBRegister::whereYear('created_at',$this->yearSelected)->whereMonth('created_at',$this->monthSelected)->get()->filter(function ($q){
+                return $q->latest_status->id==6;
             })->flatten()->count();
 
             $this->stdbVerified = STDBRegister::whereYear('created_at',$this->yearSelected)->whereMonth('created_at',$this->monthSelected)->get()->filter(function ($q){
@@ -207,6 +232,9 @@ class STDBReport extends Component
                         break;
                     case 5:
                         $item['total']=$this->stdbValidPPR;
+                        break;
+                    case 6:
+                        $item['total']=$this->stdbValidBPN;
                         break;
                 }
             }

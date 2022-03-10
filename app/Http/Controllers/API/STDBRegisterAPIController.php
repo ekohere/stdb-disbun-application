@@ -367,6 +367,10 @@ class STDBRegisterAPIController extends AppBaseController
                     return $q->latest_status->id==5;
                 })->flatten()->count();
 
+                $stdbValidBPN = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==6;
+                })->flatten()->count();
+
                 $stdbVerified = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
                     return $q->latest_status->id==2;
                 })->flatten()->count();
@@ -380,6 +384,7 @@ class STDBRegisterAPIController extends AppBaseController
                 $data['stdb_proses'] = $stdbProcess;
                 $data['stdb_valid_kph'] = $stdbValidKPH;
                 $data['stdb_valid_ppr'] = $stdbValidPPR;
+                $data['stdb_valid_bpn'] = $stdbValidBPN;
                 $data['stdb_verified'] = $stdbVerified;
                 $data['stdb_rejected'] = $stdbRejected;
                 array_push($report,$data);
@@ -400,6 +405,10 @@ class STDBRegisterAPIController extends AppBaseController
                     return $q->latest_status->id==5;
                 })->flatten()->count();
 
+                $stdbValidBPN = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                    return $q->latest_status->id==6;
+                })->flatten()->count();
+
                 $stdbVerified = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
                     return $q->latest_status->id==2;
                 })->flatten()->count();
@@ -413,6 +422,7 @@ class STDBRegisterAPIController extends AppBaseController
                 $data['stdb_proses'] = $stdbProcess;
                 $data['stdb_valid_kph'] = $stdbValidKPH;
                 $data['stdb_valid_ppr'] = $stdbValidPPR;
+                $data['stdb_valid_bpn'] = $stdbValidBPN;
                 $data['stdb_verified'] = $stdbVerified;
                 $data['stdb_rejected'] = $stdbRejected;
                 array_push($report,$data);
