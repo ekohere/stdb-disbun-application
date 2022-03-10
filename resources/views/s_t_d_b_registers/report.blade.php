@@ -176,6 +176,7 @@
             createSeries("stdb_proses","Di Proses","#F6D066","#f6b747");
             createSeries("stdb_valid_kph","Reviewed KPH","#8cecf6","#44d7f6");
             createSeries("stdb_valid_ppr","Reviewed PPR","#8fc3f6","#4e9df6");
+            createSeries("stdb_valid_bpn","Reviewed BPN","#d49776","#96593b");
             createSeries("stdb_verified","Terverifikasi","#8af67f","#10c919");
             createSeries("stdb_rejected","Tertolak","#f67b75","#c22725");
 
