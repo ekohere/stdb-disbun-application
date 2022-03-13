@@ -34,7 +34,7 @@
             <p class="small text-bold-700 mb-0">APL: <span class="badge bg-blue bg-lighten-2 mb-0-1" id="status-apl-{!! $item->persil->polygon_persil_id !!}">-</span></p>
             <hr>
         @endforeach
-        @if($sTDBRegister->latest_status->id!=2 && $sTDBRegister->latest_status->id!=3 && $sTDBRegister->verified_by_ppr==1 && $sTDBRegister->verified_by_kph==1)
+        @if($sTDBRegister->latest_status->id!=2 && $sTDBRegister->latest_status->id!=3)
             <a href="{!! route('sTDBRegisters.verify', [$sTDBRegister->id]) !!}" class="btn btn-sm btn-blue">Verifikasi</a>
         @else
         @endif
