@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="JavaScriptLibraryMappings">
-    <file url="PROJECT" libraries="{alpine}" />
+    <file url="PROJECT" libraries="{alpine, animated, charts, core, de_DE, germanyLow, jquery-2.2.4, kelly, material, notosans-sc, spiritedaway}" />
   </component>
 </project>

@@ -196,5 +196,15 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="alpine" level="application" />
+    <orderEntry type="library" name="core" level="application" />
+    <orderEntry type="library" name="charts" level="application" />
+    <orderEntry type="library" name="material" level="application" />
+    <orderEntry type="library" name="de_DE" level="application" />
+    <orderEntry type="library" name="germanyLow" level="application" />
+    <orderEntry type="library" name="notosans-sc" level="application" />
+    <orderEntry type="library" name="animated" level="application" />
+    <orderEntry type="library" name="kelly" level="application" />
+    <orderEntry type="library" name="spiritedaway" level="application" />
+    <orderEntry type="library" name="jquery-2.2.4" level="application" />
   </component>
 </module>

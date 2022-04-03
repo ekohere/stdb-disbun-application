@@ -60,6 +60,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     // API route for logout user
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
 });
-
+Route::get('stdb-status-report',[\App\Http\Controllers\API\SatuDataAPIController::class,'stdbValidPerStatus']);
 
 Route::resource('desas', App\Http\Controllers\API\DesaAPIController::class);
