@@ -145,17 +145,43 @@ class UserController extends AppBaseController
      */
     public function update($id, UpdateUserRequest $request)
     {
+        $input = $request->except('avatar');
         $user = $this->userRepository->find($id);
 
         if (empty($user)) {
             Flash::error('User not found');
-
             return redirect(route('users.index'));
         }
 
-        $user = $this->userRepository->update($request->all(), $id);
+        if($input['current_password']==='' || $input['current_password']===null){
+            unset($input['password']);
+        } else {
+            if (!(Hash::check($input['current_password'], Auth::user()->password))) {
+                unset($input['password']);
+            }
+        }
+        $user->update($input);
+        $user->save();
 
-        Flash::success('User updated successfully.');
+        if( $request->hasFile('avatar')){
+            $file = $request->file('avatar');
+            $filename = $user->id.'imgAvatar.'.$file->getClientOriginalExtension();
+            $path=$request->avatar->storeAs('public/userAvatar', $filename,'local');
+            $user->avatar='storage'.substr($path,strpos($path,'/'));
+        }
+        if(isset($input['current_password'])){
+            if (!(Hash::check($input['current_password'], Auth::user()->password))) {
+                Flash::error('Opps!','Sepertinya bukan kata sandi anda.','warning');
+            } else {
+                $user->password = bcrypt($input['password']);
+                $user->save();
+                Flash::success('Berhasil','Pembaruan Data Successfully','success');
+            }
+        } else {
+            unset($input['password']);
+            $user->save();
+            Flash::success('Pembaruan Data Successfully','success','Updated');
+        }
 
         return redirect(route('users.index'));
     }
