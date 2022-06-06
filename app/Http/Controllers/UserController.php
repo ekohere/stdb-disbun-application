@@ -123,6 +123,8 @@ class UserController extends AppBaseController
     {
         $desa = Desa::pluck('nama_desa','id');
         $user = $this->userRepository->find($id);
+        $kph = KPH::pluck('nama','id');
+        $roles = Role::whereIn('name',['KPH','PPR','koordinator','BPN'])->pluck('name','id');
 
         if (empty($user)) {
             Flash::error('User not found');
@@ -130,7 +132,7 @@ class UserController extends AppBaseController
             return redirect(route('users.index'));
         }
 
-        return view('users.edit',compact('desa'))->with('user', $user);
+        return view('users.edit',compact('desa','kph','roles'))->with('user', $user);
     }
 
     /**
