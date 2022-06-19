@@ -24,7 +24,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 Route::get('get_polygon/{id}',[\App\Http\Controllers\API\SpatialAPIController::class,'getPolygonByIdRegister']);
 Route::get('get_polygon_persil/{id}',[\App\Http\Controllers\API\SpatialAPIController::class,'getPolygonPersilById']);
-Route::get('all_polygon_persil',[\App\Http\Controllers\API\SpatialAPIController::class,'allPolygonPersil']);
+Route::get('all_polygon_persil.geojson',[\App\Http\Controllers\API\SpatialAPIController::class,'allPolygonPersil']);
 
 Route::get('get_polygon_clean_rtrw/{id}',[\App\Http\Controllers\API\SpatialAPIController::class,'ccRTRW']);
 Route::get('get_polygon_clean_apl/{id}',[\App\Http\Controllers\API\SpatialAPIController::class, 'ccAPL']);
@@ -61,5 +61,12 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout', [App\Http\Controllers\API\AuthController::class, 'logout']);
 });
 Route::get('stdb-status-report',[\App\Http\Controllers\API\SatuDataAPIController::class,'stdbValidPerStatus']);
+Route::get('stdb-update-report',[\App\Http\Controllers\API\SatuDataAPIController::class,'updateSatuDataSTDB']);
+Route::get('stdb-rilis',[\App\Http\Controllers\API\SatuDataAPIController::class,'stdbRilis']);
 
 Route::resource('desas', App\Http\Controllers\API\DesaAPIController::class);
+
+
+Route::resource('datasets', App\Http\Controllers\API\DatasetAPIController::class);
+
+Route::resource('resources', App\Http\Controllers\API\ResourcesAPIController::class);

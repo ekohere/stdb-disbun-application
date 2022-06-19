@@ -80,6 +80,16 @@ class User extends Authenticatable
         'password'=>'required|confirmed',
     ];
 
+    public static $rules =[
+//        'name'=>'required',
+//        'username'=>'required',
+//        'nik'=>'required',
+//        'kontak'=>'required',
+//        'alamat'=>'required',
+//        'email'=>'required|email',
+//        'password'=>'required|confirmed',
+    ];
+
     public static $rules_update=[
 //        'name'=>'required',
 //        'username'=>'required',

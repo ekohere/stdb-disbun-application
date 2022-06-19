@@ -482,3 +482,11 @@
 {{--<li class="{{ Request::is('desas*') ? 'active' : '' }}">--}}
 {{--    <a href="{!! route('desas.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Desa</span></a>--}}
 {{--</li>--}}
+<li class="{{ Request::is('datasets*') ? 'active' : '' }}">
+    <a href="{!! route('datasets.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Datasets</span></a>
+</li>
+
+<li class="{{ Request::is('resources*') ? 'active' : '' }}">
+    <a href="{!! route('resources.index') !!}"><i class="fa fa-circle-o"></i><span data-i18n="nav.form_layouts.form_layout_basic" class="menu-title">Resources</span></a>
+</li>
+

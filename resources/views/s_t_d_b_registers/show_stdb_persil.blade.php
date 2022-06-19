@@ -73,7 +73,7 @@
 
         //TODO call Polygon Persil
         function callAllPolygonPersil() {
-            $.ajax({url:'{{env('APP_URL').'/api/all_polygon_persil'}}',
+            $.ajax({url:'{{env('APP_URL').'/api/all_polygon_persil.geojson'}}',
                 success: function (response) {
                     if (Array.isArray(response.features) && response.features.length){
                         drawPolygonPersil(response);

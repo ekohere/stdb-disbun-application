@@ -120,8 +120,12 @@ Route::group(['middleware' => ['auth']], function () {
     //Route::get('sTDBRegisters/print/{id}', [App\Http\Controllers\STDBRegisterController::class,'cetakSTDB'])->name('sTDBRegisters.print');
     Route::resource('desas', App\Http\Controllers\DesaController::class);
     Route::resource('kPHS', App\Http\Controllers\KPHController::class);
+
+    Route::resource('kphHasKecamatans', App\Http\Controllers\KphHasKecamatanController::class);
+    Route::resource('datasets', App\Http\Controllers\DatasetController::class);
+    Route::resource('resources', App\Http\Controllers\ResourcesController::class);
 });
 
 Route::get('sTDBRegisters/print/{id}', [App\Http\Controllers\STDBRegisterController::class,'cetakSTDB'])->name('sTDBRegisters.print');
 
-Route::resource('kphHasKecamatans', App\Http\Controllers\KphHasKecamatanController::class);
+
