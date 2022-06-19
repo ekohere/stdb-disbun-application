@@ -286,7 +286,11 @@ class SatuDataAPIController extends AppBaseController
                 array_push($records,$data_field);
             }
 
-            return response()->json($records);
+            $data = [
+                'fields' => $fields,
+                'primary_key'=>'id',
+                'records' => $records];
+            return response()->json($data);
 
 //            $resource['package_id'] = $dataset->id;
 //            $resource['language'] = 'INDONESIA';
