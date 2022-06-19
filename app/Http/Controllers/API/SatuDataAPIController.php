@@ -286,40 +286,42 @@ class SatuDataAPIController extends AppBaseController
                 array_push($records,$data_field);
             }
 
-            $resource['package_id'] = $dataset->id;
-            $resource['language'] = 'INDONESIA';
-            $resource['metadata_language'] = 'INDONESIA';
-            $resource['name'] = 'Laporan Data Statistik STDB Rilis Tahun '.$year;
-            $resource['title'] = 'Laporan Data Statistik STDB Rilis Tahun '.$year;
-            $resource['description'] = 'Laporan Data Statistik Rilis STDB dari Web Admin E-STDB Kutai Timur yang berisi data statistik jumlah petani yang didata, jumlah persil, dan jumlah luasan hektar dari pengajuan STDB online tahun '.$year;
-            $resource['mimetype'] = 'application/json';
-            $resource['format'] = 'json';
-            try{
-                $response = Http::withHeaders(['Authorization' => env('SATUDATA_KEY')])
-                    ->post('https://data.kutaitimurkab.go.id/api/3/action/datastore_create',[
-                        'resource' => $resource,
-                        'fields' => $fields,
-                        'primary_key'=>'id',
-                        'records' => $records
-                    ])->json();
+            return response()->json($records);
 
-                if (!empty($response)){
-                    //save resource to database
-                    $dataResource = Resources::create([
-                        'id'=> $response['result']['resource_id'],
-                        'package_id'=> $response['result']['resource']['package_id'],
-                        'name'=> $response['result']['resource']['title'],
-                        'description'=> $response['result']['resource']['description'],
-                        'format'=> $response['result']['resource']['format'],
-                        'year'=> $year,
-                    ]);
-                    $dataResource->save();
-                }
-
-                return response()->json($response);
-            }catch (\Exception $exception){
-                return response()->json("error: ".$exception);
-            }
+//            $resource['package_id'] = $dataset->id;
+//            $resource['language'] = 'INDONESIA';
+//            $resource['metadata_language'] = 'INDONESIA';
+//            $resource['name'] = 'Laporan Data Statistik STDB Rilis Tahun '.$year;
+//            $resource['title'] = 'Laporan Data Statistik STDB Rilis Tahun '.$year;
+//            $resource['description'] = 'Laporan Data Statistik Rilis STDB dari Web Admin E-STDB Kutai Timur yang berisi data statistik jumlah petani yang didata, jumlah persil, dan jumlah luasan hektar dari pengajuan STDB online tahun '.$year;
+//            $resource['mimetype'] = 'application/json';
+//            $resource['format'] = 'json';
+//            try{
+//                $response = Http::withHeaders(['Authorization' => env('SATUDATA_KEY')])
+//                    ->post('https://data.kutaitimurkab.go.id/api/3/action/datastore_create',[
+//                        'resource' => $resource,
+//                        'fields' => $fields,
+//                        'primary_key'=>'id',
+//                        'records' => $records
+//                    ])->json();
+//
+//                if (!empty($response)){
+//                    //save resource to database
+//                    $dataResource = Resources::create([
+//                        'id'=> $response['result']['resource_id'],
+//                        'package_id'=> $response['result']['resource']['package_id'],
+//                        'name'=> $response['result']['resource']['title'],
+//                        'description'=> $response['result']['resource']['description'],
+//                        'format'=> $response['result']['resource']['format'],
+//                        'year'=> $year,
+//                    ]);
+//                    $dataResource->save();
+//                }
+//
+//                return response()->json($response);
+//            }catch (\Exception $exception){
+//                return response()->json("error: ".$exception);
+//            }
         }
     }
 }
