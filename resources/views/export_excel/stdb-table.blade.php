@@ -9,7 +9,7 @@
         <th>Bulan</th>
         <th>Jumlah Petani Terdata</th>
         <th>Jumlah Persil</th>
-        <th>Total Luasan Persil</th>
+        <th>Total Luasan Persil(Ha)</th>
     </tr>
     </thead>
     <tbody>
