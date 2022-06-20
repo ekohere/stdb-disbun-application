@@ -31,6 +31,10 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:check-apl')->everyMinute();
         $schedule->command('command:check-rtrw')->everyMinute();
         $schedule->command('command:check-rtrw-gagal')->everyMinute();
+
+        //schedule for STDB Rilis
+        $schedule->command('command:create-resource-stdb')->yearly();
+        $schedule->command('command:update-resource-stdb-rilis')->monthly();
     }
 
     /**

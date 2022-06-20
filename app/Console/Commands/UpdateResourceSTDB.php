@@ -3,29 +3,27 @@
 namespace App\Console\Commands;
 
 use App\Models\Dataset;
-use App\Models\PolygonPersil;
 use App\Models\Resources;
-use App\Models\STDBDetailRegister;
 use App\Models\STDBRegister;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
 
-class UpdateResourceSTDBRilis extends Command
+class UpdateResourceSTDB extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'command:update-resource-stdb-rilis';
+    protected $signature = 'command:update-resource-stdb';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command update resource stdb rilis';
+    protected $description = 'Command update resource stdb status';
 
     /**
      * Create a new command instance.
@@ -44,11 +42,11 @@ class UpdateResourceSTDBRilis extends Command
      */
     public function handle()
     {
-        $checkResourceYear = Resources::where('package_id',env('DATASET_ID_RILIS'))
-        ->whereYear('created_at',Carbon::today()->format('Y'))
-        ->get()
-        ->first();
-
+        $checkResourceYear = Resources::where('package_id',env('DATASET_ID'))
+            ->whereYear('created_at',Carbon::today()->format('Y'))
+            ->get()
+            ->first();
+        //update resource data
         $fields= [
             [
                 'id'=> "id"
@@ -57,13 +55,22 @@ class UpdateResourceSTDBRilis extends Command
                 'id'=> "Bulan"
             ],
             [
-                'id'=> "Jumlah Petani Terdata"
+                'id'=> "Proses Verifikasi"
             ],
             [
-                'id'=> "Jumlah Persil"
+                'id'=> "Ditolak"
             ],
             [
-                'id'=> "Total Luasan Persil"
+                'id'=> "Telah direview oleh KPH"
+            ],
+            [
+                'id'=> 'Telah direview oleh PPR'
+            ],
+            [
+                'id'=> 'Telah direview oleh BPN'
+            ],
+            [
+                'id'=> 'Terverifikasi'
             ],
         ];
         $year = Carbon::today()->format('Y');
@@ -81,34 +88,29 @@ class UpdateResourceSTDBRilis extends Command
             11=>"November",
             12=>"Desember",
         ];
-
-        $dataset = Dataset::find('2e247a5a-a6c5-43cf-8801-546df509425b');
+        $dataset = Dataset::find(env('DATASET_ID'));
         $records=[];
         foreach($month as $key=>$item){
             $data_field['id'] = $key;
             $data_field['Bulan'] = $item;
-
-            $data_field['Jumlah Petani Terdata'] = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+            $data_field['Proses Verifikasi'] = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                return $q->latest_status->id==1;
+            })->flatten()->count();
+            $data_field['Terverifikasi'] = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
                 return $q->latest_status->id==2;
-            })->flatten()->groupBy('anggota_id')->count();
-
-            //tarik data stdb yang terverifikasi
-            $stdbRegis = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
-                return $q->latest_status->id==2;
-            })->flatten();
-            $idSTDB = [];
-            foreach ($stdbRegis as $stdb){
-                array_push($idSTDB,$stdb->id);
-            }
-            //tarik data jumlah persil dari stdb yang sudah terverifikasi
-            $data_field['Jumlah Persil'] = STDBDetailRegister::whereIn('stdb_register_id',$idSTDB)->get()->count();
-
-            $detilSTDB = STDBDetailRegister::whereIn('stdb_register_id',$idSTDB)->get();
-            $idPersilPloygon = [];
-            foreach ($detilSTDB as $detil){
-                array_push($idPersilPloygon, $detil->persil->polygon_persil_id);
-            }
-            $data_field['Total Luasan Persil'] = PolygonPersil::whereIn('id',$idPersilPloygon)->get()->sum('area');
+            })->flatten()->count();
+            $data_field['Ditolak'] = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                return $q->latest_status->id==3;
+            })->flatten()->count();
+            $data_field['Telah direview oleh KPH'] = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                return $q->latest_status->id==4;
+            })->flatten()->count();
+            $data_field['Telah direview oleh PPR'] = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                return $q->latest_status->id==5;
+            })->flatten()->count();
+            $data_field['Telah direview oleh BPN'] = STDBRegister::whereYear('created_at',$year)->whereMonth('created_at',$key)->get()->filter(function ($q){
+                return $q->latest_status->id==6;
+            })->flatten()->count();
 
             array_push($records,$data_field);
         }
@@ -116,9 +118,9 @@ class UpdateResourceSTDBRilis extends Command
         $resource['package_id'] = $dataset->id;
         $resource['language'] = 'INDONESIA';
         $resource['metadata_language'] = 'INDONESIA';
-        $resource['name'] = 'Laporan Data Statistik STDB Rilis Tahun '.$year;
-        $resource['title'] = 'Laporan Data Statistik STDB Rilis Tahun '.$year;
-        $resource['description'] = 'Laporan Data Statistik Rilis STDB dari Web Admin E-STDB Kutai Timur yang berisi data statistik jumlah petani yang didata, jumlah persil, dan jumlah luasan hektar dari pengajuan STDB online tahun '.$year;
+        $resource['name'] = 'Laporan Data Statistik Status STDB Tahun '.$year;
+        $resource['title'] = 'Laporan Data Statistik Status STDB Tahun '.$year;
+        $resource['description'] = 'Data Statistik Status STDB dari Web Admin E-STDB Kutai Timur';
         $resource['mimetype'] = 'application/json';
         $resource['format'] = 'json';
         try{

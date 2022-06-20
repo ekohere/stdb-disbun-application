@@ -42,7 +42,10 @@ class CreateResourceSTDB extends Command
      */
     public function handle()
     {
-        $checkResourceYear = Resources::whereYear('created_at',Carbon::today()->format('Y'))->get()->first();
+        $checkResourceYear = Resources::where('package_id',env('DATASET_ID'))
+            ->whereYear('created_at',Carbon::today()->format('Y'))
+            ->get()
+            ->first();
         if (empty($checkResourceYear)){
             //push new year resource data
             $fields= [

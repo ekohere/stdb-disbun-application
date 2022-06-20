@@ -44,7 +44,7 @@ class CreateResourceSTDBRilis extends Command
      */
     public function handle()
     {
-        $checkResourceYear = Resources::where('package_id','2e247a5a-a6c5-43cf-8801-546df509425b')
+        $checkResourceYear = Resources::where('package_id',env('DATASET_ID_RILIS'))
             ->whereYear('created_at',Carbon::today()->format('Y'))
             ->get()
             ->first();

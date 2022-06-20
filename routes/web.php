@@ -128,4 +128,4 @@ Route::group(['middleware' => ['auth']], function () {
 
 Route::get('sTDBRegisters/print/{id}', [App\Http\Controllers\STDBRegisterController::class,'cetakSTDB'])->name('sTDBRegisters.print');
 
-Route::get('stdb-rilis.xlsx',[\App\Http\Controllers\API\SatuDataAPIController::class,'exportExcel'])->name('exportExcel');
+//Route::get('stdb-rilis.xlsx',[\App\Http\Controllers\API\SatuDataAPIController::class,'exportExcel'])->name('exportExcel');

@@ -8,6 +8,7 @@ use App\Repositories\ResourcesRepository;
 use App\Http\Controllers\AppBaseController;
 use Illuminate\Http\Request;
 use Flash;
+use Illuminate\Support\Facades\Http;
 use Response;
 
 class ResourcesController extends AppBaseController
@@ -143,14 +144,28 @@ class ResourcesController extends AppBaseController
 
         if (empty($resources)) {
             Flash::error('Resources not found');
-
             return redirect(route('resources.index'));
         }
 
-        $this->resourcesRepository->delete($id);
+        try{
+            $response = Http::withHeaders(['Authorization' => env('SATUDATA_KEY')])
+                ->post('https://data.kutaitimurkab.go.id/api/3/action/resource_delete',[
+                    "id"=> $resources->id
+                ])->json();
 
-        Flash::success('Resources deleted successfully.');
-
-        return redirect(route('resources.index'));
+            if (!empty($response)){
+                if ($response['success']==true){
+                    $this->resourcesRepository->delete($id);
+                    Flash::success('Resources deleted successfully.');
+                    return redirect(route('resources.index'));
+                }else{
+                    Flash::error('Resources failed to delete from CKAN: '.$response);
+                    return redirect(route('resources.index'));
+                }
+            }
+        }catch (\Exception $exception){
+            Flash::error('Resources failed to delete from CKAN: '.$exception->getMessage());
+            return redirect(route('resources.index'));
+        }
     }
 }
