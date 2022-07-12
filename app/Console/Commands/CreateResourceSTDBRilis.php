@@ -63,7 +63,7 @@ class CreateResourceSTDBRilis extends Command
                     'id'=> "Jumlah Persil"
                 ],
                 [
-                    'id'=> "Total Luasan Persil"
+                    'id'=> "Total Luasan Persil (ha)"
                 ],
             ];
             $year = Carbon::today()->format('Y');
