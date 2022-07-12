@@ -51,9 +51,7 @@ class STDBRegisterController extends AppBaseController
             $sTDBRegisters = STDBRegister::where('verified_by_ppr',0)->get();
         }
         elseif (Auth::user()->hasRole('admin') || Auth::user()->hasRole('admin_disbun')){
-            $sTDBRegisters = STDBRegister::whereHas('stdbStatuses',function ($q){
-                $q->where('stdb_status_id','!=',2);
-            })->get()->filter(function ($q){
+            $sTDBRegisters = STDBRegister::get()->filter(function ($q){
                     return $q->latest_status->id != 2 && $q->latest_status->id != 3;
                 })->flatten();
         }
