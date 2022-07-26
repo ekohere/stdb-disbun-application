@@ -28,4 +28,5 @@
 <!-- CSS Utility-->
 <!-- Do Not Remove This CSS-->
 <link rel="stylesheet" type="text/css" href="{{ asset('master/app-assets/css/style.css')}}">
+{{--<link rel="stylesheet" type="text/css" href="{{ asset('master/app-assets/css/typography.css')}}">--}}
 <link rel="stylesheet" type="text/css" href="{{ asset('css/media-pro/styles.css')}}">

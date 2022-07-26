@@ -215,9 +215,14 @@ class STDBRegisterController extends AppBaseController
         $sTDBRegister = STDBRegister::find($id);
         foreach ($sTDBRegister->stdbDetailRegis as $item){
             $idPolygon = $item->persil->polygon_persil_id;
-            $metry = $item->persil->polygonPersil->geom;
-            $center = DB::connection('pgsql')->select(DB::raw("select ST_X(ST_AsText(ST_Centroid('polygon($metry)',true))) as x, ST_Y(ST_AsText(ST_Centroid('polygon($metry)',true))) as y from polygon_persil where id='$idPolygon' "));
-            $item->persil->center_point = $center[0];
+            if (!empty($item->persil->polygonPersil->geom)){
+                $metry = $item->persil->polygonPersil->geom;
+                $center = DB::connection('pgsql')->select(DB::raw("select ST_X(ST_AsText(ST_Centroid('polygon($metry)',true))) as x, ST_Y(ST_AsText(ST_Centroid('polygon($metry)',true))) as y from polygon_persil where id='$idPolygon' "));
+                $item->persil->center_point = $center[0];
+            }else{
+                $item->persil->center_point = '0,0';
+            }
+
         }
         //TODO get singkatan desa & kecamatan
         $desa = explode(" ", $sTDBRegister->anggota->alamat_desa_ktp);
