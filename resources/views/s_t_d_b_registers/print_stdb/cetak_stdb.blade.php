@@ -7,13 +7,13 @@
                 text-align: center;
                 font-family: "Arial", sans-serif;
                 color: #000000;
-                font-size: 13px;
+                font-size: 16px;
             }
 
             .isi_surat {
                 font-family: "Arial", sans-serif;
                 color: #000000;
-                font-size: 13px;
+                font-size: 14px;
             }
 
             .default-font {
@@ -94,7 +94,7 @@
             <svg height="5" width="100%">
                 <line x1="100%" y1="0" style="stroke:rgb(0,0,0);stroke-width:5"></line>
             </svg>
-            <h5 id="judul" class="m-0-1">525/00{{$sTDBRegister->id}}/DISBUN-KT/STD-B/{{$sTDBRegister->desa}} -
+            <h5 id="judul" class="m-0-1">525/{{ $sTDBRegister->no_surat<10?"00".$sTDBRegister->no_surat:($sTDBRegister->no_surat<100?"0".$sTDBRegister->no_surat:$sTDBRegister->no_surat) }}/DISBUN-KT/STD-B/{{$sTDBRegister->desa}} -
                 {{$sTDBRegister->kecamatan}}/X/{{date_format($sTDBRegister->latest_status->pivot->created_at,'Y')}} </h5>
 
             <div class="col-sm-12 pl-5 mt-1 isi_surat">

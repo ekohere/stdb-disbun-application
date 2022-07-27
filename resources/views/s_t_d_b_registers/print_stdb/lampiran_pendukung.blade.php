@@ -7,7 +7,7 @@
         <br>
         @foreach($sTDBRegister->stdbDetailRegis as $item)
             @if(!empty($item->persil->getFirstMediaUrl('lampiran_shm')))
-                <img class="mt-2" width="60%" src="{!! url(str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$item->persil->getFirstMediaUrl('lampiran_shm'))) !!}">
+                <iframe class="mt-2" width="60%" src="{!! url(str_replace("http://stdb-disbun.kutaitimurkab.go.id",env('URL_KOMPILASI'),$item->persil->getFirstMediaUrl('lampiran_shm'))) !!}">
                 <br>
             @else
                 <img class="mt-2" width="60%" src="{!! asset('image/example-shm.jpeg') !!}">
