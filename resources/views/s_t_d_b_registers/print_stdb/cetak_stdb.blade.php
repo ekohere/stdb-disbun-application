@@ -7,13 +7,13 @@
                 text-align: center;
                 font-family: "Arial", sans-serif;
                 color: #000000;
-                font-size: 16px;
+                font-size: 22px;
             }
 
             .isi_surat {
                 font-family: "Arial", sans-serif;
                 color: #000000;
-                font-size: 14px;
+                font-size: 18px;
             }
 
             .default-font {
@@ -181,11 +181,6 @@
                             <td width="210px">Pola Tanam</td>
                             <td>:</td>
                             <td>{{!empty($item->persil->pola_tanam)?$item->persil->pola_tanam:"-"}}</td>
-                        </tr>
-                        <tr>
-                            <td width="210px">Jenis Pupuk</td>
-                            <td>:</td>
-                            <td>{{!empty($item->persil->jenis_pupuk)?$item->persil->jenis_pupuk:"-"}}</td>
                         </tr>
                         <tr>
                             <td width="210px">Jenis Pupuk</td>
