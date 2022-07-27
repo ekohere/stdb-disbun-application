@@ -221,7 +221,7 @@
                         Sangatta, {{date_format($sTDBRegister->latest_status->pivot->created_at,'d M Y')}}</div>
                     <div class="mt-0" style="width: 100%; text-align: center;">Kepala Dinas Perkebunan</div>
                     {{--            <br><br><br><br>--}}
-                    <div class="mt-0 mb-110" style="width: 100%; text-align: center">
+                    <div class="mt-0 mb-110" style="width: 100%; text-align: center; height:50px">
 {{--                        {!! QrCode::size(150)->margin(3)->merge('/public/image/logo.png', .2)->generate(route('sTDBRegisters.print',$sTDBRegister->id)); !!}--}}
 
 {{--                        <a style="width: 100%; text-align: center;" rel='nofollow' href='https://www.qr-code-generator.com'--}}
