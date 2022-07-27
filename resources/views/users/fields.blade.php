@@ -62,9 +62,9 @@
     <div class="col-4 form-group">
         {!! Form::label('password', 'Password:') !!}
         <div class="position-relative has-icon-left">
-            {!! Form::password('password', ['class' => 'form-control']) !!}
+            {!! Form::password('password', ['class' => 'form-control','id'=>"password-field"]) !!}
             <div class="form-control-position">
-                <i class="fa fa-lock black"></i>
+                <i class="fa fa-eye font-medium-3 toggle-password" toggle="#password-field"></i>
             </div>
         </div>
     </div>
@@ -72,9 +72,9 @@
     <div class="col-4 form-group">
         {!! Form::label('re-password', 'Re-Password:') !!}
         <div class="position-relative has-icon-left">
-            {!! Form::password('re-password', ['class' => 'form-control']) !!}
+            {!! Form::password('re-password', ['class' => 'form-control','id'=>"password-field"]) !!}
             <div class="form-control-position">
-                <i class="fa fa-lock black"></i>
+                <i class="fa fa-eye font-medium-3 toggle-password" toggle="#password-field"></i>
             </div>
         </div>
     </div>
@@ -135,6 +135,17 @@
             $("#kph").show('slow');
         }else {
             $("#kph").hide('slow');
+        }
+    });
+</script>
+<script>
+    $(".toggle-password").click(function() {
+        $(this).toggleClass("fa-eye fa-eye-slash");
+        var input = $($(this).attr("toggle"));
+        if (input.attr("type") === "password") {
+            input.attr("type", "text");
+        } else {
+            input.attr("type", "password");
         }
     });
 </script>
