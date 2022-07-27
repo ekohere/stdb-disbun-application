@@ -248,7 +248,7 @@ class STDBRegisterController extends AppBaseController
                 return $q->latest_status->id == 6;
             })->flatten();
         }elseif (Auth::user()->hasRole('admin') || Auth::user()->hasRole('admin_disbun')){
-            $sTDBRegisters = STDBRegister::where('verified_by_ppr',1)->where('verified_by_kph',1)->latest()->get()->filter(function ($q){
+            $sTDBRegisters = STDBRegister::latest()->get()->filter(function ($q){
                 return $q->latest_status->id == 2;
             })->flatten();
         }
