@@ -213,6 +213,44 @@ class STDBRegisterController extends AppBaseController
     public function cetakSTDB($id)
     {
         $sTDBRegister = STDBRegister::find($id);
+        switch (date_format($sTDBRegister->latest_status->pivot->created_at,'m')){
+            case 1:
+                $bulan="I";
+                break;
+            case 2:
+                $bulan= "II";
+                break;
+            case 3:
+                $bulan= "III";
+                break;
+            case 4:
+                $bulan= "IV";
+                break;
+            case 5:
+                $bulan= "V";
+                break;
+            case 6:
+                $bulan= "VI";
+                break;
+            case 7:
+                $bulan= "VII";
+                break;
+            case 8:
+                $bulan= "VIII";
+                break;
+            case 9:
+                $bulan= "IX";
+                break;
+            case 10:
+                $bulan= "X";
+                break;
+            case 11:
+                $bulan= "XI";
+                break;
+            case 12:
+                $bulan= "XII";
+                break;
+        }
         foreach ($sTDBRegister->stdbDetailRegis as $item){
             $idPolygon = $item->persil->polygon_persil_id;
             if (!empty($item->persil->polygonPersil->geom)){
@@ -234,7 +272,7 @@ class STDBRegisterController extends AppBaseController
         $kecCleanSpace = implode(explode(",",$sTDBRegister->anggota->alamat_kec_ktp));
         $kecCleanComa = implode(explode(" ",$kecCleanSpace));
         $sTDBRegister['kecamatan'] = /*$kecCleanComa*/ $kecCleanComa[0].strtoupper($kecCleanComa[number_format(strlen($kecCleanComa)/2)]).strtoupper($kecCleanComa[(strlen($kecCleanComa)-1)]);
-        return view('s_t_d_b_registers.print_stdb.cetak_stdb',compact('sTDBRegister'));
+        return view('s_t_d_b_registers.print_stdb.cetak_stdb',compact('sTDBRegister','bulan'));
     }
 
     public function doneReview()

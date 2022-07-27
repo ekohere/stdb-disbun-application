@@ -84,18 +84,18 @@
     <body style="background-color: #FFFFFF;">
         <div class="page" id=halaman>
             <img class="mt-1 mb-0 p-0" width="100%" src="{{asset('image/kop_surat_stdb.jpg')}}"/>
-            <svg height="10" width="100%">
+            <svg height="10" width="100%" class="mt-2 mb-2">
                 <line x1="100%" y1="0" style="stroke:rgb(0,0,0);stroke-width:10"></line>
             </svg>
             <h5 id="judul" class="m-0 p-0">SURAT TANDA DAFTAR USAHA PERKEBUNAN UNTUK BUDIDAYA (STD-B)</h5>
             <h5 id="judul" class="m-0 p-0">Desa {{$sTDBRegister->anggota->alamat_desa_ktp}},
                 Kecamatan {{$sTDBRegister->anggota->alamat_kec_ktp}} </h5>
             <h5 id="judul" class="m-0 p-0">Kabupaten Kutai Timur </h5>
-            <svg height="5" width="100%">
+            <svg height="5" width="100%" class="mt-2 mb-2">
                 <line x1="100%" y1="0" style="stroke:rgb(0,0,0);stroke-width:5"></line>
             </svg>
             <h5 id="judul" class="m-0-1">525/{{ $sTDBRegister->no_surat<10?"00".$sTDBRegister->no_surat:($sTDBRegister->no_surat<100?"0".$sTDBRegister->no_surat:$sTDBRegister->no_surat) }}/DISBUN-KT/STD-B/{{$sTDBRegister->desa}} -
-                {{$sTDBRegister->kecamatan}}/X/{{date_format($sTDBRegister->latest_status->pivot->created_at,'Y')}} </h5>
+                {{$sTDBRegister->kecamatan}}/{!! $bulan !!}/{{date_format($sTDBRegister->latest_status->pivot->created_at,'Y')}} </h5>
 
             <div class="col-sm-12 pl-5 mt-1 isi_surat">
                 <h5 class="isi_surat text-bold-700">A. Keterangan Pemilik</h5>
