@@ -158,6 +158,11 @@
                             <td>{{$item->persil->luas_lahan}} Ha</td>
                         </tr>
                         <tr>
+                            <td width="210px">Luas Ditanami</td>
+                            <td>:</td>
+                            <td>{{$item->persil->luas_lahan_tanam_telah_produksi}} Ha</td>
+                        </tr>
+                        <tr>
                             <td width="210px">Jenis Tanaman</td>
                             <td>:</td>
                             <td>{{$item->persil->jenis_tanaman}}</td>
@@ -165,7 +170,7 @@
                         <tr>
                             <td width="210px">Produksi Perhektar Pertahun</td>
                             <td>:</td>
-                            <td>{{$item->persil->total_produksi_setahun}}</td>
+                            <td>{{$item->persil->total_produksi_setahun}} Ton</td>
                         </tr>
                         <tr>
                             <td width="210px">Asal Benih</td>
