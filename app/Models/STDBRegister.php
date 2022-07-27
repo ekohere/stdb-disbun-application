@@ -41,6 +41,7 @@ class STDBRegister extends Model implements HasMedia
         'anggota_id',
         'verified_by_kph',
         'verified_by_ppr',
+        'no_surat',
     ];
     protected $appends = [
         'latest_status',
@@ -54,7 +55,9 @@ class STDBRegister extends Model implements HasMedia
     protected $casts = [
         'id' => 'integer',
         'users_id' => 'integer',
-        'anggota_id' => 'integer'
+        'anggota_id' => 'integer',
+        'no_surat'=>'integer',
+
     ];
 
     /**
