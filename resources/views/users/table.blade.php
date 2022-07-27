@@ -20,7 +20,7 @@
         <tr>
             <td>{!! $no++ !!}</td>
             <td>
-                {!! !empty($user->roles[0]['name'])?$user->roles[0]['display_name']:"-" !!}
+                {!! !empty($user->roles[0]['name'])?$user->roles[0]['display_name']:"-" !!} - {!! !empty($user->desa_id)?$user->desa->nama_desa:"-" !!}
             </td>
             <td>
                 <img src="{{!empty($user->avatar)?asset($user->avatar):asset('image/blank_profile.png')}}" width="100px">
