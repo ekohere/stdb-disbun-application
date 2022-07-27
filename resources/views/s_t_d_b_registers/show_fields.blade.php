@@ -119,7 +119,7 @@
     function drawPolygonAPL(poly){
         datalayer = L.geoJson(poly.features,{
             style: {
-                color : '#ffffff',
+                color : '#ffdc00',
                 weight:3,
                 opacity:0.9
 
