@@ -47,12 +47,12 @@ class CheckRTRW extends Command
                 $polygonPersil->save();
 
                 try{
-                    $area_not_clean = DB::connection('pgsql')->select(DB::raw("select st_area(st_difference(polygon_persil.geom, st_transform(new_rtrw_disolve.geom,4326))) from polygon_persil, new_rtrw_disolve where polygon_persil.id = $polygonPersil->id"));
+                    $area_not_clean = DB::connection('pgsql')->select(DB::raw("select st_area(st_intersects(polygon_persil.geom, st_transform(new_rtrw_disolve.geom,4326))) from polygon_persil, new_rtrw_disolve where polygon_persil.id = $polygonPersil->id"));
                     $area_in_float = floatval($area_not_clean[0]->st_area);
                     $polygonPersil->area_cc_rtrw = $area_in_float;
 
                     if ($area_not_clean[0]->st_area>0){
-                        $geom = DB::connection('pgsql')->select(DB::raw("select st_difference(polygon_persil.geom, st_transform(new_rtrw_disolve.geom,4326)) from polygon_persil, new_rtrw_disolve where polygon_persil.id = $polygonPersil->id"));
+                        $geom = DB::connection('pgsql')->select(DB::raw("select st_intersects(polygon_persil.geom, st_transform(new_rtrw_disolve.geom,4326)) from polygon_persil, new_rtrw_disolve where polygon_persil.id = $polygonPersil->id"));
                         $polygonPersil->geom_cc_rtrw = $geom[0]->st_difference;
                     }
                     $polygonPersil->status = "CC RTRW Selesai";
