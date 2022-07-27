@@ -121,7 +121,7 @@
             style: {
                 color : '#ffffff',
                 weight:3,
-                opacity:0.9
+                opacity:0.1
 
             },
             onEachFeature: function(feature, featureLayer) {
