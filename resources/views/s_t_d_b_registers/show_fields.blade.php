@@ -91,7 +91,7 @@
         var div = L.DomUtil.create("div", "legend");
         div.innerHTML += "<h5 class='text-left'>Keterangan:</h5>";
         div.innerHTML += '<i style="background: #5ded8c"></i><span class="small">RTRW Perkebunan Kutim</span><br>';
-        div.innerHTML += '<i style="background: #ffdc00"></i><span class="small">APL Perkebunan</span><br>';
+        div.innerHTML += '<i style="background: #ffffff"></i><span class="small">APL Perkebunan</span><br>';
         div.innerHTML += '<i style="background: #87c1e6"></i><span class="small">Area persil</span><br>';
         div.innerHTML += '<i style="background: #ed6a6d"></i><span class="small">Area persil diluar rtrw</span><br>';
         div.innerHTML += '<i style="background: #ed43ed"></i><span class="small">Area persil diluar apl</span><br>';
@@ -119,9 +119,9 @@
     function drawPolygonAPL(poly){
         datalayer = L.geoJson(poly.features,{
             style: {
-                color : '#ffdc00',
+                color : '#ffffff',
                 weight:3,
-                opacity:0.65
+                opacity:0.9
 
             },
             onEachFeature: function(feature, featureLayer) {
