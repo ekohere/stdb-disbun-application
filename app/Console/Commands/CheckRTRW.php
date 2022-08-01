@@ -53,7 +53,7 @@ class CheckRTRW extends Command
 
                     if ($area_not_clean[0]->st_area>0){
                         $geom = DB::connection('pgsql')->select(DB::raw("select st_intersects(st_transform(new_rtrw_disolve.geom,4326),polygon_persil.geom) from polygon_persil, new_rtrw_disolve where polygon_persil.id = $polygonPersil->id"));
-                        $polygonPersil->geom_cc_rtrw = $geom[0]->st_difference;
+                        $polygonPersil->geom_cc_rtrw = $geom[0]->st_intersects;
                     }
                     $polygonPersil->status = "CC RTRW Selesai";
                     $polygonPersil->save();
