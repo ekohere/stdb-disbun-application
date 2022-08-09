@@ -23,10 +23,11 @@ class SpatialAPIController extends AppBaseController
         //TODO transform data geom to geojson format
         $features=[];
         foreach ($polygonPersil as $key=>$item){
-            $infoPersil[$key]['area'] = $item->area;
+            $infoPersil = Persil::where('polygon_persil_id',$item->id)->first();
+            $infoPersil['area'] = $item->area;
             $geometry =$item->geom;
             unset($item->geom);
-            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>$infoPersil[$key]];
+            $feature=['type'=>'Feature', 'geometry'=>$geometry,'properties'=>$infoPersil];
             array_push($features,$feature);
         }
         $featureCollections = [
