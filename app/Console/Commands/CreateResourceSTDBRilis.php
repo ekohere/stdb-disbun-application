@@ -141,8 +141,6 @@ class CreateResourceSTDBRilis extends Command
                         'year'=> $year,
                     ]);
                 }
-
-                return response()->json($response);
             }catch (\Exception $exception){
                 return response()->json("error: ".$exception);
             }
