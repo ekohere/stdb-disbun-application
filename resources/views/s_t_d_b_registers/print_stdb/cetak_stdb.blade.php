@@ -145,7 +145,7 @@
                                     <tr>
                                         <td>(Desa,Kecamatan)</td>
                                         <td  width="15px">:</td>
-                                        <td>{{$sTDBRegister->anggota->alamat_desa_ktp}}</td>
+                                        <td>{{$sTDBRegister->anggota->alamat_desa_ktp}}, {{$sTDBRegister->anggota->alamat_kec_ktp}}</td>
                                     </tr>
                                     <tr>
                                         <td style="white-space: nowrap">Status Kepemilikan Tanah</td>
