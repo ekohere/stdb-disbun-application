@@ -115,8 +115,11 @@
                                     <td width="15px">2.</td>
                                     <td width="200px">Tempat, Tanggal Lahir</td>
                                     <td  width="15px">:</td>
-                                    <td>{{$sTDBRegister->anggota->tempat_lahir}}
-                                        , {{date_format($sTDBRegister->anggota->tgl_lahir,'d M Y')}}</td>
+                                    <td>
+                                        {{$sTDBRegister->anggota->tempat_lahir}}
+                                        ,
+                                        {{$sTDBRegister->anggota->tgl_lahir->isoFormat('D MMMM Y')}}
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td width="15px">3.</td>
