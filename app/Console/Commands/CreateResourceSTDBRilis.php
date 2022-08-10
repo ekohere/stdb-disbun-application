@@ -82,7 +82,7 @@ class CreateResourceSTDBRilis extends Command
                 12=>"Desember",
             ];
 
-            $dataset = Dataset::find('2e247a5a-a6c5-43cf-8801-546df509425b');
+            $dataset = Dataset::find(env('DATASET_ID_RILIS'));
             $records=[];
             foreach($month as $key=>$item){
                 $data_field['id'] = $key;
