@@ -226,49 +226,49 @@ class SatuDataAPIController extends AppBaseController
     //TODO For Testing Purpose
     public function stdbRilis()
     {
-        $startYear = STDBRegister::get()->filter(function ($q){
-            return $q->latest_status->id==2;
-        })->sortBy('created_at')->first();
-
-        $todayYear = new DateTime(Carbon::today()->format('d M Y'));
-        $startYear = new DateTime($startYear->created_at->format('d M Y'));
-        $diff = $todayYear->diff($startYear);
-
-
-        $month =[
-            1=>"Januari", 2=>"Februari", 3=>"Maret", 4=>"April", 5=>"Mei", 6=>"Juni",
-            7=>"Juli", 8=>"Agustus", 9=>"September", 10=>"Oktober", 11=>"November", 12=>"Desember",
-        ];
-        $records=[];
-        for($i=0; $i<=$diff->y; $i++){
-            foreach($month as $key=>$item){
-                $data_field['Bulan'] = $item.' '.($startYear->format('Y')+$i);
-                $data_field['Jumlah Petani Terdata'] = STDBRegister::whereMonth('created_at',$key)->get()->filter(function ($q){
-                    return $q->latest_status->id==2;
-                })->flatten()->groupBy('anggota_id')->count();
-
-                //tarik data stdb yang terverifikasi
-                $stdbRegis = STDBRegister::whereMonth('created_at',$key)->get()->filter(function ($q){
-                    return $q->latest_status->id==2;
-                })->flatten();
-                $idSTDB = [];
-                foreach ($stdbRegis as $stdb){
-                    array_push($idSTDB,$stdb->id);
-                }
-                //tarik data jumlah persil dari stdb yang sudah terverifikasi
-                $data_field['Jumlah Persil'] = STDBDetailRegister::whereIn('stdb_register_id',$idSTDB)->get()->count();
-
-                $detilSTDB = STDBDetailRegister::whereIn('stdb_register_id',$idSTDB)->get();
-                $idPersilPloygon = [];
-                foreach ($detilSTDB as $detil){
-                    array_push($idPersilPloygon, $detil->persil->polygon_persil_id);
-                }
-                $data_field['Total Luasan Persil'] = PolygonPersil::whereIn('id',$idPersilPloygon)->get()->sum('area');
-                array_push($records,$data_field);
-            }
-        }
-
-        return $records;
+//        $startYear = STDBRegister::get()->filter(function ($q){
+//            return $q->latest_status->id==2;
+//        })->sortBy('created_at')->first();
+//
+//        $todayYear = new DateTime(Carbon::today()->format('d M Y'));
+//        $startYear = new DateTime($startYear->created_at->format('d M Y'));
+//        $diff = $todayYear->diff($startYear);
+//
+//
+//        $month =[
+//            1=>"Januari", 2=>"Februari", 3=>"Maret", 4=>"April", 5=>"Mei", 6=>"Juni",
+//            7=>"Juli", 8=>"Agustus", 9=>"September", 10=>"Oktober", 11=>"November", 12=>"Desember",
+//        ];
+//        $records=[];
+//        for($i=0; $i<=$diff->y; $i++){
+//            foreach($month as $key=>$item){
+//                $data_field['Bulan'] = $item.' '.($startYear->format('Y')+$i);
+//                $data_field['Jumlah Petani Terdata'] = STDBRegister::whereMonth('created_at',$key)->get()->filter(function ($q){
+//                    return $q->latest_status->id==2;
+//                })->flatten()->groupBy('anggota_id')->count();
+//
+//                //tarik data stdb yang terverifikasi
+//                $stdbRegis = STDBRegister::whereMonth('created_at',$key)->get()->filter(function ($q){
+//                    return $q->latest_status->id==2;
+//                })->flatten();
+//                $idSTDB = [];
+//                foreach ($stdbRegis as $stdb){
+//                    array_push($idSTDB,$stdb->id);
+//                }
+//                //tarik data jumlah persil dari stdb yang sudah terverifikasi
+//                $data_field['Jumlah Persil'] = STDBDetailRegister::whereIn('stdb_register_id',$idSTDB)->get()->count();
+//
+//                $detilSTDB = STDBDetailRegister::whereIn('stdb_register_id',$idSTDB)->get();
+//                $idPersilPloygon = [];
+//                foreach ($detilSTDB as $detil){
+//                    array_push($idPersilPloygon, $detil->persil->polygon_persil_id);
+//                }
+//                $data_field['Total Luasan Persil'] = PolygonPersil::whereIn('id',$idPersilPloygon)->get()->sum('area');
+//                array_push($records,$data_field);
+//            }
+//        }
+//
+//        return $records;
 
 
         $checkResourceYear = Resources::where('package_id','2e247a5a-a6c5-43cf-8801-546df509425b')

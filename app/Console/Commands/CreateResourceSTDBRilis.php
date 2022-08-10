@@ -44,7 +44,7 @@ class CreateResourceSTDBRilis extends Command
      */
     public function handle()
     {
-        $checkResourceYear = Resources::where('package_id',env('DATASET_ID_RILIS'))
+        $checkResourceYear = Resources::where('package_id','2e247a5a-a6c5-43cf-8801-546df509425b')
             ->whereYear('created_at',Carbon::today()->format('Y'))
             ->get()
             ->first();
@@ -63,7 +63,7 @@ class CreateResourceSTDBRilis extends Command
                     'id'=> "Jumlah Persil"
                 ],
                 [
-                    'id'=> "Total Luasan Persil (ha)"
+                    'id'=> "Total Luasan Persil"
                 ],
             ];
             $year = Carbon::today()->format('Y');
@@ -82,7 +82,7 @@ class CreateResourceSTDBRilis extends Command
                 12=>"Desember",
             ];
 
-            $dataset = Dataset::find(env('DATASET_ID_RILIS'));
+            $dataset = Dataset::find('2e247a5a-a6c5-43cf-8801-546df509425b');
             $records=[];
             foreach($month as $key=>$item){
                 $data_field['id'] = $key;
@@ -140,7 +140,10 @@ class CreateResourceSTDBRilis extends Command
                         'format'=> $response['result']['resource']['format'],
                         'year'=> $year,
                     ]);
+                    $dataResource->save();
                 }
+
+                return response()->json($response);
             }catch (\Exception $exception){
                 return response()->json("error: ".$exception);
             }
