@@ -33,7 +33,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('command:check-rtrw-gagal')->everyMinute();
 
         //schedule for STDB Rilis
-        $schedule->command('command:create-resource-stdb')->yearly();
+        $schedule->command('command:create-resource-stdb-rilis')->yearly();
         $schedule->command('command:update-resource-stdb-rilis')->monthly();
     }
 
