@@ -140,7 +140,6 @@ class CreateResourceSTDBRilis extends Command
                         'format'=> $response['result']['resource']['format'],
                         'year'=> $year,
                     ]);
-                    $dataResource->save();
                 }
 
                 return response()->json($response);
