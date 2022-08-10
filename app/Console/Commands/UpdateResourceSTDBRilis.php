@@ -135,9 +135,7 @@ class UpdateResourceSTDBRilis extends Command
                 $checkResourceYear->save();
             }
 
-            return response()->json($response->json());
         }catch (\Exception $exception){
-            return response()->json("error: ".$exception);
         }
     }
 }

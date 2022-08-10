@@ -143,9 +143,7 @@ class CreateResourceSTDBRilis extends Command
                     $dataResource->save();
                 }
 
-                return response()->json($response);
             }catch (\Exception $exception){
-                return response()->json("error: ".$exception);
             }
         }
     }
